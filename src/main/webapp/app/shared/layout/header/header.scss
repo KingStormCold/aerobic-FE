@@ -1,0 +1,126 @@
+$header-color: #fff;
+$header-color-secondary: #bbb;
+$header-color-hover: darken($header-color, 20%);
+
+/* ==========================================================================
+Developement Ribbon
+========================================================================== */
+.ribbon {
+  background-color: rgba(170, 0, 0, 0.5);
+  left: -3.5em;
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  overflow: hidden;
+  position: absolute;
+  top: 30px;
+  white-space: nowrap;
+  width: 15em;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0.75;
+  a {
+    color: #fff;
+    display: block;
+    font-weight: 400;
+    margin: 1px 0;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 0 5px #444;
+    pointer-events: none;
+  }
+}
+
+/* ==========================================================================
+Navbar styles
+========================================================================== */
+.jh-navbar {
+  // background-image: url('./images/background-header.jpg');
+  // background-position: right top;
+  padding: 0.2em 1em;
+  // box-shadow: 0 1px 6px #c3fff9, 0 1px 4px rgb(130 10 10 / 12%);
+  background-color: white;
+  .profile-image {
+    margin: -10px 0px;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  .dropdown-item.active,
+  .dropdown-item.active:focus,
+  .dropdown-item.active:hover {
+    background-color: #353d47;
+  }
+  .dropdown-toggle::after {
+    margin-left: 0.15em;
+  }
+  ul.navbar-nav {
+    padding: 0.5em;
+    .nav-item {
+      margin-left: 1.5rem;
+    }
+  }
+  a.nav-link {
+    font-weight: 400;
+    > span {
+      margin-left: 5px;
+    }
+  }
+  .jh-navbar-toggler {
+    color: #ccc;
+    font-size: 1.5em;
+    padding: 10px;
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+.navbar-version {
+  font-size: 12px;
+  color: $header-color-secondary;
+  display: block;
+}
+
+.header-group-title {
+  display: inline-block;
+}
+
+.text-decoration-a {
+  text-decoration: none !important;
+}
+
+.brand-logo {
+  &:hover {
+    text-decoration: none;
+  }
+  .brand-icon {
+    height: 35px;
+    width: auto;
+    display: inline-block;
+    img {
+      height: 185%;
+      width: 100%;
+      margin-top: -1.5rem;
+      margin-left: -0.5rem;
+    }
+  }
+}
+
+.brand-title {
+  font-size: 24px;
+  color: #25436d;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.loading-bar {
+  height: 3px;
+  background-color: #009cd8;
+  position: absolute;
+  top: 0px;
+  z-index: 1031;
+}

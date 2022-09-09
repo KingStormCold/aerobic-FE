@@ -1,0 +1,200 @@
+/* ==========================================================================
+Main page styles
+========================================================================== */
+
+.custom-box {
+  width: 90%;
+}
+
+.bg-search{
+  // background-image: linear-gradient(to right top, rgb(226 228 230 / 60%),rgb(222 246 246 / 60%)), url('./../../../content/images/bg-search.jpg');
+  background-image: url('./../../../content/images/test.png');
+  height: 25rem;
+  // background-color: #FAFAFA;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: right top;
+  min-height: 25rem;
+  // margin-top: 5px;
+  .MuiGrid-item {
+    .MuiGrid-root {
+      .MuiFormControl-root {
+        fieldset {
+          border: 1px solid white;
+          background-color: white;
+        }
+        svg {
+          color: #25436d;
+          z-index: 1;
+        }
+        label {
+          color: #25436d;
+        }
+        .css-1kty9di-MuiFormLabel-root-MuiInputLabel-root {
+          transform-origin: bottom left !important;
+        }
+        .MuiSelect-select {
+          color: #25436d;
+          z-index: 1;
+        }
+        input {
+          color: #25436d;
+          z-index: 1;
+        }
+      }
+    }
+  }
+}
+
+.info-customer {
+  height: 7rem;
+  // background-color: yellowgreen;
+}
+
+@keyframes showLeft {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 510px;
+  }
+}
+
+@keyframes info-content-left {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.item-impressive-left {
+  animation-name: showLeft;
+  animation-duration: 1s;
+  padding: 30px 0;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: right;
+  img {
+    vertical-align: middle;
+    border-style: none;
+  }
+  .content-impressive {
+    margin-left: 20px;
+    padding-top: 10px;
+    p {
+      font-family: 'Arimo';
+      color: #fff;
+      font-size: 26px;
+      line-height: 24px;
+      font-weight: 700;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 13px;
+      position: relative;
+    }
+    .info-content-left {
+      animation-name: info-content-left;
+      animation-duration: 5s;
+    }
+  }
+}
+
+@keyframes info-content-center {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.item-impressive-center {
+  animation-name: showCenter;
+  animation-duration: 1s;
+  padding: 30px 0;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  img {
+    vertical-align: middle;
+    border-style: none;
+  }
+  .content-impressive {
+    margin-left: 20px;
+    padding-top: 10px;
+    p {
+      font-family: 'Arimo';
+      color: #fff;
+      font-size: 26px;
+      line-height: 24px;
+      font-weight: 700;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 13px;
+      position: relative;
+    }
+    .info-content-center {
+      animation-name: info-content-center;
+      animation-duration: 4s;
+    }
+  }
+}
+
+@keyframes showRight {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 510px;
+  }
+}
+
+@keyframes info-content-right {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.item-impressive-right {
+  animation-name: showRight;
+  animation-duration: 1s;
+  padding: 30px 0;
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: left;
+  img {
+    vertical-align: middle;
+    border-style: none;
+  }
+  .content-impressive {
+    margin-left: 20px;
+    padding-top: 10px;
+    p {
+      font-family: 'Arimo';
+      color: #fff;
+      font-size: 26px;
+      line-height: 24px;
+      font-weight: 700;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 13px;
+      position: relative;
+    }
+    .info-content-right {
+      animation-name: info-content-right;
+      animation-duration: 4s;
+    }
+  }
+}
+
+.height-56 {
+  height: 56px !important;
+}

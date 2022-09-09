@@ -1,0 +1,15 @@
+.layout-card {
+  width: 96%;
+  margin: 0 auto;
+}
+
+.hover-cursor-pointer {
+  &:hover {
+    cursor: pointer;
+  }
+}
+.tag-a-hover {
+  a,p:hover {
+    text-decoration: none;
+  }
+}

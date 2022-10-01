@@ -35,6 +35,8 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons/faCaretDown';
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons/faCaretUp';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons/faNewspaper';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons/faShoppingBag';
+import { faPhone } from '@fortawesome/free-solid-svg-icons/faPhone';
+
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -76,6 +78,7 @@ export const loadIcons = () => {
     faCaretDown,
     faCaretUp,
     faNewspaper,
-    faShoppingBag
+    faShoppingBag,
+    faPhone
   );
 };

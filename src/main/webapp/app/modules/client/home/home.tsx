@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Header from '../header/header';
+import Footer from '../footer/footer';
 
 import { useAppSelector } from 'app/config/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -112,6 +113,7 @@ export const Home = () => {
   return (
     <>
       <Header/>
+      <Footer/>
     </>
   );
 };

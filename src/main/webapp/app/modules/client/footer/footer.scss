@@ -1,0 +1,67 @@
+.footer-link{
+    margin-top: 20px;
+    max-width: 1370px;
+    .footer-link-row{
+        .footer-link-col-left{
+            .footer-link-row-left{
+                background-color: rgb(242, 242, 242);
+                padding-top: 14px;
+                .footer-link-row-left-content-left{
+                    ul{
+                        li{
+                            padding: 8px 0;
+                            list-style: none; 
+                            a{
+                                color: black;
+                            }
+                        }
+                    }
+                }
+                .footer-link-vetical-line{
+                    border-left: 2px solid rgb(140, 140, 140);
+                    float: right;
+                    margin-top: 10px;
+                    margin-left: 20px;
+                    margin-bottom: 20px;
+                }
+                .footer-link-row-left-content-right{
+                    ul{
+                        li{
+                            padding: 8px 0;
+                            list-style: none; 
+                            a{
+                                color: black;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .footer-link-col-right{
+            background-color: rgb(242, 242, 242);
+            margin-left: 20px;
+            padding-top: 2px;
+            .footer-contact-card{
+                margin-top: 3px;
+                margin-bottom: 3px;
+                padding: 8px 0;
+                border-bottom: 1px solid #8d7878;
+                .footer-contact-content{
+                    display: inline-block;
+                    .footer-contact-text{
+                        position: relative;;
+                    }
+                    .footer-contact-time{
+                        position: relative;;
+                    }
+                }
+                .footer-contact-phone{
+                    float: right;
+                    padding-top: 10px;
+                    font-weight: bolder;
+                    font-size: larger;
+                }
+            }
+        }
+    }
+}

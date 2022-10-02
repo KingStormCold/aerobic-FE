@@ -39,9 +39,7 @@ import { faPhone } from '@fortawesome/free-solid-svg-icons/faPhone';
 import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowCircleUp';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
-// import { faCreditCard } from '@fortawesome/free-solid-svg-icons/';
-// import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
-// import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
+import { faMobile } from '@fortawesome/free-solid-svg-icons/faMobile';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -87,6 +85,7 @@ export const loadIcons = () => {
     faPhone,
     faCommentDots,
     faArrowCircleUp,
-    faCreditCard
+    faCreditCard,
+    faMobile
   );
 };

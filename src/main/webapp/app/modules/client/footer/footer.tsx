@@ -11,7 +11,7 @@ const Footer = (props) => {
                 <Row className='footer-link-row' >
                     <Col xs = "8" className='footer-link-col-left' >
                         <Row className='footer-link-row-left'>
-                            <Col className='footer-link-row-left-content-left'>
+                            <Col xs = "6" className='footer-link-row-left-content-left'>
                                 <ul className='footer-link-row-left-content-left-ul'>
                                     <li>
                                         <a href='#'>
@@ -51,7 +51,7 @@ const Footer = (props) => {
                                 </ul>
                             </Col>
                             {/* <div className='footer-link-vetical-line'></div> */}
-                            <Col className='footer-link-row-left-content-right'>
+                            <Col xs = "6" className='footer-link-row-left-content-right'>
                                 <ul>
                                     <li>
                                         <a href='#'>

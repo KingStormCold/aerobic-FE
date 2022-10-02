@@ -6,7 +6,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import Footer from 'app/shared/layout/footer/footer';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
@@ -41,7 +40,6 @@ export const App = () => {
       <ErrorBoundary>
         <AppRoutes />
       </ErrorBoundary>
-      <Footer />
     </Router>
   );
 };

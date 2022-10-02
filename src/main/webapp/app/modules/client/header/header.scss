@@ -18,11 +18,11 @@
             }
             .header-cart{
                 float: right;
-                height: 40px;
+                // height: 40px;
                 padding-left: 20px;
                 font-size: 3rem;
                 color: white;
-                padding-top: 10px;
+                // padding-top: 10px;
                 margin-top: 5px;
             }
             .header-vertical-line{
@@ -34,19 +34,19 @@
             }
             .header-user{
                 float: right;
-                height: 40px;
                 padding-left: 20px;
-                padding-top: 10px;
                 margin-top: 18px;
+                padding-right: 20px;
+                border-right: 3px solid white;
                 .header-user-icon{
                     padding-top: 7px;
                     font-size: 20px;
-                    padding-right: 5px;
+                    padding-right: 7px;
                     display: inline-block;
                 }
                 .header-account-content{
                     float: right;
-                    .btn{
+                    .header-btn{
                         span{
                             position: relative;
                             float: right;
@@ -73,15 +73,15 @@
             }
             .header-hotline{
                 float: right;
-                height: 40px;
                 padding-left: 20px;
-                padding-top: 10px;
                 margin-top: 18px;
                 margin-left: 35px;
+                padding-right: 20px;
+                border-right: 3px solid white;
                 .header-hotline-icon{
                     padding-top: 7px;
                     font-size: 20px;
-                    padding-right: 5px;
+                    padding-right: 7px;
                     display: inline-block;
                 }
                 .header-hotline-content{
@@ -99,7 +99,7 @@
             }
             .header-search{
                 float: right;
-                height: 75px;
+                // height: 75px;
                 padding-left: 20px;
                 margin-left: 70px;
                 padding-top: 15px;
@@ -109,8 +109,8 @@
                         border-radius: 25px;
                         padding-left: 10px;
                         margin-bottom: 9px;
-                        width: 400px;
-                        height: 31px;
+                        width: 450px;
+                        height: 46px;
                     }
                     .header-search-icon{
                         z-index: 2;
@@ -132,13 +132,5 @@
                     }
                 }
             }
-}
-    // .header-hotline{
-    //     display: content
-    // }
-
-    // .header-table{
-    //     text-align: center;
-    //     display: inline-block;
-    // }
+    }
 }

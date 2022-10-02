@@ -13,13 +13,13 @@ const Header = () => (
                 <div className = 'header-cart'>
                     <FontAwesomeIcon icon="shopping-bag" />
                 </div>
-                <div className = "header-vertical-line"></div>
+                {/* <div className = "header-vertical-line"></div> */}
                 <div className = 'header-user'>
                     <span className='header-user-icon'>
                         <FontAwesomeIcon icon="user"/>
                     </span>
                     <div className='header-account-content'>
-                        <div className='btn'>
+                        <div className='header-btn'>
                             <div className='account-btnsignin'>
                                 Đăng ký
                             </div>
@@ -34,7 +34,7 @@ const Header = () => (
                     </div>
                 </div>
                    
-                <div className = "header-vertical-line"></div>
+                {/* <div className = "header-vertical-line"></div> */}
 
                 <div className = 'header-hotline'>
                         <span className='header-hotline-icon'>

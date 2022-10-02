@@ -2,16 +2,17 @@ import './footer.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import { Container, Row, Col } from 'reactstrap';
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Footer = (props) => {
     return (
-        <div>
+        <div className='footerr'>
             <Container fluid className='footer-link'>
                 <Row className='footer-link-row' >
-                    <Col sm={{ size: 8 }} className='footer-link-col-left' >
+                    <Col xs = "8" className='footer-link-col-left' >
                         <Row className='footer-link-row-left'>
                             <Col className='footer-link-row-left-content-left'>
-                                <ul>
+                                <ul className='footer-link-row-left-content-left-ul'>
                                     <li>
                                         <a href='#'>
                                             Mua hàng trả góp
@@ -49,7 +50,7 @@ const Footer = (props) => {
                                     </li>
                                 </ul>
                             </Col>
-                            <div className='footer-link-vetical-line'></div>
+                            {/* <div className='footer-link-vetical-line'></div> */}
                             <Col className='footer-link-row-left-content-right'>
                                 <ul>
                                     <li>
@@ -91,8 +92,8 @@ const Footer = (props) => {
                             </Col>  
                         </Row>
                     </Col>
-                    <Col xs="3" className='footer-link-col-right'>
-                        <h4>Hỗ trợ</h4>
+                    <Col xs = "3" className='footer-link-col-right'>
+                        <h4><FontAwesomeIcon icon="comment-dots"/>  Hỗ trợ</h4>
                         <div className='footer-contact-card'>
                             <div className='footer-contact-content'>
                                 <div className='footer-contact-text'>Gọi tư vấn máy - phụ kiện</div>
@@ -114,12 +115,38 @@ const Footer = (props) => {
                             </div>
                             <div className='footer-contact-phone'>1800 0123</div>
                         </div>
-                        <div className='footer-contact-card'>
+                        <div className='footer-contact-card-last'>
                             <div className='footer-contact-content'>
                                 <div className='footer-contact-text'>Gọi mua hàng từ xa</div>
                                 <div className='footer-contact-time'>(08:00 – 21:30)</div>
                             </div>
                             <div className='footer-contact-phone'>1800 0123</div>
+                        </div>
+                    </Col>
+                </Row>
+                <Row className='footer-info-row'>
+                    <Col xs = "4" className='footer-info-contact'>
+                        <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up"/> Kết nối với chúng tôi</div>
+                        <div className='footer-info-contact-img'>
+                            <FontAwesomeIcon icon="comment-dots" className='footer-img-fa'/>
+                            <FontAwesomeIcon icon="comment-dots" className='footer-img-fa'/>
+                            <FontAwesomeIcon icon="comment-dots" className='footer-img-fa'/>
+                            {/* <FontAwesomeIcon icon="facebook"/>
+                            <FontAwesomeIcon icon="instagram"/>
+                            <FontAwesomeIcon icon="youtube"/> */}
+                        </div>
+                    </Col>
+                    <Col xs = "4" className='footer-info-payment'>
+                        <div className='footer-info-payment-content'><FontAwesomeIcon icon="credit-card"/> Hỗ trợ thanh toán</div>
+                        <div className='footer-info-payment-img'>
+                            <img width="275" src="https://didongviet.vn/statics/images/logo-payment.png"></img>
+                        </div>
+                    </Col>
+                    <Col xs = "3" className='footer-info-certificate'>
+                        <div className='footer-info-certificate-img'>
+                        <img src="https://didongviet.vn/statics/images/handle_cert.png" alt="Chung nhan Tin Nhiem Mang"/>
+                        <img src="https://didongviet.vn/statics/images/dmca_protected_16_120.png" alt="Chung nhan Tin Nhiem Mang"/>
+                        <img src="https://didongviet.vn/statics/images/handle_cert.png" alt="Chung nhan Tin Nhiem Mang"/>
                         </div>
                     </Col>
                 </Row>

@@ -1,4 +1,4 @@
-import { faCogs } from '@fortawesome/free-solid-svg-icons/faCogs';
+ import { faCogs } from '@fortawesome/free-solid-svg-icons/faCogs';
 import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons/faAsterisk';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
@@ -36,7 +36,12 @@ import { faCaretUp } from '@fortawesome/free-solid-svg-icons/faCaretUp';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons/faNewspaper';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons/faShoppingBag';
 import { faPhone } from '@fortawesome/free-solid-svg-icons/faPhone';
-
+import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
+import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowCircleUp';
+import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
+// import { faCreditCard } from '@fortawesome/free-solid-svg-icons/';
+// import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
+// import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 
@@ -79,6 +84,9 @@ export const loadIcons = () => {
     faCaretUp,
     faNewspaper,
     faShoppingBag,
-    faPhone
+    faPhone,
+    faCommentDots,
+    faArrowCircleUp,
+    faCreditCard
   );
 };

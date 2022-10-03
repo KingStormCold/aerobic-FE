@@ -8,12 +8,12 @@ const Header = () => (
         <div className='header'>
             <div className='header-content'>
                 <div className='header-image'>
-                    <img src="content/images/client.png" />
+                    <img src="https://trisnguyen2511.github.io/CVHTML/Index/images/logo.png" className='header-image-img'/>
                 </div>
                 <div className = 'header-cart'>
-                    <FontAwesomeIcon icon="shopping-bag" />
+                    {/* <FontAwesomeIcon icon="shopping-bag" /> */}
+                    <img src='content/images/header_cart.png' className='header-cart-img'></img>
                 </div>
-                {/* <div className = "header-vertical-line"></div> */}
                 <div className = 'header-user'>
                     <span className='header-user-icon'>
                         <FontAwesomeIcon icon="user"/>
@@ -52,14 +52,8 @@ const Header = () => (
                 
                 <div className = 'header-search'>
                     <div className='header-search-box'>
-                        <input type="text" placeholder="Search.."></input>
+                        <input type="text" placeholder="Tìm kiếm..."></input>
                         <FontAwesomeIcon icon="search" className='header-search-icon'/>
-                    </div>
-                    <div>
-                        <span>Iphone13</span>
-                        <span>GalaxyA</span>
-                        <span>Laptop</span>
-                        <span>Tablet</span>
                     </div>
                 </div>
             </div>

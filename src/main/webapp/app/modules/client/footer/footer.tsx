@@ -92,35 +92,37 @@ const Footer = (props) => {
                             </Col>  
                         </Row>
                     </Col>
-                    <Col xs = "3" className='footer-link-col-right'>
-                        <h4><FontAwesomeIcon icon="comment-dots"/>  Hỗ trợ</h4>
-                        <div className='footer-contact-card'>
-                            <div className='footer-contact-content'>
-                                <div className='footer-contact-text'>Gọi tư vấn máy - phụ kiện</div>
-                                <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                    <Col xs = "4" className='footer-link-col-right'>
+                        <div className='footer-link-col-right-content'>
+                            <h4><FontAwesomeIcon icon="comment-dots"/>  Hỗ trợ</h4>
+                            <div className='footer-contact-card'>
+                                <div className='footer-contact-content'>
+                                    <div className='footer-contact-text'>Gọi tư vấn máy - phụ kiện</div>
+                                    <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                                </div>
+                                <div className='footer-contact-phone'>1800 0123</div>
                             </div>
-                            <div className='footer-contact-phone'>1800 0123</div>
-                        </div>
-                        <div className='footer-contact-card'>
-                            <div className='footer-contact-content'>
-                                <div className='footer-contact-text'>Khiếu nại - Góp ý</div>
-                                <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                            <div className='footer-contact-card'>
+                                <div className='footer-contact-content'>
+                                    <div className='footer-contact-text'>Khiếu nại - Góp ý</div>
+                                    <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                                </div>
+                                <div className='footer-contact-phone'>1800 0123</div>
                             </div>
-                            <div className='footer-contact-phone'>1800 0123</div>
-                        </div>
-                        <div className='footer-contact-card'>
-                            <div className='footer-contact-content'>
-                                <div className='footer-contact-text'>Bảo hành - Hỗ trợ kỹ thuật</div>
-                                <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                            <div className='footer-contact-card'>
+                                <div className='footer-contact-content'>
+                                    <div className='footer-contact-text'>Bảo hành - Hỗ trợ kỹ thuật</div>
+                                    <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                                </div>
+                                <div className='footer-contact-phone'>1800 0123</div>
                             </div>
-                            <div className='footer-contact-phone'>1800 0123</div>
-                        </div>
-                        <div className='footer-contact-card-last'>
-                            <div className='footer-contact-content'>
-                                <div className='footer-contact-text'>Gọi mua hàng từ xa</div>
-                                <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                            <div className='footer-contact-card-last'>
+                                <div className='footer-contact-content'>
+                                    <div className='footer-contact-text'>Gọi mua hàng từ xa</div>
+                                    <div className='footer-contact-time'>(08:00 – 21:30)</div>
+                                </div>
+                                <div className='footer-contact-phone'>1800 0123</div>
                             </div>
-                            <div className='footer-contact-phone'>1800 0123</div>
                         </div>
                     </Col>
                 </Row>
@@ -128,25 +130,21 @@ const Footer = (props) => {
                     <Col xs = "4" className='footer-info-contact'>
                         <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up"/> Kết nối với chúng tôi</div>
                         <div className='footer-info-contact-img'>
-                            <FontAwesomeIcon icon="comment-dots" className='footer-img-fa'/>
-                            <FontAwesomeIcon icon="comment-dots" className='footer-img-fa'/>
-                            <FontAwesomeIcon icon="comment-dots" className='footer-img-fa'/>
-                            {/* <FontAwesomeIcon icon="facebook"/>
-                            <FontAwesomeIcon icon="instagram"/>
-                            <FontAwesomeIcon icon="youtube"/> */}
+                            <img src="content/images/footer_facebook.png" className='footer-img-fa'/>
+                            <img src="content/images/footer_instagram.png" className='footer-img-fa'/>
+                            <img src="content/images/footer_youtube.png" className='footer-img-fa'/>
+                            <img src="content/images/footer_zalo.png" className='footer-img-fa'/>
                         </div>
                     </Col>
                     <Col xs = "4" className='footer-info-payment'>
                         <div className='footer-info-payment-content'><FontAwesomeIcon icon="credit-card"/> Hỗ trợ thanh toán</div>
                         <div className='footer-info-payment-img'>
-                            <img width="275" src="https://didongviet.vn/statics/images/logo-payment.png"></img>
+                            <img width="275" src="content/images/footer_payment.png"></img>
                         </div>
                     </Col>
-                    <Col xs = "3" className='footer-info-certificate'>
+                    <Col xs = "4" className='footer-info-certificate'>
                         <div className='footer-info-certificate-img'>
-                        <img src="https://didongviet.vn/statics/images/handle_cert.png" alt="Chung nhan Tin Nhiem Mang"/>
-                        <img src="https://didongviet.vn/statics/images/dmca_protected_16_120.png" alt="Chung nhan Tin Nhiem Mang"/>
-                        <img src="https://didongviet.vn/statics/images/handle_cert.png" alt="Chung nhan Tin Nhiem Mang"/>
+                            <img src="content/images/footer_certificate.png" alt="Chung nhan Tin Nhiem Mang"/>
                         </div>
                     </Col>
                 </Row>

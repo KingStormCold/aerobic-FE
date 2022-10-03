@@ -2,40 +2,49 @@
     box-shadow: 0px 2px 2px rgb(0 0 0 / 5%), 0px 3px 1px rgb(0 0 0 / 5%), 0px 1px 5px rgb(0 0 0 / 5%);
     padding: 7px;
     text-align: center;
-    .menu-dropdown {
-        position: relative;
+    .menu-hover{
         display: inline-block;
-        &:hover{
-            .menu-dropdown-content {
-                display: block;
-            }
-        }
-        .menu-dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            a{
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
-                display: block;   
-                &:hover {
-                    background-color: #ddd;
+        margin-right: 100px;
+        .menu-dropdown {
+            position: relative;
+            display: inline-block;
+            &:hover{
+                .menu-dropdown-content {
+                    display: block;
                 }
             }
-        }
-        .menu-dropbtn {
-            background-color: white;
-            color: black;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            &:hover{
-                // background-color: #3e8e41;
-                color: aqua;
+            .menu-dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+                div{
+                    display: inline-block;
+                }
+                a{
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    &:hover {
+                        background-color: #ddd;
+                    }
+                }
+            }
+            .menu-dropbtn {
+                background-color: white;
+                color: black;
+                padding: 16px 44px 16px 0px;
+                font-size: 16px;
+                border: none;
+                &:hover{
+                    // background-color: #3e8e41;
+                    // color: rgb(56, 56, 56);
+                    //font-weight: bolder;
+                    color: rgb(75 113 162);
+                }
             }
         }
     }
@@ -52,7 +61,12 @@
                 color: white;
             }
             .menu-function-content-text{
+                word-break: break-word;
+                width: 84px;
                 display: inline-block;
+            }
+            .menu-function-content-img{
+                margin-bottom: 10px;
             }
         }
     }

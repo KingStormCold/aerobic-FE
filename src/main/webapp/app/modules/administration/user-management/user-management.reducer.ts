@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } fro
 
 import { IUser, defaultValue } from 'app/shared/model/user.model';
 import { IQueryParams, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
+import { Storage } from 'react-jhipster';
 
 const initialState = {
   loading: false,
@@ -16,7 +17,7 @@ const initialState = {
 };
 
 const apiUrl = 'api/users';
-const adminUrl = 'api/admin/users';
+const adminUrl = 'api/v1/user';
 
 // Async Actions
 
@@ -31,40 +32,53 @@ export const getUsersAsAdmin = createAsyncThunk('userManagement/fetch_users_as_a
 });
 
 export const getRoles = createAsyncThunk('userManagement/fetch_roles', async () => {
-  return axios.get<any[]>(`api/authorities`);
+  return axios.get<any[]>(`api/v1/role/find-all`);
 });
 
 export const getUser = createAsyncThunk(
-  'userManagement/fetch_user',
-  async (id: string) => {
-    const requestUrl = `${adminUrl}/${id}`;
+  'userManagement2/fetch_user',
+  async (user_name: string) => {
+    const requestUrl = `${adminUrl}/${user_name}`;
     return axios.get<IUser>(requestUrl);
   },
   { serializeError: serializeAxiosError }
 );
 
+
+const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
+
+const token = Storage.local.get(AUTH_TOKEN_KEY) || Storage.session.get(AUTH_TOKEN_KEY);
+const config = {
+  headers: {
+    'Authorization': token,
+  }
+}
+
 export const createUser = createAsyncThunk(
-  'userManagement/create_user',
+  'userManagement2/create_user',
   async (user: IUser, thunkAPI) => {
-    const result = await axios.post<IUser>(adminUrl, user);
-    thunkAPI.dispatch(getUsersAsAdmin({}));
+    const result = await axios.post<IUser>(adminUrl, user, config);
+    // thunkAPI.dispatch(getUsersAsAdmin({}));
     return result;
   },
   { serializeError: serializeAxiosError }
 );
 
 export const updateUser = createAsyncThunk(
-  'userManagement/update_user',
+  'userManagement2/update_user',
   async (user: IUser, thunkAPI) => {
-    const result = await axios.put<IUser>(adminUrl, user);
-    thunkAPI.dispatch(getUsersAsAdmin({}));
+    if (user?.roles[0].role_id) {
+      user.roles = ["USER"];
+    }
+    const result = await axios.put<IUser>(adminUrl + '/' + user.user_name, user, config);
+    // thunkAPI.dispatch(getUsersAsAdmin({}));
     return result;
   },
   { serializeError: serializeAxiosError }
 );
 
 export const deleteUser = createAsyncThunk(
-  'userManagement/delete_user',
+  'userManagement2/delete_user',
   async (id: string, thunkAPI) => {
     const requestUrl = `${adminUrl}/${id}`;
     const result = await axios.delete<IUser>(requestUrl);
@@ -76,12 +90,20 @@ export const deleteUser = createAsyncThunk(
 
 export type UserManagementState = Readonly<typeof initialState>;
 
+
+
 export const UserManagementSlice = createSlice({
-  name: 'userManagement',
+  name: 'userManagement2',
   initialState: initialState as UserManagementState,
   reducers: {
     reset() {
       return initialState;
+    },
+    updateUserHandle(state, action) {
+      return {
+        ...state,
+        updateSuccess: action.payload,
+      }
     },
   },
   extraReducers(builder) {
@@ -89,37 +111,39 @@ export const UserManagementSlice = createSlice({
       .addCase(getRoles.fulfilled, (state, action) => {
         state.authorities = action.payload.data;
       })
-      .addCase(getUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.data;
-      })
-      .addCase(deleteUser.fulfilled, state => {
-        state.updating = false;
-        state.updateSuccess = true;
-        state.user = defaultValue;
-      })
-      .addMatcher(isFulfilled(getUsers, getUsersAsAdmin), (state, action) => {
-        state.loading = false;
-        state.users = action.payload.data;
-        state.totalItems = parseInt(action.payload.headers['x-total-count'], 10);
-      })
+      // .addCase(getUser.fulfilled, (state, action) => {
+      //   state.loading = false;
+      //   state.user = action.payload.data;
+      // })
+      // .addCase(deleteUser.fulfilled, state => {
+      //   state.updating = false;
+      //   state.updateSuccess = true;
+      //   state.user = defaultValue;
+      // })
+      // .addMatcher(isFulfilled(getUsers, getUsersAsAdmin), (state, action) => {
+      //   state.loading = false;
+      //   state.users = action.payload.data;
+      //   state.totalItems = parseInt(action.payload.headers['x-total-count'], 10);
+      // })
       .addMatcher(isFulfilled(createUser, updateUser), (state, action) => {
+
         state.updating = false;
         state.loading = false;
         state.updateSuccess = true;
         state.user = action.payload.data;
       })
-      .addMatcher(isPending(getUsers, getUsersAsAdmin, getUser), state => {
-        state.errorMessage = null;
+      .addMatcher(isFulfilled(getUser), (state, action) => {
+        state.updating = false;
+        state.loading = false;
         state.updateSuccess = false;
-        state.loading = true;
+        state.user = action.payload.data;
       })
-      .addMatcher(isPending(createUser, updateUser, deleteUser), state => {
+      .addMatcher(isPending(createUser, updateUser, getUser), state => {
         state.errorMessage = null;
         state.updateSuccess = false;
         state.updating = true;
       })
-      .addMatcher(isRejected(getUsers, getUsersAsAdmin, getUser, getRoles, createUser, updateUser, deleteUser), (state, action) => {
+      .addMatcher(isRejected(getUser, getRoles), (state, action) => {
         state.loading = false;
         state.updating = false;
         state.updateSuccess = false;
@@ -128,7 +152,7 @@ export const UserManagementSlice = createSlice({
   },
 });
 
-export const { reset } = UserManagementSlice.actions;
+export const { reset, updateUserHandle } = UserManagementSlice.actions;
 
 // Reducer
 export default UserManagementSlice.reducer;

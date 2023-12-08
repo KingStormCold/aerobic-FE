@@ -18,8 +18,8 @@ module.exports = async options =>
     entry: ['./src/main/webapp/app/index'],
     output: {
       path: utils.root('target/classes/static/'),
-      filename: 'app/[name].bundle.js',
-      chunkFilename: 'app/[id].chunk.js',
+      filename: `app/[name].bundle.js?v=${Date.now()}`,
+      chunkFilename: `app/[id].chunk.js?v=${Date.now()}`,
     },
     optimization: {
       moduleIds: 'named',
@@ -48,7 +48,17 @@ module.exports = async options =>
       port: 9060,
       proxy: [
         {
-          context: ['/api', '/services', '/management', '/swagger-resources', '/v2/api-docs', '/v3/api-docs', '/h2-console', '/auth'],
+          context: [
+            '/api',
+            '/services',
+            '/management',
+            '/swagger-resources',
+            '/v2/api-docs',
+            '/v3/api-docs',
+            '/h2-console',
+            '/auth',
+            '/v1',
+          ],
           target: `http${options.tls ? 's' : ''}://localhost:8080`,
           secure: false,
           changeOrigin: options.tls,

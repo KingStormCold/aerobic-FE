@@ -2,23 +2,24 @@ import React, { useLayoutEffect } from 'react';
 
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { logout } from 'app/shared/reducers/authentication';
+import { Redirect } from 'react-router-dom';
+import { Storage } from 'react-jhipster';
+
+const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
 export const Logout = () => {
   const logoutUrl = useAppSelector(state => state.authentication.logoutUrl);
   const dispatch = useAppDispatch();
 
   useLayoutEffect(() => {
+    Storage.session.remove('roleAdmin');
+    Storage.session.remove('haveRoles');
+    Storage.session.remove(USER_EDIT_TOKEN);
     dispatch(logout());
-    if (logoutUrl) {
-      window.location.href = logoutUrl;
-    }
+      // window.location.href = "/";
   });
 
-  return (
-    <div className="p-5">
-      <h4>Logged out successfully!</h4>
-    </div>
-  );
+  return <Redirect to="/" />;
 };
 
 export default Logout;

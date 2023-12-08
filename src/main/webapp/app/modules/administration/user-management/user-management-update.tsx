@@ -1,179 +1,304 @@
-import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
-import { Translate, translate, ValidatedField, ValidatedForm, isEmail } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { locales, languages } from 'app/config/translation';
-import { getUser, getRoles, updateUser, createUser, reset } from './user-management.reducer';
+import { CircularProgress } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { changeName, resetMenuLink } from 'app/shared/reducers/menu';
+import React, { useEffect, useState } from 'react';
+import { Storage, Translate, ValidatedField, ValidatedForm, isEmail, translate } from 'react-jhipster';
+import { Link, RouteComponentProps, useLocation } from 'react-router-dom';
+import { Alert, Button, Col, Row } from 'reactstrap';
+import { createUser, getRoles, getUser, reset, resetError, updateUser, updateUserHandle } from '../../../shared/reducers/user';
+import './user-management.scss';
+
+const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
 export const UserManagementUpdate = (props: RouteComponentProps<{ login: string }>) => {
-  const [isNew] = useState(!props.match.params || !props.match.params.login);
+  const _location = useLocation();
+  _location['pathname'].includes(`edit`)
+  const paramUserName = Storage.session.get(USER_EDIT_TOKEN);
+  const [isNew] = useState(_location['pathname'].includes(`add`));
+  const [isEnableChangePW, setIsEnableChangePW] = useState(false);
+  const [userRoles, setUserRoles] = useState([]);
+  const [checkedRoles, setcheckedRoles] = useState([]);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isNew) {
       dispatch(reset());
     } else {
-      dispatch(getUser(props.match.params.login));
+      dispatch(getUser(paramUserName));
+      setcheckedRoles([]);
     }
     dispatch(getRoles());
-    return () => {
-      dispatch(reset());
-    };
-  }, [props.match.params.login]);
+  }, [paramUserName]);
+
+  useEffect(() => {
+    dispatch(resetMenuLink());
+    if (isNew)
+      dispatch(changeName("Thêm người dùng"));
+    else
+      dispatch(changeName("Sửa người dùng"));
+  }, [])
+
+  const loading = useAppSelector(state => state.userManagement.loading);
+  const loadingSuccess = useAppSelector(state => state.userManagement.loadingsuccess);
+  const authorities = useAppSelector(state => state.userManagement.authorities);
+  const updateSuccess = useAppSelector(state => state.userManagement.updateSuccess);
+  const errorMessage = useAppSelector(state => state.userManagement.errorMessage);
+  const user = useAppSelector(state => state.userManagement.user);
+  const userDuplicate = useAppSelector(state => state.userManagement.userDuplicate);
+  const [_user, setUser] = useState('');
+  const [isInvalid, setIsInvalid] = useState(false);
+
+  if (updateSuccess) {
+    setTimeout(() => {
+      dispatch(updateUserHandle(false));
+      handleClose();
+    }, 1000);
+  }
 
   const handleClose = () => {
     props.history.push('/admin/user-management');
   };
 
   const saveUser = values => {
+    setIsInvalid(true)
+    const inputValue = { ...values, roles: checkedRoles };
     if (isNew) {
-      dispatch(createUser(values));
+      dispatch(createUser(inputValue));
     } else {
-      dispatch(updateUser(values));
+      dispatch(updateUser(inputValue));
     }
-    handleClose();
   };
 
-  const isInvalid = false;
-  const user = useAppSelector(state => state.userManagement.user);
-  const loading = useAppSelector(state => state.userManagement.loading);
-  const updating = useAppSelector(state => state.userManagement.updating);
-  const authorities = useAppSelector(state => state.userManagement.authorities);
+  useEffect(() => {
+    setUserRoles([]);
+    setcheckedRoles([]);
+    if (!isNew && loadingSuccess) {
+      user.roles.map(userRole => setUserRoles(prev => [...prev, userRole.role_id]));
+      user.roles.map(userRole => setcheckedRoles(prev => [...prev, userRole.role_id]));
+    }
+    setUser(user.user_name)
+  }, [loadingSuccess, user.roles]);
+
+  const handleGetRoles = props2 => {
+    if (props2.checked === true) {
+      setcheckedRoles(prev => [...prev, props2.value]);
+    }
+    if (props2.checked === false) {
+      setcheckedRoles(prev => prev.filter(role => role !== props2.value));
+    }
+  };
+
+  const handleChangeLowerCase = (e) => {
+    const result = e.target.value.replace(/[^a-z0-9]/gi, '').toLowerCase();
+    setUser(result)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(resetError())
+    }, 10000);
+    setIsInvalid(false)
+  }, [userDuplicate])
 
   return (
-    <div>
-      {/* <Row className="justify-content-center">
-        <Col md="8">
-          <h1>
-            <Translate contentKey="userManagement.home.createOrEditLabel">Create or edit a User</Translate>
-          </h1>
+    <div className="user-management-update-container">
+      <Row className="justify-content-center mt-4">
+        <Col md="6">
+          <h1>{isNew ? 'Đăng ký user' : 'Chỉnh sửa user'}</h1>
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md="8">
+        <Col md="6">
           {loading ? (
             <p>Loading...</p>
           ) : (
             <ValidatedForm onSubmit={saveUser} defaultValues={user}>
-              {user.id ? (
-                <ValidatedField
-                  type="text"
-                  name="id"
-                  required
-                  readOnly
-                  label={translate('global.field.id')}
-                  validate={{ required: true }}
-                />
-              ) : null}
+              <span>Tên đăng nhập </span>
+              <span className="required-mark">*</span>
               <ValidatedField
                 type="text"
-                name="login"
-                label={translate('userManagement.login')}
+                name="user_name"
+                disabled={isNew ? false : true}
+                value={_user}
+                // onChange={(e) => handleChangeLowerCase(e)}
+                onInput={(e) => handleChangeLowerCase(e)}
                 validate={{
+                  maxLength: {
+                    value: 30,
+                    message: 'Bạn chỉ nhập tối đa 30 ký tự',
+                  },
                   required: {
                     value: true,
-                    message: translate('register.messages.validate.login.required'),
-                  },
-                  pattern: {
-                    value: /^[a-zA-Z0-9!$&*+=?^_`{|}~.-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$|^[_.@A-Za-z0-9-]+$/,
-                    message: translate('register.messages.validate.login.pattern'),
-                  },
-                  minLength: {
-                    value: 1,
-                    message: translate('register.messages.validate.login.minlength'),
-                  },
-                  maxLength: {
-                    value: 50,
-                    message: translate('register.messages.validate.login.maxlength'),
+                    message: 'Bạn phải nhập tên đăng nhập',
                   },
                 }}
               />
+              <span>Mật khẩu </span>
+              <span className="required-mark">*</span>
+              {/* {!isNew && (
+                <CustomInput
+                  type="checkbox"
+                  id="exampleCustomCheckbox"
+                  label="Thay đổi password user"
+                  onChange={e => setIsEnableChangePW(e.target.checked)}
+                />
+              )} */}
+              {isEnableChangePW || isNew ? (
+                <ValidatedField
+                  type="password"
+                  name="password"
+                  validate={{
+                    maxLength: {
+                      value: 20,
+                      message: 'Bạn chỉ nhập tối đa 20 ký tự',
+                    },
+                    required: {
+                      value: true,
+                      message: 'Bạn phải nhập mật khẩu',
+                    },
+                  }}
+                />
+              ) : (
+                <ValidatedField type="password" name="password-disable" value="*******" disabled />
+              )}
+              <span>Họ và tên </span>
+              <span className="required-mark">*</span>
               <ValidatedField
                 type="text"
-                name="firstName"
-                label={translate('userManagement.firstName')}
+                name="full_name"
                 validate={{
                   maxLength: {
-                    value: 50,
-                    message: translate('entity.validation.maxlength', { max: 50 }),
+                    value: 100,
+                    message: 'Bạn chỉ nhập tối đa 100 ký tự',
+                  },
+                  required: {
+                    value: true,
+                    message: 'Bạn phải nhập họ và tên',
                   },
                 }}
               />
-              <ValidatedField
-                type="text"
-                name="lastName"
-                label={translate('userManagement.lastName')}
-                validate={{
-                  maxLength: {
-                    value: 50,
-                    message: translate('entity.validation.maxlength', { max: 50 }),
-                  },
-                }}
-              />
-              <FormText>This field cannot be longer than 50 characters.</FormText>
+              <span>Email </span>
+              <span className="required-mark">*</span>
               <ValidatedField
                 name="email"
-                label={translate('global.form.email.label')}
-                placeholder={translate('global.form.email.placeholder')}
                 type="email"
                 validate={{
                   required: {
                     value: true,
-                    message: translate('global.messages.validate.email.required'),
-                  },
-                  minLength: {
-                    value: 5,
-                    message: translate('global.messages.validate.email.minlength'),
+                    message: 'Bạn phải nhập email',
                   },
                   maxLength: {
-                    value: 254,
-                    message: translate('global.messages.validate.email.maxlength'),
+                    value: 100,
+                    message: 'Bạn chỉ nhập tối đa 100 ký tự',
                   },
                   validate: v => isEmail(v) || translate('global.messages.validate.email.invalid'),
                 }}
               />
+              <span>Số điện thoại </span>
+              <span className="required-mark">*</span>
               <ValidatedField
-                type="checkbox"
-                name="activated"
-                check
-                value={true}
-                disabled={!user.id}
-                label={translate('userManagement.activated')}
+                type="tel"
+                name="phone_number"
+                validate={{
+                  maxLength: {
+                    value: 10,
+                    message: 'Bạn phải nhập 10 ký tự',
+                  },
+                  minLength: {
+                    value: 10,
+                    message: 'Bạn phải nhập 10 ký tự',
+                  },
+                  required: {
+                    value: true,
+                    message: 'Bạn phải nhập số điện thoại',
+                  },
+                }}
               />
-              <ValidatedField type="select" name="langKey" label={translate('userManagement.langKey')}>
-                {locales.map(locale => (
-                  <option value={locale} key={locale}>
-                    {languages[locale].name}
-                  </option>
-                ))}
-              </ValidatedField>
-              <ValidatedField type="select" name="authorities" multiple label={translate('userManagement.profiles')}>
-                {authorities.map(role => (
-                  <option value={role} key={role}>
-                    {role}
-                  </option>
-                ))}
-              </ValidatedField>
-              <Button tag={Link} to="/admin/user-management" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
+              <ValidatedField
+                type="text"
+                name="address"
+                label="Địa chỉ"
+                validate={{
+                  maxLength: {
+                    value: 100,
+                    message: 'Bạn chỉ nhập tối đa 100 ký tự',
+                  },
+                }}
+              />
+              <ValidatedField id="active" type="checkbox" name="active" check value={true} label="Active" />
+              <br />
+              <span>Vai trò </span>
+              <div className="roles-wrapper">
+                {(loadingSuccess || isNew) &&
+                  authorities?.map((role, i) => {
+                    return (
+                      <div key={i}>
+                        {userRoles.includes(role.role_id) ? (
+                          <ValidatedField
+                            type="checkbox"
+                            name="roles_display"
+                            defaultChecked
+                            id={role.role_id}
+                            key={role.role_id}
+                            check
+                            value={role.role_id}
+                            label={role.role_id}
+                            onClick={e => handleGetRoles(e.target)}
+                          />
+                        ) : (
+                          <ValidatedField
+                            type="checkbox"
+                            name="roles"
+                            id={role.role_id}
+                            key={role.role_id}
+                            check
+                            value={role.role_id}
+                            label={role.role_id}
+                            onClick={e => handleGetRoles(e.target)}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
+              </div>
+              <Button tag={Link} to="/admin/user-management" replace color="danger">
                 <span className="d-none d-md-inline">
                   <Translate contentKey="entity.action.back">Back</Translate>
                 </span>
               </Button>
               &nbsp;
-              <Button color="primary" type="submit" disabled={isInvalid || updating}>
+              {/* <Button color="success" type="submit">
                 <FontAwesomeIcon icon="save" />
                 &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
+                <Button color="success" type="submit" disabled={isInvalid}>
+                  {isInvalid ? <CircularProgress size={10} /> : "Lưu"}
+                  Luu
+                </Button>
+              </Button> */}
+              <Button color="success" type="submit" disabled={isInvalid}>
+                {isInvalid ? <CircularProgress size={20} /> : "Lưu"}
               </Button>
             </ValidatedForm>
           )}
         </Col>
-      </Row> */}
+      </Row>
+
+
+      <div className="alert-bottom-right">
+        {updateSuccess ? <Alert color="success">{isNew ? 'Đăng ký' : 'Chỉnh sửa'} thành công</Alert> : ''}
+
+        {errorMessage ? <Alert color="danger">{errorMessage}</Alert> : ''}
+
+        {userDuplicate
+          ? (<Alert color="danger">Tên user đã được đăng ký</Alert>)
+          : ''
+        }
+      </div>
+
+      <br />
+      <br />
+      <br />
     </div>
   );
 };

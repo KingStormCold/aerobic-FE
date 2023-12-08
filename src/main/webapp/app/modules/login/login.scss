@@ -1,0 +1,111 @@
+.input-text {
+  width: 100%;
+}
+.MuiCheckbox-colorPrimary.Mui-checked {
+  color: #d70925 !important;
+}
+.MuiOutlinedInput-root {
+  position: relative;
+  border-radius: 15px !important;
+}
+.button-height {
+  height: 3.5rem;
+  border-radius: 15px;
+}
+.color-D70925 {
+  background-color: #d70925 !important;
+}
+.color-text-D70925 {
+  color: #d70925 !important;
+}
+.button-back {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: #d70925;
+  &:hover {
+    cursor: pointer;
+  }
+}
+.img-login {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 71px;
+  display: block;
+  margin: 0 auto;
+}
+.margin-top-05 {
+  margin-top: 0.5rem;
+}
+
+.justify-content-center {
+  .MuiFormControl-root {
+    span,
+    h3,
+    a,
+    p,
+    label,
+    button,
+    input {
+      font-family: Segoe UI, SegoeUI, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+    }
+  }
+  .loader {
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 1;
+    left: 0;
+    top: 0;
+    border-radius: 1rem;
+  }
+}
+.popup-padding {
+  .MuiDialog-container {
+    .MuiPaper-root {
+      padding: 20px !important;
+    }
+  }
+}
+
+.button-left {
+  margin-right: auto;
+  margin-left: 16px;
+}
+.wrap-login{
+  @media(max-width: 767px){
+    margin: 20px;
+  }
+}
+.btn-resend,
+.btn-back{
+  cursor: pointer;
+  text-decoration: underline;
+  white-space: nowrap;
+  &:hover{
+    color: red;
+  }
+}
+.timer-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.timer {
+  font-family: "Montserrat";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.text {
+  color: #aaa;
+}
+
+.value {
+  font-size: 16px;
+}
+
+.info {
+  max-width: 160px;
+  margin: 20px auto 0;
+  text-align: center;
+  font-size: 16px;
+}

@@ -1,4 +1,4 @@
- import { faCogs } from '@fortawesome/free-solid-svg-icons/faCogs';
+import { faCogs } from '@fortawesome/free-solid-svg-icons/faCogs';
 import { faBan } from '@fortawesome/free-solid-svg-icons/faBan';
 import { faAsterisk } from '@fortawesome/free-solid-svg-icons/faAsterisk';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons/faArrowLeft';
@@ -40,8 +40,13 @@ import { faCommentDots } from '@fortawesome/free-solid-svg-icons/faCommentDots';
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons/faArrowCircleUp';
 import { faCreditCard } from '@fortawesome/free-solid-svg-icons/faCreditCard';
 import { faMobile } from '@fortawesome/free-solid-svg-icons/faMobile';
-
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons/faUserEdit';
+import { faInfo } from '@fortawesome/free-solid-svg-icons/faInfo';
+import { faShieldAlt } from '@fortawesome/free-solid-svg-icons/faShieldAlt';
+import { faTicketAlt } from '@fortawesome/free-solid-svg-icons/faTicketAlt';
+import { faWindowClose } from '@fortawesome/free-solid-svg-icons/faWindowClose';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
 
 export const loadIcons = () => {
   library.add(
@@ -86,6 +91,11 @@ export const loadIcons = () => {
     faCommentDots,
     faArrowCircleUp,
     faCreditCard,
-    faMobile
+    faMobile,
+    faUserEdit,
+    faInfo,
+    faShieldAlt,
+    faBars,
+    faWindowClose,
   );
 };

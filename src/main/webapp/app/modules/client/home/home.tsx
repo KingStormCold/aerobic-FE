@@ -1,28 +1,34 @@
 import './home.scss';
 
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
-import { Row, Col, Alert } from 'reactstrap';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import TextField from '@mui/material/TextField';
-import Header from '../header/header';
-import Footer from '../footer/footer';
-import Menu from '../menu/menu';
+import React, { useEffect } from 'react';
+import TopLowPrice from './top-low-price';
+import NewestProduct from './newest- product';
+import { useDispatch } from 'react-redux';
+import { getCategoryDisplayInSlider, resetTopProduct } from './../../../shared/reducers/product-list';
+import { useAppSelector } from 'app/config/store';
+import VideoSlider from './video-slider';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(resetTopProduct())
+    dispatch(getCategoryDisplayInSlider())
+  }, [])
+
+  const displayInSliderCategories = useAppSelector(state => state.productList.displayInSliderCategories);
   return (
-    <>
-      <Header/>
-      <Menu/>
-      <Footer/>
-    </>
+    <div className='home'>
+      <TopLowPrice mode="discount" />
+      <TopLowPrice mode="bestseller" />
+      <NewestProduct mode="newestProduct" />
+      {displayInSliderCategories.length > 0 &&
+        displayInSliderCategories?.map((category, i) => (
+          <NewestProduct mode="topCategory" key={i} index={i} category={category} />
+        ))
+      }
+      <VideoSlider />
+    </div>
   );
 };
 

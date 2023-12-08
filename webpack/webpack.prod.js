@@ -20,8 +20,8 @@ module.exports = async () =>
     },
     output: {
       path: utils.root('target/classes/static/'),
-      filename: 'app/[name].[contenthash].bundle.js',
-      chunkFilename: 'app/[name].[chunkhash].chunk.js',
+      filename: `app/[name].bundle.js?v=${Date.now()}`,
+      chunkFilename: `app/[id].chunk.js?v=${Date.now()}`,
     },
     module: {
       rules: [
@@ -79,6 +79,14 @@ module.exports = async () =>
       ],
     },
     plugins: [
+      new webpack.DefinePlugin({
+        // The root URL for API calls, ending with a '/' - for example: `"https://www.jhipster.tech:8081/myservice/"`.
+        // If this URL is left empty (""), then it will be relative to the current context.
+        // If you use an API server, in `prod` mode, you will need to enable CORS
+        // (see the `jhipster.cors` common JHipster property in the `application-*.yml` configurations)
+        // for preprod::
+         'process.env.SERVER_API_URL': `'https://mrbang.vn/'`,
+        }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         filename: 'content/[name].[contenthash].css',

@@ -1,0 +1,25 @@
+.product-detail-container-col-right-preferential{
+    background-color: rgb(242, 242, 242);
+    border-radius: 10px;
+    padding: 20px 33px 10px 10px;
+    @media(max-width:1024px) {
+        margin: 10px 0px;
+    }
+    .preferential-content{
+        text-align: justify;
+        .preferential-content-data{
+            word-break: keep-all;
+            div, h1, h2, h3, h4, h5, p, span, ul, li{
+                background-color: #f2f2f2 !important;
+            }
+            img {
+                height: auto !important;
+                /* max-width: 100%; */
+                width: 100% !important;
+            }
+        }
+    }
+    .preferential-header {
+        padding-left: 5px;
+    }
+}

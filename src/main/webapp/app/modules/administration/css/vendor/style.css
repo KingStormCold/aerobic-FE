@@ -246,7 +246,7 @@ sup {
 
 a {
   color: var(--cui-link-color);
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 a:hover {
   color: var(--cui-link-hover-color);
@@ -7609,9 +7609,7 @@ html:not([dir=rtl]) .offcanvas-header .btn-close {
   align-items: center;
   justify-content: center;
   vertical-align: middle;
-  border-radius: 50em;
   transition: margin 0.15s;
-  width: 2rem;
   height: 2rem;
   font-size: 0.8rem;
 }
@@ -7656,9 +7654,13 @@ html:not([dir=rtl]) .avatar-status {
 }
 
 .avatar-md {
-  width: 2.5rem;
   height: 2.5rem;
-  font-size: 1rem;
+  font-size: 18px;
+  width: auto;
+  background-color: #4b71a2;
+  color: white;
+  padding: 10px;
+  border-radius: 9px;
 }
 .avatar-md .avatar-status {
   width: 0.6666666667rem;
@@ -8483,6 +8485,26 @@ html:not([dir=rtl]) .sidebar-close {
   border-radius: var(--cui-sidebar-nav-link-border-radius);
   transition: background 0.15s ease, color 0.15s ease;
 }
+
+.sidebar-nav .nav-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding: var(--cui-sidebar-nav-link-padding-y) var(--cui-sidebar-nav-link-padding-x);
+  color: var(--cui-sidebar-nav-link-color);
+  text-decoration: none;
+  white-space: nowrap;
+  background: var(--cui-sidebar-nav-link-bg);
+  border: var(--cui-sidebar-nav-link-border);
+  border-radius: var(--cui-sidebar-nav-link-border-radius);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav .nav-link-to {
+  text-decoration: none;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
   .sidebar-nav .nav-link {
     transition: none;

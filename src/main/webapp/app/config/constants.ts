@@ -17,3 +17,10 @@ export const APP_TWO_DIGITS_AFTER_POINT_NUMBER_FORMAT = '0,0.[00]';
 export const REX = {
   email: /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/
 }
+
+export const CONSTANT = Object.freeze({
+
+  SERVER_PATH: Object.freeze({
+    DOMAIN: process.env.SERVER_API_URL ? process.env.SERVER_API_URL : 'http://localhost:8000',
+  }),
+})

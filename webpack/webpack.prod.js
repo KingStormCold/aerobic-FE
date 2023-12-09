@@ -85,8 +85,8 @@ module.exports = async () =>
         // If you use an API server, in `prod` mode, you will need to enable CORS
         // (see the `jhipster.cors` common JHipster property in the `application-*.yml` configurations)
         // for preprod::
-         'process.env.SERVER_API_URL': `'https://mrbang.vn/'`,
-        }),
+        'process.env.SERVER_API_URL': `'http//localhost:8000'`,
+      }),
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         filename: 'content/[name].[contenthash].css',

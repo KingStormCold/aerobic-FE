@@ -45,7 +45,7 @@ module.exports = async options =>
       static: {
         directory: './target/classes/static/',
       },
-      port: 9060,
+      port: 9000,
       proxy: [
         {
           context: [
@@ -59,7 +59,7 @@ module.exports = async options =>
             '/auth',
             '/v1',
           ],
-          target: `http${options.tls ? 's' : ''}://localhost:8080`,
+          target: `http${options.tls ? 's' : ''}://localhost:8000`,
           secure: false,
           changeOrigin: options.tls,
         },
@@ -69,43 +69,8 @@ module.exports = async options =>
     },
     stats: process.env.JHI_DISABLE_WEBPACK_LOGS ? 'none' : options.stats,
     plugins: [
-      process.env.JHI_DISABLE_WEBPACK_LOGS
-        ? null
-        : new SimpleProgressWebpackPlugin({
-            format: options.stats === 'minimal' ? 'compact' : 'expanded',
-          }),
-      new BrowserSyncPlugin(
-        {
-          https: options.tls,
-          host: 'localhost',
-          port: 9000,
-          proxy: {
-            target: `http${options.tls ? 's' : ''}://localhost:9060`,
-            proxyOptions: {
-              changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
-            },
-          },
-          socket: {
-            clients: {
-              heartbeatTimeout: 60000,
-            },
-          },
-          /*
-      ,ghostMode: { // uncomment this part to disable BrowserSync ghostMode; https://github.com/jhipster/generator-jhipster/issues/11116
-        clicks: false,
-        location: false,
-        forms: false,
-        scroll: false
-      } */
-        },
-        {
-          reload: false,
-        }
-      ),
-      new webpack.HotModuleReplacementPlugin(),
-      new WebpackNotifierPlugin({
-        title: 'Land',
-        contentImage: path.join(__dirname, 'logo-jhipster.png'),
+      new webpack.DefinePlugin({
+        'process.env.SERVER_API_URL': `'http://localhost:8000'`,
       }),
-    ].filter(Boolean),
+    ]
   });

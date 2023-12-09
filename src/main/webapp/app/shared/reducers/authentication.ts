@@ -7,10 +7,7 @@ import { AppThunk } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
 
 const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
-const ADMIN_USER = 'ADMIN_USER'
-const ADMIN_PRODUCT = 'ADMIN_PRODUCT'
-const ADMIN_CATEGORY = 'ADMIN_CATEGORY'
-const ADMIN_VIDEO = 'ADMIN_VIDEO'
+const ADMIN = 'ADMIN'
 
 export const initialState = {
   loading: false,
@@ -36,36 +33,36 @@ export const getSession = (): AppThunk => async (dispatch, getState) => {
 
 };
 
-export const getAccount = createAsyncThunk('authentication/get_account', async () => axios.get<any>('api/v1/account'), {
+export const getAccount = createAsyncThunk('authentication/get_account', async () => axios.get<any>('api/auth/user-profile'), {
   serializeError: serializeAxiosError,
 });
 
 interface IAuthParams {
-  user_name: string;
+  email: string;
   password: string;
   rememberMe?: boolean;
 }
 
 export const authenticate = createAsyncThunk(
   'authentication/login',
-  async (auth: IAuthParams) => axios.post<any>('api/authenticate', auth),
+  async (auth: IAuthParams) => axios.post<any>('/api/auth/login', auth),
   {
     serializeError: serializeAxiosError,
   }
 );
 
-export const login: (username: string, password: string, rememberMe?: boolean) => AppThunk =
-  (user_name, password, rememberMe = false) =>
+export const login: (email: string, password: string, rememberMe?: boolean) => AppThunk =
+  (email, password, rememberMe = false) =>
     async dispatch => {
-      const result = await dispatch(authenticate({ user_name, password, rememberMe }));
+      const result = await dispatch(authenticate({ email, password, rememberMe }));
       if (unauthenticate) {
         unauthenticate = false;
         return;
       }
       const response = result.payload as AxiosResponse;
-      const bearerToken = response?.headers?.authorization;
-      if (bearerToken && bearerToken.slice(0, 7) === 'Bearer ') {
-        const jwt = bearerToken.slice(7, bearerToken.length);
+      const bearerToken = response?.data?.access_token;
+      if (bearerToken) {
+        const jwt = bearerToken
         if (rememberMe) {
           Storage.local.set(AUTH_TOKEN_KEY, jwt);
         } else {
@@ -156,13 +153,13 @@ export const AuthenticationSlice = createSlice({
         };
       })
       .addCase(getAccount.fulfilled, (state, action) => {
-        const isAuthenticated = action.payload.data.active;
-        const roleAdmin = action.payload.data.roles.some(role => role.includes(ADMIN_USER) || role.includes(ADMIN_CATEGORY) || role.includes(ADMIN_PRODUCT) || role.includes(ADMIN_VIDEO));
+        console.log('action.payload.data', action.payload.data)
+        const roleAdmin = action.payload.data?.data?.roles?.includes(ADMIN)
         Storage.session.set('roleAdmin', roleAdmin);
-        Storage.session.set('haveRoles', action.payload.data.roles);
+        Storage.session.set('haveRoles', action.payload.data?.data?.roles);
         return {
           ...state,
-          isAuthenticated,
+          isAuthenticated: true,
           loading: false,
           sessionHasBeenFetched: true,
           account: action.payload.data,

@@ -1,14 +1,12 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
+import { Switch } from 'react-router-dom';
 
 import Login from 'app/modules/login/login';
 import Logout from 'app/modules/login/logout';
-import Home from 'app/modules/client/home/home';
-import PrivateRoute, { hasAnyAuthority } from 'app/shared/auth/private-route';
+import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
-import {useAppSelector } from 'app/config/store';
 import { Storage } from 'react-jhipster';
 
 const Admin = Loadable({

@@ -77,7 +77,7 @@ module.exports = async options => {
           /*
        ,
        Disabled due to https://github.com/jhipster/generator-jhipster/issues/16116
-       Can be enabled with @reduxjs/toolkit@>1.6.1 
+       Can be enabled with @reduxjs/toolkit@>1.6.1
       {
         enforce: 'pre',
         test: /\.jsx?$/,
@@ -126,7 +126,7 @@ module.exports = async options => {
             { from: './node_modules/axios/dist/axios.min.js', to: 'swagger-ui/' },
             { from: './src/main/webapp/swagger-ui/', to: 'swagger-ui/' },
             { from: './src/main/webapp/content/', to: 'content/' },
-            { from: './src/main/webapp/chanbang.ico', to: 'chanbang.ico' },
+            { from: './src/main/webapp/aerobic.ico', to: 'aerobic.ico' },
             { from: './src/main/webapp/manifest.webapp', to: 'manifest.webapp' },
             // jhipster-needle-add-assets-to-webpack - JHipster will add/remove third-party resources in this array
             { from: './src/main/webapp/robots.txt', to: 'robots.txt' },

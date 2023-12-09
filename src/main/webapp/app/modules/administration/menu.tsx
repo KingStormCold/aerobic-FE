@@ -13,11 +13,7 @@ import './css/vendor/simplebar.css';
 import './css/vendor/style.css';
 
 const ADMIN_USER = 'ADMIN_USER'
-const ADMIN_PRODUCT = 'ADMIN_PRODUCT'
-const ADMIN_CATEGORY = 'ADMIN_CATEGORY'
-const ADMIN_VIDEO = 'ADMIN_VIDEO'
 const ADMIN = 'ADMIN'
-const ADMIN_ORDER_PRODUCT = 'ADMIN_ORDER_PRODUCT'
 
 const Menus = () => {
 
@@ -41,29 +37,20 @@ const Menus = () => {
               <InsertChartIcon />
             </svg> Dashboard<span className="badge badge-sm bg-info ms-auto">NEW</span></Link>
         </li>
-
-        {/* <li className="nav-item"> */}
         {
-          haveRoles.includes(ADMIN) || haveRoles.includes(ADMIN_USER) ?
-            <li className={_location['pathname'].includes(`${Path.UrlPath.AdminUserManagement}`) ? 'active-menu nav-item' : 'nav-item'} >
-              <Link className="nav-link" to="/admin/user-management">
+          haveRoles.includes(ADMIN) && haveRoles.includes(ADMIN_USER) ?
+            <li className={_location['pathname'].includes(`${Path.UrlPath.AdminUserManagement}`) ? 'active-menu nav-item' : 'nav-item'}>
+              <Link className="nav-link" to='/admin/user-management'>
                 <svg className="nav-icon">
-                  <PersonIcon />
+                  <DnsIcon />
                 </svg> Quản lý người dùng
               </Link>
             </li>
             :
             <></>
         }
-        {/* <li className={_location['pathname'].includes(`${Path.UrlPath.AdminUserManagement}`) ? 'active-menu nav-item' : 'nav-item'} >
-          <Link className="nav-link" to="/admin/user-management">
-            <svg className="nav-icon">
-              <PersonIcon />
-            </svg> Quản lý người dùng
-          </Link>
-        </li> */}
         {
-          haveRoles.includes(ADMIN) || haveRoles.includes(ADMIN_CATEGORY) ?
+          haveRoles.includes(ADMIN) ?
             <li className={_location['pathname'].includes(`${Path.UrlPath.AdminCategoryManegement}`) ? 'active-menu nav-item' : 'nav-item'}>
               <Link className="nav-link" to='/admin/category-management'>
                 <svg className="nav-icon">
@@ -75,36 +62,12 @@ const Menus = () => {
             <></>
         }
         {
-          haveRoles.includes(ADMIN) || haveRoles.includes(ADMIN_PRODUCT) ?
+          haveRoles.includes(ADMIN) ?
             <li className={_location['pathname'].includes(`${Path.UrlPath.AdminProductManegement}`) ? 'active-menu nav-item' : 'nav-item'}>
               <Link className="nav-link" to='/admin/product-management'>
                 <svg className="nav-icon">
                   <PhoneAndroidIcon />
-                </svg> Quản lý sản phẩm
-              </Link>
-            </li>
-            :
-            <></>
-        }
-        {
-          haveRoles.includes(ADMIN) || haveRoles.includes(ADMIN_VIDEO) ?
-            <li className={_location['pathname'].includes(`${Path.UrlPath.AdminVideoManegement}`) ? 'active-menu nav-item' : 'nav-item'}>
-              <Link className="nav-link" to='/admin/video-management'>
-                <svg className="nav-icon">
-                  <OndemandVideoIcon />
-                </svg> Quản lý video
-              </Link>
-            </li>
-            :
-            <></>
-        }
-        {
-          haveRoles.includes(ADMIN) || haveRoles.includes(ADMIN_ORDER_PRODUCT) ?
-            <li className={_location['pathname'].includes(`${Path.UrlPath.AdminOrderProductManegement}`) ? 'active-menu nav-item' : 'nav-item'}>
-              <Link className="nav-link" to='/admin/order-product'>
-                <svg className="nav-icon">
-                  <ShoppingCartIcon />
-                </svg> Danh sách đặt hàng
+                </svg> Quản lý môn học
               </Link>
             </li>
             :

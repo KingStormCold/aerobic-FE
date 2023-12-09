@@ -10,7 +10,6 @@ import Pagination from '@mui/material/Pagination';
 import DialogConfirm from 'app/components/dialog-confirm';
 import { RouteComponentProps, Link, useHistory } from 'react-router-dom';
 import { Truncate } from '@primer/react';
-import { changeName, resetMenuLink } from 'app/shared/reducers/menu';
 import { Storage } from 'react-jhipster';
 
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
@@ -43,9 +42,6 @@ export const QuanLyUsers = (props: RouteComponentProps) => {
   };
 
   useEffect(() => {
-    dispatch(resetMenuLink());
-    dispatch(changeName("Quản lý người dùng"));
-    // dispatch(setName("hello"));
     dispatch(getUsers(page));
   }, [])
 
@@ -129,23 +125,23 @@ export const QuanLyUsers = (props: RouteComponentProps) => {
               <td>{user.updated_by}</td>
               <td>{user.updated_date}</td>
               <td>
-              {
-                user.user_name === 'admin' ?
-                <></>
-                :
-                <>
-                  {/* <Link to={`/admin/user-management/edit`} > */}
-                    <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
-                    onClick={() => handleEditUser(user.user_name)}>
-                      <FontAwesomeIcon icon="user-edit" />
-                    </Button>
-                  {/* </Link> */}
-                  <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                    onClick={() => handleDelUser(user.user_name)} title="Xóa">
-                    <FontAwesomeIcon icon="trash" />
-                  </Button>
-                </>
-              }
+                {
+                  user.user_name === 'admin' ?
+                    <></>
+                    :
+                    <>
+                      {/* <Link to={`/admin/user-management/edit`} > */}
+                      <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
+                        onClick={() => handleEditUser(user.user_name)}>
+                        <FontAwesomeIcon icon="user-edit" />
+                      </Button>
+                      {/* </Link> */}
+                      <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
+                        onClick={() => handleDelUser(user.user_name)} title="Xóa">
+                        <FontAwesomeIcon icon="trash" />
+                      </Button>
+                    </>
+                }
               </td>
             </tr>
           ))}

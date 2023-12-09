@@ -1,32 +1,23 @@
-import './login.scss';
-import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Redirect, RouteComponentProps, BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import { Storage, translate } from 'react-jhipster';
+import React, { useEffect } from 'react';
+import { Storage } from 'react-jhipster';
+import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
+import './login.scss';
 
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { Checkbox, FormControl, FormControlLabel, TextField } from '@material-ui/core';
-import { Card } from 'reactstrap';
-import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Alert, Row, Col, Form } from 'reactstrap';
-import { Translate } from 'react-jhipster';
+import { TextField } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { Alert, Button } from 'reactstrap';
 
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import { login } from 'app/shared/reducers/authentication';
 import Avatar from '@mui/material/Avatar';
-import CssBaseline from '@mui/material/CssBaseline';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import HealthPage from 'app/modules/administration/health/health';
-
-import { REX } from 'app/config/constants';
+import Typography from '@mui/material/Typography';
+import { login } from 'app/shared/reducers/authentication';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
   createStyles({
@@ -75,7 +66,7 @@ export const Login = (props: RouteComponentProps<any>) => {
   const [isRemember, setRemember] = React.useState(false);
 
   const [failByUsername, setFailByUsername] = React.useState(false);
-  const [inputUsername, setInputUsername] = React.useState('');
+  const [inputEmail, setInputEmail] = React.useState('');
 
   const [failByPassword, setFailByPassword] = React.useState(false);
   const [inputPassword, setInputPassword] = React.useState('');
@@ -86,12 +77,12 @@ export const Login = (props: RouteComponentProps<any>) => {
     setRemember(isRememberMe);
     if (isRememberMe) {
       const username = Storage.local.get('USERNAME', '');
-      setInputUsername(username);
+      setInputEmail(username);
     }
   }, []);
 
-  const handleUserName = event => {
-    setInputUsername(event.target.value);
+  const handleEmail = event => {
+    setInputEmail(event.target.value);
   };
 
   const handlePassword = event => {
@@ -112,7 +103,7 @@ export const Login = (props: RouteComponentProps<any>) => {
 
   const handleSubmitLogin = () => {
     setTimeout(() => {
-      if (inputUsername === '') {
+      if (inputEmail === '') {
         setFailByUsername(true);
         setFailByPassword(false);
       } else if (inputPassword === '') {
@@ -120,7 +111,7 @@ export const Login = (props: RouteComponentProps<any>) => {
         setFailByUsername(false);
       } else {
         setFailByPassword(false);
-        const response = dispatch(login(inputUsername, inputPassword, isRemember));
+        const response = dispatch(login(inputEmail, inputPassword, isRemember));
         return;
       }
     }, 100);
@@ -179,18 +170,18 @@ export const Login = (props: RouteComponentProps<any>) => {
                     required
                     fullWidth
                     id="username"
-                    label="Tài khoản"
+                    label="Email"
                     name="username"
                     autoComplete="username"
                     autoFocus
-                    onChange={handleUserName}
+                    onChange={handleEmail}
                     onKeyDown={handleKeyDownUsername}
                   />
                   {failByUsername && (
                     <div className="margin-top-05">
                       <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
                       <span className="color-text-D70925">
-                        Vui lòng nhập tài khoản.
+                        Vui lòng nhập email.
                       </span>
                     </div>
                   )}

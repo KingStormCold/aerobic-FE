@@ -1,7 +1,6 @@
-export const AUTHORITIES = {
-  ADMIN: 'ROLE_ADMIN',
-  USER: 'ROLE_USER',
-};
+export const AUTHORITIES = [
+  'ADMIN'
+]
 
 export const messages = {
   DATA_ERROR_ALERT: 'Internal Error',
@@ -23,4 +22,8 @@ export const CONSTANT = Object.freeze({
   SERVER_PATH: Object.freeze({
     DOMAIN: process.env.SERVER_API_URL ? process.env.SERVER_API_URL : 'http://localhost:8000',
   }),
+  ROLES: {
+    CATEGORY: 'ADMIN_CATEGORY',
+    USER: 'ADMIN_USER',
+  }
 })

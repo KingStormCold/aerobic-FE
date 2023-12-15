@@ -20,6 +20,7 @@ export const initialState = {
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
   logoutUrl: null as unknown as string,
+  roles: [] as ReadonlyArray<string>
 };
 
 let unauthenticate = false;
@@ -30,7 +31,6 @@ export type AuthenticationState = Readonly<typeof initialState>;
 
 export const getSession = (): AppThunk => async (dispatch, getState) => {
   await dispatch(getAccount());
-
 };
 
 export const getAccount = createAsyncThunk('authentication/get_account', async () => axios.get<any>('api/auth/user-profile'), {
@@ -60,6 +60,7 @@ export const login: (email: string, password: string, rememberMe?: boolean) => A
         return;
       }
       const response = result.payload as AxiosResponse;
+      console.log('response', response)
       const bearerToken = response?.data?.access_token;
       if (bearerToken) {
         const jwt = bearerToken
@@ -68,8 +69,8 @@ export const login: (email: string, password: string, rememberMe?: boolean) => A
         } else {
           Storage.session.set(AUTH_TOKEN_KEY, jwt);
         }
+        dispatch(getSession());
       }
-      dispatch(getSession());
     };
 
 export const clearAuthToken = () => {
@@ -129,7 +130,8 @@ export const AuthenticationSlice = createSlice({
           ...initialState,
           errorMessage: action.error.message,
           showModalLogin: true,
-          loginError
+          loginError,
+          loading: false
         }
       })
       .addCase(authenticate.fulfilled, state => ({
@@ -139,6 +141,9 @@ export const AuthenticationSlice = createSlice({
         showModalLogin: false,
         loginSuccess: true,
       }))
+      .addCase(authenticate.pending, state => {
+        state.loading = true;
+      })
       .addCase(getAccount.rejected, (state, action) => {
         const message = action.error.message;
         const loginError = (message.includes("401")) ? true : false;
@@ -153,21 +158,18 @@ export const AuthenticationSlice = createSlice({
         };
       })
       .addCase(getAccount.fulfilled, (state, action) => {
-        console.log('action.payload.data', action.payload.data)
         const roleAdmin = action.payload.data?.data?.roles?.includes(ADMIN)
         Storage.session.set('roleAdmin', roleAdmin);
-        Storage.session.set('haveRoles', action.payload.data?.data?.roles);
         return {
           ...state,
           isAuthenticated: true,
           loading: false,
           sessionHasBeenFetched: true,
           account: action.payload.data,
+          roles: action.payload.data?.data?.roles
         };
       })
-      .addCase(authenticate.pending, state => {
-        state.loading = true;
-      })
+
       .addCase(getAccount.pending, state => {
         state.loading = true;
       });

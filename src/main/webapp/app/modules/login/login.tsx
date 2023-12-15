@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect } from 'react';
 import { Storage } from 'react-jhipster';
-import { Link, Redirect, RouteComponentProps } from 'react-router-dom';
+import { Link, Redirect, RouteComponentProps, useHistory } from 'react-router-dom';
 import './login.scss';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,7 @@ import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { login } from 'app/shared/reducers/authentication';
+import Loading from 'app/components/loading';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +63,7 @@ export const Login = (props: RouteComponentProps<any>) => {
   const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const loginError = useAppSelector(state => state.authentication.loginError);
+  const loading = useAppSelector(state => state.authentication.loading);
 
   const [isRemember, setRemember] = React.useState(false);
 
@@ -71,6 +73,7 @@ export const Login = (props: RouteComponentProps<any>) => {
   const [failByPassword, setFailByPassword] = React.useState(false);
   const [inputPassword, setInputPassword] = React.useState('');
   const roleAdmin = Storage.session.get('roleAdmin');
+  const history = useHistory();
 
   useEffect(() => {
     const isRememberMe = Storage.local.get('isRememberMe', false);
@@ -118,118 +121,117 @@ export const Login = (props: RouteComponentProps<any>) => {
     return;
   };
 
+  if (roleAdmin && isAuthenticated) {
+    return <Redirect to="/admin" />
+  } else if (!roleAdmin && isAuthenticated) {
+    return <Redirect to="/" />
+  }
+
   return (
     <>
-      {roleAdmin && isAuthenticated && (
-        <Redirect to="/admin" />
-      )}
-      {!roleAdmin && isAuthenticated && (
-        <Redirect to="/" />
-      )}
-      {!isAuthenticated && (
-        <ThemeProvider theme={theme}>
-          <Grid container component="main" sx={{ height: '100vh' }}>
-            <CssBaseline />
-            <Grid
-              item
-              xs={false}
-              sm={4}
-              md={7}
+      {loading && <Loading />}
+      <ThemeProvider theme={theme}>
+        <Grid container component="main" sx={{ height: '100vh' }}>
+          <CssBaseline />
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={7}
+            sx={{
+              backgroundImage: 'url(https://source.unsplash.com/random)',
+              backgroundRepeat: 'no-repeat',
+              backgroundColor: (t) =>
+                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Box
               sx={{
-                backgroundImage: 'url(https://source.unsplash.com/random)',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: (t) =>
-                  t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
+                my: 8,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
               }}
-            />
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-              <Box
-                sx={{
-                  my: 8,
-                  mx: 4,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                {loginError ? (
-                  <Alert color="danger" data-cy="loginError">
-                    <span>Tài khoản hoặc mật khẩu không đúng</span>
-                  </Alert>
-                ) : null}
-                <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                </Avatar>
-                <Typography component="h1" variant="h5">
+            >
+              {loginError ? (
+                <Alert color="danger" data-cy="loginError">
+                  <span>Tài khoản hoặc mật khẩu không đúng</span>
+                </Alert>
+              ) : null}
+              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Đăng nhập
+              </Typography>
+              <Box component="form" noValidate sx={{ mt: 1 }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="username"
+                  label="Email"
+                  name="username"
+                  autoComplete="username"
+                  autoFocus
+                  onChange={handleEmail}
+                  onKeyDown={handleKeyDownUsername}
+                />
+                {failByUsername && (
+                  <div className="margin-top-05">
+                    <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
+                    <span className="color-text-D70925">
+                      Vui lòng nhập email.
+                    </span>
+                  </div>
+                )}
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Mật khẩu"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                  onChange={handlePassword}
+                  onKeyDown={handleKeyDownPassword}
+                />
+                {failByPassword && (
+                  <div className="margin-top-05">
+                    <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
+                    <span className="color-text-D70925">
+                      Vui lòng nhập mật khẩu.
+                    </span>
+                  </div>
+                )}
+                <br />
+                <br />
+                <Button id="register-submit" color="primary" onClick={handleSubmitLogin}>
                   Đăng nhập
-                </Typography>
-                <Box component="form" noValidate sx={{ mt: 1 }}>
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label="Email"
-                    name="username"
-                    autoComplete="username"
-                    autoFocus
-                    onChange={handleEmail}
-                    onKeyDown={handleKeyDownUsername}
-                  />
-                  {failByUsername && (
-                    <div className="margin-top-05">
-                      <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
-                      <span className="color-text-D70925">
-                        Vui lòng nhập email.
-                      </span>
-                    </div>
-                  )}
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Mật khẩu"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    onChange={handlePassword}
-                    onKeyDown={handleKeyDownPassword}
-                  />
-                  {failByPassword && (
-                    <div className="margin-top-05">
-                      <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
-                      <span className="color-text-D70925">
-                        Vui lòng nhập mật khẩu.
-                      </span>
-                    </div>
-                  )}
-                  <br />
-                  <br />
-                  <Button id="register-submit" color="primary" onClick={handleSubmitLogin}>
-                    Đăng nhập
-                  </Button>
-                  <br />
-                  <br />
-                  <Grid container>
-                    <Grid item xs>
-                      <Link to="/login">
-                        Quên mật khẩu?
-                      </Link>
-                    </Grid>
-                    <Grid item>
-                      <Link to="/login">
-                        Bạn chưa có tài khoản? Đăng ký
-                      </Link>
-                    </Grid>
+                </Button>
+                <br />
+                <br />
+                <Grid container>
+                  <Grid item xs>
+                    <Link to="/login">
+                      Quên mật khẩu?
+                    </Link>
                   </Grid>
-                </Box>
+                  <Grid item>
+                    <Link to="/login">
+                      Bạn chưa có tài khoản? Đăng ký
+                    </Link>
+                  </Grid>
+                </Grid>
               </Box>
-            </Grid>
+            </Box>
           </Grid>
-        </ThemeProvider>
-      )}
+        </Grid>
+      </ThemeProvider>
     </>
   );
 };

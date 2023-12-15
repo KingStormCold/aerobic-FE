@@ -3,6 +3,7 @@ import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 import { useAppSelector } from 'app/config/store';
 import ErrorBoundary from 'app/shared/error/error-boundary';
+import { AUTHORITIES, CONSTANT } from 'app/config/constants';
 
 interface IOwnProps extends RouteProps {
   hasAnyAuthorities?: string[];
@@ -12,7 +13,7 @@ export const PrivateRouteComponent = ({ component: Component, hasAnyAuthorities 
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const sessionHasBeenFetched = useAppSelector(state => state.authentication.sessionHasBeenFetched);
   const account = useAppSelector(state => state.authentication.account);
-  const isAuthorized = hasAnyAuthority(account.authorities, hasAnyAuthorities);
+  const isAuthorized = hasAnyAuthority(account.authorities, AUTHORITIES);
 
   const checkAuthorities = props =>
     !isAuthorized ? (
@@ -20,11 +21,7 @@ export const PrivateRouteComponent = ({ component: Component, hasAnyAuthorities 
         <Component {...props} />
       </ErrorBoundary>
     ) : (
-      <div className="insufficient-authority">
-        <div className="alert alert-danger">
-          <Translate contentKey="error.http.403">You are not authorized to access this page.</Translate>
-        </div>
-      </div>
+      <Redirect to="/login" />
     );
 
   const renderRedirect = props => {

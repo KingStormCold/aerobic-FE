@@ -19,7 +19,6 @@ export const CategoryEdit = () => {
   const loading = useAppSelector(state => state.category.loading);
   useEffect(() => {
     dispatch(getParentCategories())
-    dispatch(resetToastMessage())
   }, [])
   const parentCategories = useAppSelector(state => state.category.parentCategories);
   const updateCategorySuccess = useAppSelector(state => state.category.updateCategorySuccess);
@@ -31,9 +30,6 @@ export const CategoryEdit = () => {
   useEffect(() => {
     if (parentCategoriesErrorMessage) {
       dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách danh mục cha. ' + parentCategoriesErrorMessage, isError: true }))
-      setTimeout(() => {
-        dispatch(resetToastMessage())
-      }, 1000);
     }
   }, [parentCategoriesErrorMessage])
 
@@ -81,7 +77,7 @@ export const CategoryEdit = () => {
 
   useEffect(() => {
     if (updateCategoryErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: updateCategoryErrorMessage, isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: updateCategoryErrorMessage, isError: true }))
     }
   }, [updateCategoryErrorMessage])
 

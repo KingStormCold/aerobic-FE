@@ -18,7 +18,6 @@ export const CategoryCreate = () => {
   const loading = useAppSelector(state => state.category.loading);
   useEffect(() => {
     dispatch(getParentCategories())
-    dispatch(resetToastMessage())
   }, [])
   const parentCategories = useAppSelector(state => state.category.parentCategories);
   const createCategorySuccess = useAppSelector(state => state.category.createCategorySuccess);
@@ -28,9 +27,6 @@ export const CategoryCreate = () => {
   useEffect(() => {
     if (parentCategoriesErrorMessage) {
       dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách danh mục cha. ' + parentCategoriesErrorMessage, isError: true }))
-      setTimeout(() => {
-        dispatch(resetToastMessage())
-      }, 1000);
     }
   }, [parentCategoriesErrorMessage])
 

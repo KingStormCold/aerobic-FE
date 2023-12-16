@@ -7,7 +7,7 @@ import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { ICategoryDetail } from 'app/shared/model/category';
 import { deleteCategory, getCategories, resetCategory, updateStateCategory } from 'app/shared/reducers/category';
-import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import "bootstrap/dist/css/bootstrap.min.css";
 import moment from 'moment';
 import React, { useEffect } from 'react';
@@ -20,7 +20,6 @@ export const CategoryManagement = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(resetCategory())
-    dispatch(resetToastMessage())
   }, [])
   const [isOpenConfirm, setIsOpenConfirm] = React.useState(false);
   const [dataConfirm, setDataConfirm] = React.useState(null);

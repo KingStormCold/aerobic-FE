@@ -83,8 +83,8 @@ export const CategorySlice = createSlice({
       .addMatcher(isFulfilled(getCategories), (state, action) => {
         state.loading = false
         state.categories = action.payload.data?.categories;
-        state.totalPage = action.payload.data.totalPage;
-        state.pageNum = action.payload.data.pageNum;
+        state.totalPage = action.payload.data?.totalPage;
+        state.pageNum = action.payload.data?.pageNum;
       })
       .addMatcher(isPending(getCategories), (state, action) => {
         state.loading = true
@@ -119,7 +119,6 @@ export const CategorySlice = createSlice({
       })
       .addMatcher(isRejected(getParentCategories), (state, action) => {
         state.loading = false
-        state.parentCategoriesErrorMessage = ''
         const httpStatusCode = action.error['response']?.status
         state.parentCategoriesErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })

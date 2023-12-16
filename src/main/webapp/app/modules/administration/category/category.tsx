@@ -80,6 +80,8 @@ export const CategoryManagement = () => {
 
   useEffect(() => {
     if (deleteCategorySuccess) {
+      console.log('vao');
+      console.log('deleteCategorySuccess', deleteCategorySuccess)
       dispatch(updateStateOpenToastMessage({ message: 'Xóa danh mục thành công', isError: false }))
       dispatch(getCategories(1));
     }
@@ -130,8 +132,8 @@ export const CategoryManagement = () => {
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={category.parent_id}>
-                  {category.parent_id}
+                <Truncate maxWidth={100} title={category.parent_name}>
+                  {category.parent_name}
                 </Truncate>
               </td>
               <td>{category.created_by}</td>

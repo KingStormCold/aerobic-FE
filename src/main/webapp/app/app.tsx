@@ -10,15 +10,19 @@ import AppRoutes from 'app/routes';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { getSession } from './shared/reducers/authentication';
 import { ToastMessage } from './components/toast-message';
+import { Storage } from 'react-jhipster';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
 export const App = () => {
   const dispatch = useAppDispatch();
+  const token = Storage.local.get('jhi-authenticationToken') || Storage.session.get('jhi-authenticationToken');
 
   useEffect(() => {
-    dispatch(getSession());
-  }, []);
+    if (token) {
+      dispatch(getSession());
+    }
+  }, [token]);
 
   return (
     <Router>

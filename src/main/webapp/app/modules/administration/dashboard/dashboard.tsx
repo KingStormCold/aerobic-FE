@@ -457,7 +457,7 @@ export const Dashboard = () => {
                     <tbody>
                       <tr className="align-middle">
                         <td className="text-center">
-                          <div className="avatar avatar-md"><img className="avatar-img" src="assets/img/avatars/1.jpg" alt="user@email.com" /><span className="avatar-status bg-success"></span></div>
+                          <div className="avatar avatar-md"><img className="avatar-img" src="" alt="user@email.com" /><span className="avatar-status bg-success"></span></div>
                         </td>
                         <td>
                           <div>Yiorgos Avraamu</div>
@@ -498,7 +498,7 @@ export const Dashboard = () => {
                       </tr>
                       <tr className="align-middle">
                         <td className="text-center">
-                          <div className="avatar avatar-md"><img className="avatar-img" src="assets/img/avatars/2.jpg" alt="user@email.com" /><span className="avatar-status bg-danger"></span></div>
+                          <div className="avatar avatar-md"><img className="avatar-img" src="" alt="user@email.com" /><span className="avatar-status bg-danger"></span></div>
                         </td>
                         <td>
                           <div>Avram Tarasios</div>
@@ -539,7 +539,7 @@ export const Dashboard = () => {
                       </tr>
                       <tr className="align-middle">
                         <td className="text-center">
-                          <div className="avatar avatar-md"><img className="avatar-img" src="assets/img/avatars/3.jpg" alt="user@email.com" /><span className="avatar-status bg-warning"></span></div>
+                          <div className="avatar avatar-md"><img className="avatar-img" src="" alt="user@email.com" /><span className="avatar-status bg-warning"></span></div>
                         </td>
                         <td>
                           <div>Quintin Ed</div>
@@ -580,7 +580,7 @@ export const Dashboard = () => {
                       </tr>
                       <tr className="align-middle">
                         <td className="text-center">
-                          <div className="avatar avatar-md"><img className="avatar-img" src="assets/img/avatars/4.jpg" alt="user@email.com" /><span className="avatar-status bg-secondary"></span></div>
+                          <div className="avatar avatar-md"><img className="avatar-img" src="" alt="user@email.com" /><span className="avatar-status bg-secondary"></span></div>
                         </td>
                         <td>
                           <div>Enéas Kwadwo</div>
@@ -621,7 +621,7 @@ export const Dashboard = () => {
                       </tr>
                       <tr className="align-middle">
                         <td className="text-center">
-                          <div className="avatar avatar-md"><img className="avatar-img" src="assets/img/avatars/5.jpg" alt="user@email.com" /><span className="avatar-status bg-success"></span></div>
+                          <div className="avatar avatar-md"><img className="avatar-img" src="" alt="user@email.com" /><span className="avatar-status bg-success"></span></div>
                         </td>
                         <td>
                           <div>Agapetus Tadeáš</div>
@@ -662,7 +662,7 @@ export const Dashboard = () => {
                       </tr>
                       <tr className="align-middle">
                         <td className="text-center">
-                          <div className="avatar avatar-md"><img className="avatar-img" src="assets/img/avatars/6.jpg" alt="user@email.com" /><span className="avatar-status bg-danger"></span></div>
+                          <div className="avatar avatar-md"><img className="avatar-img" src="" alt="user@email.com" /><span className="avatar-status bg-danger"></span></div>
                         </td>
                         <td>
                           <div>Friderik Dávid</div>

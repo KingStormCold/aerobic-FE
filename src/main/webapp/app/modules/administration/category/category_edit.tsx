@@ -3,7 +3,7 @@ import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { ICreateCategory } from 'app/shared/model/category';
-import { getParentCategories, updateCategory } from 'app/shared/reducers/category';
+import { getParentCategories, resetCategory, updateCategory } from 'app/shared/reducers/category';
 import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -34,9 +34,16 @@ export const CategoryEdit = () => {
   }, [parentCategoriesErrorMessage])
 
   useEffect(() => {
-    setValue('categoryName', categoryDetail?.name)
-    setValue('parentCategory', categoryDetail?.parent_id)
-    setParentCategory(categoryDetail?.parent_id)
+    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì category bị undefined
+    // => hk có data để chỉnh sửa
+    if (categoryDetail.id === undefined) {
+      history.push(URL_PATH.ADMIN.CATEGORY.MANAGEMENT)
+    }
+    if (categoryDetail) {
+      setValue('categoryName', categoryDetail?.name)
+      setValue('parentCategory', categoryDetail?.parent_id)
+      setParentCategory(categoryDetail?.parent_id)
+    }
   }, [categoryDetail])
 
   const {
@@ -66,6 +73,7 @@ export const CategoryEdit = () => {
   useEffect(() => {
     if (updateCategorySuccess) {
       dispatch(updateStateOpenToastMessage({ message: 'Sửa danh mục thành công', isError: false }))
+      dispatch(resetCategory())
       history.push(URL_PATH.ADMIN.CATEGORY.MANAGEMENT)
     }
   }, [updateCategorySuccess])
@@ -90,7 +98,7 @@ export const CategoryEdit = () => {
       <div>
         <Form onSubmit={handleSubmit(editCategory)}>
           <Form.Group className="mb-3">
-            <Form.Label controlId="categoryName">Tên danh mục</Form.Label>
+            <Form.Label>Tên danh mục</Form.Label>
             <Form.Control
               type="text"
               id="categoryName"
@@ -103,7 +111,7 @@ export const CategoryEdit = () => {
               <Card.Text as="div" className='error-text'>Tên danh mục không được trống</Card.Text>
             )}
           </Form.Group>
-          <Form.Group className="mb-3" controlId="parentCategory">
+          <Form.Group className="mb-3">
             <Form.Label>Danh mục cha</Form.Label>
             <Form.Select aria-label="Danh mục cha" value={parentCategory}
               {...register('parentCategory', {

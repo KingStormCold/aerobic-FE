@@ -53,7 +53,7 @@ const CustomToastComp = ({ contentText }) => {
       <ToastWrapper>
         <ToastBodyWrapper>
           <ToastBody>
-            <Card.Text as="div" >{contentText}</Card.Text>
+            <Card.Text as="span" >{contentText}</Card.Text>
           </ToastBody>
         </ToastBodyWrapper>
       </ToastWrapper>

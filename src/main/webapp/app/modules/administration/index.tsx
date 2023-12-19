@@ -3,7 +3,6 @@ import React from 'react';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import Menus from './menu';
 import HeaderAdmin from './header-admin';
-import QuanLyUsers from './quanlyusers/quanlyuser';
 import Dashboard from './dashboard/dashboard';
 import { Switch } from 'react-router-dom';
 import { Storage } from 'react-jhipster';
@@ -21,6 +20,10 @@ import CourseEdit from './course/course_edit';
 import SubjectManagement from './subject/subject';
 import SubjectCreate from './subject/subject_create';
 import SubjectEdit from './subject/subject_edit';
+
+import UserCreate from './user/user_create';
+import UserEdit from './user/user_edit';
+import UserManagement from './user/user';
 
 
 const Routes = ({ match }) => {
@@ -41,7 +44,10 @@ const Routes = ({ match }) => {
             <div className="body flex-grow-1 px-3">
               <Switch>
                 <ErrorBoundaryRoute exact path={`${match.url}/`} component={Dashboard} />
-                ({roleUser && <PrivateRoute exact path={`${match.url}/user-management`} component={QuanLyUsers} />})
+                ({roleUser && <PrivateRoute exact path={`${match.url}/user-management`} component={UserManagement} />})
+                ({roleUser && <PrivateRoute exact path={`${match.url}/user-create`} component={UserCreate} />})
+                ({roleUser && <PrivateRoute exact path={`${match.url}/user-edit`} component={UserEdit} />})
+
                 ({roleCategory && <PrivateRoute exact path={`${match.url}/category-management`} component={CategoryManagement} />})
                 ({roleCategory && <PrivateRoute exact path={`${match.url}/category-create`} component={CategoryCreate} />})
                 ({roleCategory && <PrivateRoute exact path={`${match.url}/category-edit`} component={CategoryEdit} />})

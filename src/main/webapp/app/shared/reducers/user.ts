@@ -1,188 +1,159 @@
+import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
-import { IQueryParams, serializeAxiosError } from 'app/shared/reducers/reducer.utils';
-import { IUser, defaultValue, IPagination } from 'app/shared/model/user.model';
 import { Storage } from 'react-jhipster';
-
-export const getUsers = createAsyncThunk('admin/users', async ({ page, size, sort }: IQueryParams) => {
-  const requestUrl = `${`api/v1/users`}${`?page=${page}&size=${size}&sort=${sort}`}`;
-  const result = axios.get(requestUrl);
-  return result
-});
-
-export const delUser = createAsyncThunk('admin/users', async (user_name: any) => {
-  const requestUrl = `${`api/v1/user`}${`/${user_name}`}`;
-  const result = axios.delete(requestUrl);
-  return result
-});
+import { IQueryParams, serializeAxiosError } from './reducer.utils';
+import { URL_PATH } from 'app/config/path';
+import { IUser, ICreateUser, IUpdateUser, IRoleDetail } from '../model/user';
 
 const initialState = {
   loading: false,
-  errorMessage: null,
-  updating: false,
-  updateSuccess: false,
-  totalItems: 0,
-  data: [] as ReadonlyArray<IUser>,
-  pagination: null as IPagination,
-  authorities: [] as any[],
-  user: defaultValue,
-  loadingsuccess: false,
-  userDuplicate: false,
+  totalPage: 0,
+  pageNum: 0,
+  users: [] as ReadonlyArray<IUser>,
+  usersErrorMessage: '',
+  deleteUserSuccess: false,
+  deleteUserErrorMessage: '',
+  roles: [] as ReadonlyArray<IRoleDetail>,
+  rolesErrorMessage: '',
+  createUserSuccess: false,
+  createUserErrorMessage: '',
+  updateUserSuccess: false,
+  updateUserErrorMessage: '',
+  user: {} as IUser
 };
 
-const apiUrl = 'api/users';
-const adminUrl = 'api/v1/user';
+export type UserState = Readonly<typeof initialState>;
 
-export type UserManagementState = Readonly<typeof initialState>;
-
-export const getRoles = createAsyncThunk('userManagement/fetch_roles', async () => {
-  return axios.get<any[]>(`api/v1/role/find-all`);
+export const getUsers = createAsyncThunk(
+  'admin/get-users',
+  async (page: number) => {
+    return await axios.get<any>(`${URL_PATH.API.GET_USER}?page=${page}`)
+  }, {
+  serializeError: serializeAxiosError
 });
 
-
-const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
-
-const token = Storage.local.get(AUTH_TOKEN_KEY) || Storage.session.get(AUTH_TOKEN_KEY);
-const config = {
-  headers: {
-    'Authorization': token,
-  }
-}
+export const getRoles = createAsyncThunk(
+  'admin/get-roles',
+  async () => {
+    return await axios.get<any>(`${URL_PATH.API.GET_ROLES_USER}`)
+  }, {
+  serializeError: serializeAxiosError
+});
 
 export const createUser = createAsyncThunk(
-  'userManagement/create_user',
-  async (user: IUser, thunkAPI) => {
-    user.user_name.toLowerCase
-    const result = await axios.post<IUser>(adminUrl, user, config);
-    // thunkAPI.dispatch(getUsersAsAdmin({}));
-    return result;
-  },
-  { serializeError: serializeAxiosError }
-);
+  'admin/create-user',
+  async (data: ICreateUser) => {
+    return await axios.post<any>(`${URL_PATH.API.USER}`, data)
+  }, {
+  serializeError: serializeAxiosError
+});
 
 export const updateUser = createAsyncThunk(
-  'userManagement/update_user',
-  async (user: IUser, thunkAPI) => {
-    if (user?.roles[0]?.role_id) {
-      user.roles = ["USER"];
-    }
-    const result = await axios.put<IUser>(adminUrl + '/' + user.user_name, user, config);
-    return result;
-  },
-  { serializeError: serializeAxiosError }
-);
+  'admin/update-user',
+  async (data: { requestBody: IUpdateUser, id: number }) => {
+    return await axios.put<any>(`${URL_PATH.API.USER}/${data.id}`, data.requestBody)
+  }, {
+  serializeError: serializeAxiosError
+});
 
-export const getUser = createAsyncThunk(
-  'userManagement/fetch_user',
-  async (user_name: string) => {
-    const requestUrl = `${adminUrl}/${user_name}`;
-    return axios.get<IUser>(requestUrl);
-  },
-  { serializeError: serializeAxiosError }
-);
+export const deleteUser = createAsyncThunk(
+  'admin/delete-user',
+  async (id: string) => {
+    return await axios.delete<any>(`${URL_PATH.API.USER}/${id}`)
+  }, {
+  serializeError: serializeAxiosError
+});
 
-export const UserManagementSlice = createSlice({
-  name: 'userManagement',
-  initialState: initialState as UserManagementState,
+export const UserSlice = createSlice({
+  name: 'User',
+  initialState: initialState as UserState,
   reducers: {
-    resetError(state) {
-      return {
-        ...state,
-        userDuplicate: false,
-      };
-    },
-    reset() {
+    resetUser() {
       return initialState;
     },
-    updateUserHandle(state, action) {
+    updateStateUser(state, action) {
       return {
         ...state,
-        updateSuccess: action.payload,
+        user: action.payload
       }
-    },
+    }
   },
   extraReducers(builder) {
     builder
-      .addCase(getUsers.fulfilled, (state, action) => {
-        state.data = action.payload.data.data;
-        state.pagination = action.payload.data.pagination;
+      .addMatcher(isFulfilled(getUsers), (state, action) => {
+        state.loading = false
+        state.users = action.payload.data?.users;
+        state.totalPage = action.payload.data?.totalPage;
+        state.pageNum = action.payload.data?.pageNum;
       })
-      .addMatcher(isPending(getUsers), state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loading = true;
+      .addMatcher(isPending(getUsers), (state, action) => {
+        state.loading = true
+        state.usersErrorMessage = ''
       })
       .addMatcher(isRejected(getUsers), (state, action) => {
-        state.loading = false;
-        state.updating = false;
-        state.updateSuccess = false;
-        state.errorMessage = action.error.message;
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.usersErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
-      .addMatcher(isFulfilled(delUser), (state, action) => {
-        return {
-          ...state,
-        };
+      .addMatcher(isFulfilled(deleteUser), (state, action) => {
+        state.loading = false
+        state.deleteUserSuccess = true
       })
-      .addMatcher(isPending(delUser), state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loading = true;
+      .addMatcher(isPending(deleteUser), (state, action) => {
+        state.loading = true
+        state.deleteUserSuccess = false
+        state.deleteUserErrorMessage = ''
       })
-      .addMatcher(isRejected(delUser), (state, action) => {
-        state.loading = false;
-        state.updating = false;
-        state.updateSuccess = false;
-        state.errorMessage = action.error.message;
+      .addMatcher(isRejected(deleteUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.deleteUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       .addMatcher(isFulfilled(getRoles), (state, action) => {
-        state.authorities = action.payload.data;
-        state.loading = false;
-        state.loadingsuccess = true;
+        state.loading = false
+        state.roles = action.payload.data?.roles;
       })
-      .addMatcher(isFulfilled(createUser, updateUser), (state, action) => {
-        state.updating = false;
-        state.loading = false;
-        state.userDuplicate = (action.payload.data.code === "USER_DUPLICATE") ? true : false;
-        state.updateSuccess = !state.userDuplicate;
-        state.user = action.payload.data;
+      .addMatcher(isPending(getRoles), (state, action) => {
+        state.loading = true
+        state.rolesErrorMessage = ''
       })
-      .addMatcher(isFulfilled(getUser), (state, action) => {
-        state.updating = false;
-        state.loading = false;
-        state.loadingsuccess = true;
-        state.updateSuccess = false;
-        state.user = action.payload.data;
+      .addMatcher(isRejected(getRoles), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.rolesErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
-      .addMatcher(isPending(createUser, updateUser), state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loadingsuccess = false;
-        state.updating = true;
+      .addMatcher(isFulfilled(createUser), (state, action) => {
+        state.loading = false
+        state.createUserSuccess = true;
       })
-      .addMatcher(isPending(getUser), state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loadingsuccess = false;
-        state.updating = true;
-        state.user = defaultValue;
+      .addMatcher(isPending(createUser), (state, action) => {
+        state.loading = true
+        state.createUserErrorMessage = ''
+        state.createUserSuccess = false
       })
-      .addMatcher(isPending(getRoles), state => {
-        state.errorMessage = null;
-        state.updateSuccess = false;
-        state.loadingsuccess = false;
-        state.updating = true;
+      .addMatcher(isRejected(createUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.createUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
-      .addMatcher(isRejected(getUser, getRoles), (state, action) => {
-        state.loading = false;
-        state.updating = false;
-        state.updateSuccess = false;
-        state.loadingsuccess = false;
-        state.errorMessage = action.error.message;
-      });
-    ;
+      .addMatcher(isFulfilled(updateUser), (state, action) => {
+        state.loading = false
+        state.updateUserSuccess = true;
+      })
+      .addMatcher(isPending(updateUser), (state, action) => {
+        state.loading = true
+        state.updateUserErrorMessage = ''
+        state.updateUserSuccess = false
+      })
+      .addMatcher(isRejected(updateUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.updateUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      ;
   },
 });
 
-export const { reset, updateUserHandle, resetError } = UserManagementSlice.actions;
+export const { resetUser, updateStateUser } = UserSlice.actions;
 // Reducer
-export default UserManagementSlice.reducer;
+export default UserSlice.reducer;

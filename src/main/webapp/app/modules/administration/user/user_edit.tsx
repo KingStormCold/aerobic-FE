@@ -1,0 +1,206 @@
+import Loading from 'app/components/loading';
+import { URL_PATH } from 'app/config/path';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { IUpdateUser } from 'app/shared/model/user';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { getRoles, resetUser, updateUser } from 'app/shared/reducers/user';
+import React, { useEffect, useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import { useForm } from 'react-hook-form';
+import { ValidatedField } from 'react-jhipster';
+import { useHistory } from 'react-router-dom';
+import './user_edit.scss';
+
+export const UserEdit = () => {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+  const loading = useAppSelector(state => state.user.loading);
+  useEffect(() => {
+    dispatch(getRoles())
+  }, [])
+  const roles = useAppSelector(state => state.user.roles);
+  const updateUserSuccess = useAppSelector(state => state.user.updateUserSuccess);
+  const userDetail = useAppSelector(state => state.user.user);
+  const rolesErrorMessage = useAppSelector(state => state.user.rolesErrorMessage);
+  const updateUserErrorMessage = useAppSelector(state => state.user.updateUserErrorMessage);
+  const [checkedRoles, setcheckedRoles] = useState([]);
+
+  useEffect(() => {
+    if (rolesErrorMessage) {
+      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách vai trò. ' + rolesErrorMessage, isError: true }))
+    }
+  }, [rolesErrorMessage])
+
+  useEffect(() => {
+    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì User bị undefined
+    // => hk có data để chỉnh sửa
+    if (userDetail.id === undefined) {
+      history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
+    }
+    if (userDetail) {
+      setValue('email', userDetail?.email)
+      setValue('fullname', userDetail?.fullname)
+      setValue('phone', userDetail?.phone)
+      setValue('status', userDetail?.status)
+      if (userDetail?.roles && userDetail?.roles.length > 0) {
+        userDetail?.roles.map(userRole => setcheckedRoles(prev => [...prev, userRole]));
+      }
+    }
+  }, [userDetail])
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors }
+  } = useForm<{
+    email: string;
+    fullname: string;
+    phone: string;
+    status: number;
+  }>();
+
+  const editUser = (data) => {
+    const requestBody = {
+      user_fullname: data?.fullname,
+      user_phone: data?.phone,
+      user_status: data?.status ? 1 : 0,
+      user_role_id: checkedRoles
+    } as IUpdateUser
+    dispatch(updateUser({ id: userDetail?.id, requestBody }))
+  }
+
+  useEffect(() => {
+    if (updateUserSuccess) {
+      dispatch(updateStateOpenToastMessage({ message: 'Chỉnh sửa người dùng thành công', isError: false }))
+      dispatch(resetUser())
+      history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
+    }
+  }, [updateUserSuccess])
+
+  useEffect(() => {
+    if (updateUserErrorMessage) {
+      dispatch(updateStateOpenToastMessage({ message: updateUserErrorMessage, isError: true }))
+    }
+  }, [updateUserErrorMessage])
+
+  const handleGetRoles = props2 => {
+    if (props2.checked === true) {
+      setcheckedRoles(prev => [...prev, props2.value]);
+    }
+    if (props2.checked === false) {
+      setcheckedRoles(prev => prev.filter(role => role !== props2.value));
+    }
+  };
+
+  return (
+    <>
+      {loading && <Loading />}
+      <h3>
+        Cập Nhật Users
+      </h3>
+      <div>
+        <Form onSubmit={handleSubmit(editUser)}>
+          <Form.Group className="mb-3">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              disabled
+              {...register('email', {
+
+              })}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Họ và tên</Form.Label>
+            <Form.Control
+              type="text"
+              {...register('fullname', {
+                required: 'Họ và tên không được trống',
+              })}
+              isInvalid={!!errors.fullname}
+            />
+            {errors.fullname && (
+              <Card.Text as="div" className='error-text'>{errors.fullname.message}</Card.Text>
+            )}
+          </Form.Group>
+
+          {/* Phone */}
+          <Form.Group className="mb-3">
+            <Form.Label>Số điện thoại</Form.Label>
+            <Form.Control
+              type="text"
+              {...register('phone', {
+                required: 'Số điện thoại không được trống',
+                pattern: {
+                  value: /^[0-9]{10}$/i,
+                  message: 'Số điện thoại không hợp lệ',
+                },
+              })}
+              isInvalid={!!errors.phone}
+            />
+            {errors.phone && (
+              <Card.Text as="div" className='error-text'>{errors.phone.message}</Card.Text>
+            )}
+          </Form.Group>
+
+          {/* Status */}
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Kích hoạt"
+              {...register('status')}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Vai trò</Form.Label>
+            <div className='flex-display'>
+              {
+                roles && roles?.map((role, i) => {
+                  return (
+                    <div key={i}>
+                      {userDetail && userDetail?.roles && userDetail?.roles.includes(role.name) ? (
+                        <ValidatedField
+                          type="checkbox"
+                          name="roles_display"
+                          defaultChecked
+                          id={role.name}
+                          key={role.name}
+                          check
+                          value={role.name}
+                          label={role.name}
+                          onClick={e => handleGetRoles(e.target)}
+                        />
+                      ) : (
+                        <ValidatedField
+                          type="checkbox"
+                          name="roles"
+                          id={role.name}
+                          key={role.name}
+                          check
+                          value={role.name}
+                          label={role.name}
+                          onClick={e => handleGetRoles(e.target)}
+                        />
+                      )}
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Form.Group>
+
+          <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
+        </Form>
+
+      </div>
+    </>
+
+  );
+};
+
+export default UserEdit;

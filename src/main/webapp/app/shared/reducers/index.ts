@@ -8,6 +8,7 @@ import category from './category'
 import toastMessage from './toast-message'
 import subject from './subject'
 import course from './course'
+import user from './user';
 
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 const rootReducer = {
@@ -19,7 +20,8 @@ const rootReducer = {
   category,
   toastMessage,
   subject,
-  course
+  course,
+  user
 };
 
 export default rootReducer;

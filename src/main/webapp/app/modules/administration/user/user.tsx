@@ -26,7 +26,7 @@ export const UserManagement = () => {
   const [deleteUserId, setDeleteUserId] = React.useState('');
   const history = useHistory();
   const loading = useAppSelector(state => state.user.loading);
-  const Users = useAppSelector(state => state.user.users);
+  const users = useAppSelector(state => state.user.users);
   const pageNum = useAppSelector(state => state.user.pageNum);
   const totalPage = useAppSelector(state => state.user.totalPage);
   const deleteUserSuccess = useAppSelector(state => state.user.deleteUserSuccess);
@@ -56,7 +56,7 @@ export const UserManagement = () => {
       title: "Xóa: " + UserName,
       description: "Bạn thật sự muốn xóa  " + UserName + " này không?",
       lblCancel: "Hủy",
-      lblOk: "Đồng ý",
+      lblOk: "Đồng ý"
     };
     setDataConfirm(_data);
     return false;
@@ -114,9 +114,9 @@ export const UserManagement = () => {
           <tr>
             <th>No</th>
             <th>Email</th>
-            <th>Fullname</th>
-            <th>Status</th>
-            <th>Phone</th>
+            <th>Họ tên</th>
+            <th>Trạng thái</th>
+            <th>Số điện thoại</th>
             <th>Nguời tạo</th>
             <th>Ngày tạo</th>
             <th>Người sửa</th>
@@ -125,42 +125,42 @@ export const UserManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {Users && Users?.map((User, i) => (
+          {users && users?.map((user, i) => (
             <tr key={`user-${i}`}>
               <th scope="row">{(i + 1) + (pageNum - 1) * 10}</th>
               <td>
-                <Truncate maxWidth={100} title={User.email}>
-                  {User.email}
+                <Truncate maxWidth={100} title={user.email}>
+                  {user.email}
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={User.fullname}>
-                  {User.fullname}
+                <Truncate maxWidth={100} title={user.fullname}>
+                  {user.fullname}
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={User.status}>
-                  {User.status}
+                <Truncate maxWidth={100} title={user.status === 1 ? 'Hoạt động' : 'Ngừng'}>
+                  {user.status === 1 ? 'Hoạt động' : 'Ngừng'}
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={User.phone}>
-                  {User.phone}
+                <Truncate maxWidth={100} title={user.phone}>
+                  {user.phone}
                 </Truncate>
               </td>
-              <td>{User.created_by}</td>
-              <td>{moment(User.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
-              <td>{User.updated_by}</td>
-              <td>{moment(User.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
+              <td>{user.created_by}</td>
+              <td>{moment(user.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
+              <td>{user.updated_by}</td>
+              <td>{moment(user.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>
                 {/* <Link to={`/admin/user-management/edit`} > */}
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
-                  onClick={() => handleEditUser(User)} title="Chỉnh sửa">
+                  onClick={() => handleEditUser(user)} title="Chỉnh sửa">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
                 {/* </Link> */}
                 <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteUser(User.id, User.fullname)} title="Xóa">
+                  onClick={() => handleDeleteUser(user.id, user.email)} title="Xóa">
                   <FontAwesomeIcon icon="trash" />
                 </Button>
               </td>

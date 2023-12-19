@@ -1,15 +1,15 @@
-import { SelectChangeEvent } from '@mui/material';
 import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IUpdateUser } from 'app/shared/model/user';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import { getRoles, resetUser, updateUser } from 'app/shared/reducers/user';
-import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
+import { ValidatedField } from 'react-jhipster';
 import { useHistory } from 'react-router-dom';
 import './user_edit.scss';
 
@@ -25,11 +25,11 @@ export const UserEdit = () => {
   const userDetail = useAppSelector(state => state.user.user);
   const rolesErrorMessage = useAppSelector(state => state.user.rolesErrorMessage);
   const updateUserErrorMessage = useAppSelector(state => state.user.updateUserErrorMessage);
-  const [parentUser, setParentUser] = useState('')
+  const [checkedRoles, setcheckedRoles] = useState([]);
 
   useEffect(() => {
     if (rolesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách vai trò' + rolesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách vai trò. ' + rolesErrorMessage, isError: true }))
     }
   }, [rolesErrorMessage])
 
@@ -40,56 +40,60 @@ export const UserEdit = () => {
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
     if (userDetail) {
-      setValue('Email', userDetail?.email)
-      
+      setValue('email', userDetail?.email)
+      setValue('fullname', userDetail?.fullname)
+      setValue('phone', userDetail?.phone)
+      setValue('status', userDetail?.status)
+      if (userDetail?.roles && userDetail?.roles.length > 0) {
+        userDetail?.roles.map(userRole => setcheckedRoles(prev => [...prev, userRole]));
+      }
     }
   }, [userDetail])
 
   const {
     register,
     handleSubmit,
-    getValues,
-    watch,
     setValue,
     formState: { errors }
   } = useForm<{
-    Email: string;
-    roles: string;
-    Phone: number;
-    Status: BigInteger;
-    Money: number;
+    email: string;
+    fullname: string;
+    phone: string;
+    status: number;
   }>();
 
   const editUser = (data) => {
     const requestBody = {
-      email: data?.Email
+      user_fullname: data?.fullname,
+      user_phone: data?.phone,
+      user_status: data?.status ? 1 : 0,
+      user_role_id: checkedRoles
     } as IUpdateUser
-    if (data?.roles !== "0") {
-      requestBody.roles = data?.roles
-    } else {
-      requestBody.roles = []
-    }
     dispatch(updateUser({ id: userDetail?.id, requestBody }))
   }
 
   useEffect(() => {
     if (updateUserSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'chỉnh sửa user thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Chỉnh sửa người dùng thành công', isError: false }))
       dispatch(resetUser())
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
   }, [updateUserSuccess])
-
-  const handleParentUser = (event: SelectChangeEvent) => {
-    setParentUser(event.target.value)
-    setValue('roles', event.target.value)
-  }
 
   useEffect(() => {
     if (updateUserErrorMessage) {
       dispatch(updateStateOpenToastMessage({ message: updateUserErrorMessage, isError: true }))
     }
   }, [updateUserErrorMessage])
+
+  const handleGetRoles = props2 => {
+    if (props2.checked === true) {
+      setcheckedRoles(prev => [...prev, props2.value]);
+    }
+    if (props2.checked === false) {
+      setcheckedRoles(prev => prev.filter(role => role !== props2.value));
+    }
+  };
 
   return (
     <>
@@ -102,75 +106,95 @@ export const UserEdit = () => {
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control
-              type="text"
-              id="Email"
-              {...register('Email', {
-                required: true,
+              type="email"
+              disabled
+              {...register('email', {
+
               })}
-              // isInvalid={errors.Email?.type === 'required'}
-              readOnly
             />
-            {/* {errors.Email?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Email không được trống</Card.Text>
-            )} */}
           </Form.Group>
+
           <Form.Group className="mb-3">
-            <Form.Label>Vai trò</Form.Label>
-            <Form.Select aria-label="Danh mục cha" value={parentUser}
-              {...register('roles', {
-                onChange(event) {
-                  handleParentUser(event)
-                },
+            <Form.Label>Họ và tên</Form.Label>
+            <Form.Control
+              type="text"
+              {...register('fullname', {
+                required: 'Họ và tên không được trống',
               })}
-            >
-              <option value="0">Chọn Vai trò</option>
-              {roles && roles?.map((role, i) => (
-                <option value={`${role.id}`} key={role.id}>{role.name}</option>
-              ))}
-            </Form.Select>
+              isInvalid={!!errors.fullname}
+            />
+            {errors.fullname && (
+              <Card.Text as="div" className='error-text'>{errors.fullname.message}</Card.Text>
+            )}
           </Form.Group>
+
+          {/* Phone */}
           <Form.Group className="mb-3">
             <Form.Label>Số điện thoại</Form.Label>
             <Form.Control
               type="text"
-              {...register('Phone', {
+              {...register('phone', {
                 required: 'Số điện thoại không được trống',
                 pattern: {
                   value: /^[0-9]{10}$/i,
                   message: 'Số điện thoại không hợp lệ',
                 },
               })}
-              isInvalid={!!errors.Phone}
+              isInvalid={!!errors.phone}
             />
-            {errors.Phone && (
-              <Card.Text as="div" className='error-text'>{errors.Phone.message}</Card.Text>
+            {errors.phone && (
+              <Card.Text as="div" className='error-text'>{errors.phone.message}</Card.Text>
             )}
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Money</Form.Label>
-            <Form.Control
-              type="text"
-              {...register('Money', {
-                required: 'Số tien không được trống',
-              
-              })}
-              isInvalid={!!errors.Money}
-            />
-            {errors.Money && (
-              <Card.Text as="div" className='error-text'>{errors.Money.message}</Card.Text>
-            )}
-          </Form.Group>
           {/* Status */}
           <Form.Group className="mb-3">
             <Form.Check
               type="switch"
               label="Kích hoạt"
-              {...register('Status')}
+              {...register('status')}
             />
           </Form.Group>
 
-          <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
+          <Form.Group className="mb-3">
+            <Form.Label>Vai trò</Form.Label>
+            <div className='flex-display'>
+              {
+                roles && roles?.map((role, i) => {
+                  return (
+                    <div key={i}>
+                      {userDetail && userDetail?.roles && userDetail?.roles.includes(role.name) ? (
+                        <ValidatedField
+                          type="checkbox"
+                          name="roles_display"
+                          defaultChecked
+                          id={role.name}
+                          key={role.name}
+                          check
+                          value={role.name}
+                          label={role.name}
+                          onClick={e => handleGetRoles(e.target)}
+                        />
+                      ) : (
+                        <ValidatedField
+                          type="checkbox"
+                          name="roles"
+                          id={role.name}
+                          key={role.name}
+                          check
+                          value={role.name}
+                          label={role.name}
+                          onClick={e => handleGetRoles(e.target)}
+                        />
+                      )}
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Form.Group>
+
+          <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
         </Form>
 
       </div>

@@ -80,76 +80,76 @@ export const UserSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-    .addMatcher(isFulfilled(getUsers), (state, action) => {
-      state.loading = false
-      state.users = action.payload.data?.users;
-      state.totalPage = action.payload.data?.totalPage;
-      state.pageNum = action.payload.data?.pageNum;
-    })
-    .addMatcher(isPending(getUsers), (state, action) => {
-      state.loading = true
-      state.usersErrorMessage = ''
-    })
-    .addMatcher(isRejected(getUsers), (state, action) => {
-      state.loading = false
-      const httpStatusCode = action.error['response']?.status
-      state.usersErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
-    })
-    .addMatcher(isFulfilled(deleteUser), (state, action) => {
-      state.loading = false
-      state.deleteUserSuccess = true
-    })
-    .addMatcher(isPending(deleteUser), (state, action) => {
-      state.loading = true
-      state.deleteUserSuccess = false
-      state.deleteUserErrorMessage = ''
-    })
-    .addMatcher(isRejected(deleteUser), (state, action) => {
-      state.loading = false
-      const httpStatusCode = action.error['response']?.status
-      state.deleteUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
-    })
-    .addMatcher(isFulfilled(getRoles), (state, action) => {
-      state.loading = false
-      state.roles = action.payload.data?.roles;
-    })
-    .addMatcher(isPending(getRoles), (state, action) => {
-      state.loading = true
-      state.rolesErrorMessage = ''
-    })
-    .addMatcher(isRejected(getRoles), (state, action) => {
-      state.loading = false
-      const httpStatusCode = action.error['response']?.status
-      state.rolesErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
-    })
-    .addMatcher(isFulfilled(createUser), (state, action) => {
-      state.loading = false
-      state.createUserSuccess = true;
-    })
-    .addMatcher(isPending(createUser), (state, action) => {
-      state.loading = true
-      state.createUserErrorMessage = ''
-      state.createUserSuccess = false
-    })
-    .addMatcher(isRejected(createUser), (state, action) => {
-      state.loading = false
-      const httpStatusCode = action.error['response']?.status
-      state.createUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
-    })
-    .addMatcher(isFulfilled(updateUser), (state, action) => {
-      state.loading = false
-      state.updateUserSuccess = true;
-    })
-    .addMatcher(isPending(updateUser), (state, action) => {
-      state.loading = true
-      state.updateUserErrorMessage = ''
-      state.updateUserSuccess = false
-    })
-    .addMatcher(isRejected(updateUser), (state, action) => {
-      state.loading = false
-      const httpStatusCode = action.error['response']?.status
-      state.updateUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
-    })
+      .addMatcher(isFulfilled(getUsers), (state, action) => {
+        state.loading = false
+        state.users = action.payload.data?.users;
+        state.totalPage = action.payload.data?.totalPage;
+        state.pageNum = action.payload.data?.pageNum;
+      })
+      .addMatcher(isPending(getUsers), (state, action) => {
+        state.loading = true
+        state.usersErrorMessage = ''
+      })
+      .addMatcher(isRejected(getUsers), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.usersErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      .addMatcher(isFulfilled(deleteUser), (state, action) => {
+        state.loading = false
+        state.deleteUserSuccess = true
+      })
+      .addMatcher(isPending(deleteUser), (state, action) => {
+        state.loading = true
+        state.deleteUserSuccess = false
+        state.deleteUserErrorMessage = ''
+      })
+      .addMatcher(isRejected(deleteUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.deleteUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      .addMatcher(isFulfilled(getRoles), (state, action) => {
+        state.loading = false
+        state.roles = action.payload.data?.roles;
+      })
+      .addMatcher(isPending(getRoles), (state, action) => {
+        state.loading = true
+        state.rolesErrorMessage = ''
+      })
+      .addMatcher(isRejected(getRoles), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.rolesErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      .addMatcher(isFulfilled(createUser), (state, action) => {
+        state.loading = false
+        state.createUserSuccess = true;
+      })
+      .addMatcher(isPending(createUser), (state, action) => {
+        state.loading = true
+        state.createUserErrorMessage = ''
+        state.createUserSuccess = false
+      })
+      .addMatcher(isRejected(createUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.createUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      .addMatcher(isFulfilled(updateUser), (state, action) => {
+        state.loading = false
+        state.updateUserSuccess = true;
+      })
+      .addMatcher(isPending(updateUser), (state, action) => {
+        state.loading = true
+        state.updateUserErrorMessage = ''
+        state.updateUserSuccess = false
+      })
+      .addMatcher(isRejected(updateUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.updateUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
       ;
   },
 });

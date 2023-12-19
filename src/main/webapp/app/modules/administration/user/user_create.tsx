@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IUser } from 'app/shared/model/user';
 import { createUser, getRoles, resetUser } from 'app/shared/reducers/user';
 import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { ICreateUser } from 'app/shared/model/user';
 import './user_create.scss';
+import { ValidatedField } from 'react-jhipster';
 
 export const UserCreate = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ export const UserCreate = () => {
   const createUserSuccess = useAppSelector(state => state.user.createUserSuccess);
   const rolesErrorMessage = useAppSelector(state => state.user.rolesErrorMessage);
   const createUserErrorMessage = useAppSelector(state => state.user.createUserErrorMessage);
+  const [checkedRoles, setcheckedRoles] = useState([]);
 
   useEffect(() => {
     if (rolesErrorMessage) {
@@ -38,22 +40,24 @@ export const UserCreate = () => {
     watch,
     formState: { errors }
   } = useForm<{
-    roles: string;
-    Email: string;
-    Password: string;
-    ConfirmPassword: string;
-    Phone: number;
-    Status: BigInteger;
+    email: string;
+    fullname: string;
+    password: string;
+    confirmPassword: string;
+    phone: number;
+    status: number;
 
   }>();
 
   const addUser = (data) => {
     const requestBody = {
-      email: data?.Email
+      user_email: data?.email,
+      user_password: data?.password,
+      user_fullname: data?.fullname,
+      user_phone: data?.phone,
+      user_status: data?.status ? 1 : 0,
+      user_role_id: checkedRoles,
     } as ICreateUser
-    if (data?.roles !== "0") {
-      requestBody.roles = data?.roles
-    }
     dispatch(createUser(requestBody))
   }
 
@@ -71,6 +75,15 @@ export const UserCreate = () => {
     }
   }, [createUserErrorMessage])
 
+  const handleGetRoles = props2 => {
+    if (props2.checked === true) {
+      setcheckedRoles(prev => [...prev, props2.value]);
+    }
+    if (props2.checked === false) {
+      setcheckedRoles(prev => prev.filter(role => role !== props2.value));
+    }
+  };
+
   return (
     <>
       {loading && <Loading />}
@@ -83,30 +96,32 @@ export const UserCreate = () => {
             <Form.Label>Email</Form.Label>
             <Form.Control
               type="email"
-              {...register('Email', {
+              {...register('email', {
                 required: 'Email không được trống',
                 pattern: {
                   value: /^\S+@\S+$/i,
                   message: 'Email phải đúng định dạng',
                 },
               })}
-              isInvalid={!!errors.Email}
+              isInvalid={!!errors.email}
             />
-            {errors.Email && (
-              <Card.Text as="div" className='error-text'>{errors.Email.message}</Card.Text>
+            {errors.email && (
+              <Card.Text as="div" className='error-text'>{errors.email.message}</Card.Text>
             )}
           </Form.Group>
+
           <Form.Group className="mb-3">
-            <Form.Label>Vai trò</Form.Label>
-            <Form.Select aria-label="Danh mục cha"
-              {...register('roles', {
+            <Form.Label>Họ và tên</Form.Label>
+            <Form.Control
+              type="text"
+              {...register('fullname', {
+                required: 'Họ và tên không được trống',
               })}
-            >
-              <option value="0">Chọn vai trò</option>
-              {roles && roles?.map((role, i) => (
-                <option value={`${role.id}`} key={role.id}>{role.name}</option>
-              ))}
-            </Form.Select>
+              isInvalid={!!errors.fullname}
+            />
+            {errors.fullname && (
+              <Card.Text as="div" className='error-text'>{errors.fullname.message}</Card.Text>
+            )}
           </Form.Group>
 
           {/* Password */}
@@ -114,17 +129,17 @@ export const UserCreate = () => {
             <Form.Label>Mật khẩu</Form.Label>
             <Form.Control
               type="password"
-              {...register('Password', {
+              {...register('password', {
                 required: 'Mật khẩu không được trống',
                 minLength: {
                   value: 6,
                   message: 'Mật khẩu phải ít nhất 6 kí tự',
                 },
               })}
-              isInvalid={!!errors.Password}
+              isInvalid={!!errors.password}
             />
-            {errors.Password && (
-              <Card.Text as="div" className='error-text'>{errors.Password.message}</Card.Text>
+            {errors.password && (
+              <Card.Text as="div" className='error-text'>{errors.password.message}</Card.Text>
             )}
           </Form.Group>
 
@@ -133,14 +148,16 @@ export const UserCreate = () => {
             <Form.Label>Xác nhận mật khẩu</Form.Label>
             <Form.Control
               type="password"
-              {...register('ConfirmPassword', {
+              {...register('confirmPassword', {
                 required: 'Xác nhận mật khẩu không được trống',
-                validate: value => value === watch('Password') || 'Mật khẩu xác nhận không khớp',
+                validate: {
+                  incorrectPassword: (value) => value === getValues('password') || 'Mật khẩu không trùng với nhau',
+                }
               })}
-              isInvalid={!!errors.ConfirmPassword}
+              isInvalid={!!errors.confirmPassword}
             />
-            {errors.ConfirmPassword && (
-              <Card.Text as="div" className='error-text'>{errors.ConfirmPassword.message}</Card.Text>
+            {errors.confirmPassword && (
+              <Card.Text as="div" className='error-text'>{errors.confirmPassword.message}</Card.Text>
             )}
           </Form.Group>
 
@@ -149,17 +166,17 @@ export const UserCreate = () => {
             <Form.Label>Số điện thoại</Form.Label>
             <Form.Control
               type="text"
-              {...register('Phone', {
+              {...register('phone', {
                 required: 'Số điện thoại không được trống',
                 pattern: {
                   value: /^[0-9]{10}$/i,
                   message: 'Số điện thoại không hợp lệ',
                 },
               })}
-              isInvalid={!!errors.Phone}
+              isInvalid={!!errors.phone}
             />
-            {errors.Phone && (
-              <Card.Text as="div" className='error-text'>{errors.Phone.message}</Card.Text>
+            {errors.phone && (
+              <Card.Text as="div" className='error-text'>{errors.phone.message}</Card.Text>
             )}
           </Form.Group>
 
@@ -168,10 +185,33 @@ export const UserCreate = () => {
             <Form.Check
               type="switch"
               label="Kích hoạt"
-              {...register('Status')}
+              {...register('status')}
             />
           </Form.Group>
 
+          <Form.Group className="mb-3">
+            <Form.Label>Vai trò</Form.Label>
+            <div className='flex-display'>
+              {
+                roles && roles?.map((role, i) => {
+                  return (
+                    <div key={i}>
+                      <ValidatedField
+                        type="checkbox"
+                        name="roles"
+                        id={role.name}
+                        key={role.name}
+                        check
+                        value={role.name}
+                        label={role.name}
+                        onClick={e => handleGetRoles(e.target)}
+                      />
+                    </div>
+                  )
+                })
+              }
+            </div>
+          </Form.Group>
 
           <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
         </Form>

@@ -31,6 +31,6 @@ export const ToastMessageSlice = createSlice({
   },
 });
 
-export const { resetToastMessage, updateStateOpenToastMessage } = ToastMessageSlice.actions;
+export const {resetToastMessage, updateStateOpenToastMessage } = ToastMessageSlice.actions;
 // Reducer
 export default ToastMessageSlice.reducer;

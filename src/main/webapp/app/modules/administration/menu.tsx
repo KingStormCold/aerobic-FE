@@ -52,6 +52,16 @@ const Menus = () => {
           </li>
         }
         {
+          haveRoles.includes(CONSTANT.ROLES.SUBJECT) &&
+          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.SUBJECT.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+            <Link className="nav-link" to='/admin/subject-management'>
+              <svg className="nav-icon">
+                <DnsIcon />
+              </svg> Quản lý môn học
+            </Link>
+          </li>
+        }
+        {
           haveRoles.includes(CONSTANT.ROLES.COURSE) &&
           <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.COURSE.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/course-management'>

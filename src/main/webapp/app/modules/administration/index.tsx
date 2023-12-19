@@ -18,12 +18,17 @@ import CourseManagement from './course/course';
 import CourseCreate from './course/course_create';
 import CourseEdit from './course/course_edit';
 
+import SubjectManagement from './subject/subject';
+import SubjectCreate from './subject/subject_create';
+import SubjectEdit from './subject/subject_edit';
+
 
 const Routes = ({ match }) => {
   const haveRoles = useAppSelector(state => state.authentication.roles);
   const loading = useAppSelector(state => state.authentication.loading);
   const roleUser = haveRoles.includes(CONSTANT.ROLES.USER)
   const roleCategory = haveRoles.includes(CONSTANT.ROLES.CATEGORY)
+  const roleSubject = haveRoles.includes(CONSTANT.ROLES.SUBJECT)
   const roleCourse = haveRoles.includes(CONSTANT.ROLES.COURSE)
 
   return (
@@ -44,6 +49,10 @@ const Routes = ({ match }) => {
                 ({roleCourse && <PrivateRoute exact path={`${match.url}/course-management`} component={CourseManagement} />})
                 ({roleCourse && <PrivateRoute exact path={`${match.url}/course-create`} component={CourseCreate} />})
                 ({roleCourse && <PrivateRoute exact path={`${match.url}/course-edit`} component={CourseEdit} />})
+
+                ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-management`} component={SubjectManagement} />})
+                ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-create`} component={SubjectCreate} />})
+                ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-edit`} component={SubjectEdit} />})
               </Switch>
             </div>
           </div>

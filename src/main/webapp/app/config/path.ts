@@ -17,6 +17,11 @@ export const URL_PATH = {
       MANAGEMENT: '/admin/course-management',
       CREATE: '/admin/course-create',
       EDIT: '/admin/course-edit'
+    },
+    SUBJECT: {
+      MANAGEMENT: '/admin/subject-management',
+      CREATE: '/admin/subject-create',
+      EDIT: '/admin/subject-edit'
     }
   },
   API: {
@@ -29,5 +34,11 @@ export const URL_PATH = {
     COURSE: 'api/auth/insert-course',
     DELETE_COURSE: 'api/auth/course',
     SHOW_SUBJECT: 'api/auth/show-subject',
+
+    GET_SUBJECT: '/api/auth/get-subjects',
+    GET_CHILD_CATEGORIES: 'api/auth/get-child-categories',
+    SUBJECT: 'api/auth/subject',
   }
+ 
+  
 };

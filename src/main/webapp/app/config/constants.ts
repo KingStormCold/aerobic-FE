@@ -26,5 +26,6 @@ export const CONSTANT = Object.freeze({
     CATEGORY: 'ADMIN_CATEGORY',
     USER: 'ADMIN_USER',
     COURSE: 'ADMIN_COURSE',
+    SUBJECT: 'ADMIN_SUBJECT',
   }
 })

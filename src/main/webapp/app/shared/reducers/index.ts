@@ -7,6 +7,7 @@ import userManagement from './user';
 import category from './category'
 import toastMessage from './toast-message'
 import subject from './subject'
+import course from './course'
 
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 const rootReducer = {
@@ -17,7 +18,8 @@ const rootReducer = {
   loadingBar,
   category,
   toastMessage,
-  subject
+  subject,
+  course
 };
 
 export default rootReducer;

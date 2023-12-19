@@ -54,7 +54,7 @@ export const UserManagement = () => {
     setDeleteUserId(id);
     const _data = {
       title: "Xóa: " + UserName,
-      description: "Bạn thật sự muốn xóa  " + UserName + " này không?",
+      description: "Bạn thật sự muốn xóa " + UserName + " này không?",
       lblCancel: "Hủy",
       lblOk: "Đồng ý"
     };
@@ -82,14 +82,14 @@ export const UserManagement = () => {
     if (deleteUserSuccess) {
       console.log('vao');
       console.log('deleteUserSuccess', deleteUserSuccess)
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa User thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Xóa người dùng thành công', isError: false }))
       dispatch(getUsers(1));
     }
   }, [deleteUserSuccess])
 
   useEffect(() => {
     if (UsersErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy được danh sách Users ' + UsersErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách người dùng. ' + UsersErrorMessage, isError: true }))
     }
   }, [UsersErrorMessage])
 

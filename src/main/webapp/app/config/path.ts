@@ -38,6 +38,10 @@ export const URL_PATH = {
     GET_SUBJECT: '/api/auth/get-subjects',
     GET_CHILD_CATEGORIES: 'api/auth/get-child-categories',
     SUBJECT: 'api/auth/subject',
+
+    GET_USER: '/api/auth/get-users',
+    GET_ROLES_USER: '/api/auth/get-roles',
+    USER: 'api/auth/user',
   }
  
   

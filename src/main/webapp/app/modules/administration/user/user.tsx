@@ -117,7 +117,7 @@ export const UserManagement = () => {
             <th>Họ tên</th>
             <th>Trạng thái</th>
             <th>Số điện thoại</th>
-            <th>Nguời tạo</th>
+            <th>Người tạo</th>
             <th>Ngày tạo</th>
             <th>Người sửa</th>
             <th>Ngày sửa</th>

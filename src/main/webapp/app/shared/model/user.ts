@@ -16,13 +16,13 @@ export interface ICreateUser {
   user_email: string,
   user_password: string,
   user_fullname: string,
-  user_role_id: string[],
+  user_role_name: string[],
   user_phone: string,
   user_status: number,
 };
 
 export interface IUpdateUser {
-  user_role_id: string[],
+  user_role_name: string[],
   user_phone: string,
   user_money?: number,
   user_status: number,

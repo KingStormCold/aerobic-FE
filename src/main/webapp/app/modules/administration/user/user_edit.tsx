@@ -60,6 +60,7 @@ export const UserEdit = () => {
     fullname: string;
     phone: string;
     status: number;
+    money: number;
   }>();
 
   const editUser = (data) => {
@@ -67,7 +68,8 @@ export const UserEdit = () => {
       user_fullname: data?.fullname,
       user_phone: data?.phone,
       user_status: data?.status ? 1 : 0,
-      user_role_id: checkedRoles
+      user_money: data?.money,
+      user_role_name: checkedRoles
     } as IUpdateUser
     dispatch(updateUser({ id: userDetail?.id, requestBody }))
   }
@@ -192,6 +194,19 @@ export const UserEdit = () => {
                 })
               }
             </div>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Ví tiền</Form.Label>
+            <Form.Control
+              type="number"
+              {...register('money', {
+                required: 'Nhập số tiền',
+              })}
+              isInvalid={!!errors.money}
+            />
+            {errors.money && (
+              <Card.Text as="div" className='error-text'>{errors.money.message}</Card.Text>
+            )}
           </Form.Group>
 
           <Button type='submit' variant="success" className='btn-right'>Thêm</Button>

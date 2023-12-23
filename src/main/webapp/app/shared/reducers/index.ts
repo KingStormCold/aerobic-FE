@@ -9,6 +9,9 @@ import toastMessage from './toast-message'
 import subject from './subject'
 import course from './course'
 import user from './user';
+import video from './video';
+import test from './test';
+import answer from './answer';
 
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 const rootReducer = {
@@ -21,7 +24,10 @@ const rootReducer = {
   toastMessage,
   subject,
   course,
-  user
+  user,
+  video,
+  test,
+  answer
 };
 
 export default rootReducer;

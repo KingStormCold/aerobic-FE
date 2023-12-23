@@ -209,7 +209,7 @@ export const UserEdit = () => {
             )}
           </Form.Group>
 
-          <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
+          <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
         </Form>
 
       </div>

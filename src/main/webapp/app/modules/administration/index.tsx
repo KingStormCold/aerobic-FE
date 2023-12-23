@@ -24,6 +24,12 @@ import SubjectEdit from './subject/subject_edit';
 import UserCreate from './user/user_create';
 import UserEdit from './user/user_edit';
 import UserManagement from './user/user';
+import VideoManagement from './video/video';
+ import  VideoEdit  from './video/video_edit';
+import VideoCreate from './video/video_create';
+import TestManagement from './test/test';
+import TestCreate from './test/test_create';
+import TestEdit from './test/test_edit';
 
 
 const Routes = ({ match }) => {
@@ -33,6 +39,8 @@ const Routes = ({ match }) => {
   const roleCategory = haveRoles.includes(CONSTANT.ROLES.CATEGORY)
   const roleSubject = haveRoles.includes(CONSTANT.ROLES.SUBJECT)
   const roleCourse = haveRoles.includes(CONSTANT.ROLES.COURSE)
+  const roleVideo = haveRoles.includes(CONSTANT.ROLES.VIDEO)
+  const roleTest = haveRoles.includes(CONSTANT.ROLES.TEST)
 
   return (
     <>
@@ -59,6 +67,14 @@ const Routes = ({ match }) => {
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-management`} component={SubjectManagement} />})
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-create`} component={SubjectCreate} />})
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-edit`} component={SubjectEdit} />})
+
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-management`} component={VideoManagement} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-create`} component={VideoCreate} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-edit`} component={VideoEdit} />})
+
+                ({roleTest && <PrivateRoute exact path={`${match.url}/test-management`} component={TestManagement} />})
+                ({roleTest && <PrivateRoute exact path={`${match.url}/test-create`} component={TestCreate} />})
+                ({roleTest && <PrivateRoute exact path={`${match.url}/test-edit`} component={TestEdit} />})
               </Switch>
             </div>
           </div>

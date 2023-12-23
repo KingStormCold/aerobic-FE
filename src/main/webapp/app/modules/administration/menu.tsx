@@ -71,6 +71,26 @@ const Menus = () => {
             </Link>
           </li>
         }
+        {
+          haveRoles.includes(CONSTANT.ROLES.VIDEO) &&
+          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.VIDEO.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+            <Link className="nav-link" to='/admin/video-management'>
+              <svg className="nav-icon">
+                <DnsIcon />
+              </svg> Quản lý video
+            </Link>
+          </li>
+        }
+        {
+          haveRoles.includes(CONSTANT.ROLES.TEST) &&
+          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.TEST.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+            <Link className="nav-link" to='/admin/test-management'>
+              <svg className="nav-icon">
+                <DnsIcon />
+              </svg> Quản lý Bài Test
+            </Link>
+          </li>
+        }
       </ul>
     </div>
   )

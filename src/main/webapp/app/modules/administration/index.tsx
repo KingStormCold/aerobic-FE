@@ -24,7 +24,9 @@ import SubjectEdit from './subject/subject_edit';
 import UserCreate from './user/user_create';
 import UserEdit from './user/user_edit';
 import UserManagement from './user/user';
-
+import VideoManagement from './video/video';
+ import  VideoEdit  from './video/video_edit';
+import VideoCreate from './video/video_create';
 
 const Routes = ({ match }) => {
   const haveRoles = useAppSelector(state => state.authentication.roles);
@@ -33,6 +35,7 @@ const Routes = ({ match }) => {
   const roleCategory = haveRoles.includes(CONSTANT.ROLES.CATEGORY)
   const roleSubject = haveRoles.includes(CONSTANT.ROLES.SUBJECT)
   const roleCourse = haveRoles.includes(CONSTANT.ROLES.COURSE)
+  const roleVideo = haveRoles.includes(CONSTANT.ROLES.VIDEO)
 
   return (
     <>
@@ -59,6 +62,11 @@ const Routes = ({ match }) => {
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-management`} component={SubjectManagement} />})
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-create`} component={SubjectCreate} />})
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-edit`} component={SubjectEdit} />})
+
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-management`} component={VideoManagement} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-create`} component={VideoCreate} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-edit`} component={VideoEdit} />})
+
               </Switch>
             </div>
           </div>

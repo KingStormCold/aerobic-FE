@@ -4,11 +4,12 @@ import authentication from './authentication';
 import locale from './locale';
 import administration from 'app/modules/administration/administration.reducer';
 import userManagement from './user';
-import category from './category'
-import toastMessage from './toast-message'
-import subject from './subject'
-import course from './course'
+import category from './category';
+import toastMessage from './toast-message';
+import subject from './subject';
+import course from './course';
 import user from './user';
+import video from './video';
 
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 const rootReducer = {
@@ -21,7 +22,8 @@ const rootReducer = {
   toastMessage,
   subject,
   course,
-  user
+  user,
+  video,
 };
 
 export default rootReducer;

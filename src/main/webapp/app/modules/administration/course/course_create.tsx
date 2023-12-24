@@ -1,21 +1,21 @@
+import Loading from 'app/components/loading';
+import { URL_PATH } from 'app/config/path';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { createCourse, showSubject } from 'app/shared/reducers/course';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { EditorState } from 'draft-js';
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { createCourse, getCourse, showSubject } from 'app/shared/reducers/course';
-import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import Loading from 'app/components/loading';
-import { URL_PATH } from 'app/config/path';
 import './course_create.scss';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
+import { numberWithCommas } from 'app/shared/util/string-utils';
+import { REX } from 'app/config/constants';
 
 export interface ICreateCourse {
-  id: number;
   name: string;
   subject_id: number;
   description: string;
@@ -35,16 +35,17 @@ const CourseCreate = () => {
   const createCourseErrorMessage = useAppSelector(state => state.course.createCourseErrorMessage);
   const subjects = useAppSelector(state => state.course.subjects);
   const [editorStateShortDescription, setEditorStateShortDescription] = useState(EditorState.createEmpty());
-
+  const [priceCourse, setPriceCourse] = useState('');
+  const [promotionalPrice, setPromotionalPrice] = useState('');
   useEffect(() => {
     dispatch(showSubject());
-    setValue('price', 200000);
-    setValue('promotionalPrice', 0);
+    setValue('price', '');
+    setValue('promotionalPrice', '');
   }, []);
 
   useEffect(() => {
     if (subjects.length > 0) {
-      setValue('subject_id', subjects[0].id);
+      setValue('subjectId', subjects[0].id);
     }
   }, [subjects]);
 
@@ -55,22 +56,23 @@ const CourseCreate = () => {
     formState: { errors },
   } = useForm<{
     name: string;
-    subject_id: number;
+    subjectId: number;
     description: string;
     level: number;
-    price: number;
-    promotionalPrice: number;
+    price: string;
+    promotionalPrice: string;
   }>();
 
   const addCourse = data => {
+    const price = data?.price.replaceAll('.', '')
+    const promotionPrice = data?.promotionalPrice.replaceAll('.', '')
     const requestBody: ICreateCourse = {
       name: data.name,
       subject_id: data.subject_id,
-      description: 'data.description',
+      description: data.description,
       level: data.level,
-      price: data.price,
-      promotional_price: data.promotionalPrice,
-      id: 1,
+      price,
+      promotional_price: promotionPrice,
     };
     dispatch(createCourse(requestBody));
   };
@@ -102,6 +104,46 @@ const CourseCreate = () => {
     setEditorStateShortDescription(editorStateSD);
   };
 
+  const [errorPrice, setErrorPrice] = useState('');
+  const handlePriceCourse = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorPrice('Giá phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorPrice('')
+        setValue('price', convertMoney)
+        setPriceCourse(convertMoney);
+      }
+    } else {
+      setErrorPrice('')
+      setValue('price', '')
+      setPriceCourse('')
+    }
+  }
+
+  const [errorPromotionalPrice, setErrorPromotionalPrice] = useState('');
+  const handlePromotionalPrice = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorPromotionalPrice('Giá khuyến mãi phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorPromotionalPrice('')
+        setValue('promotionalPrice', convertMoney)
+        setPromotionalPrice(convertMoney);
+      }
+    } else {
+      setErrorPromotionalPrice('')
+      setValue('promotionalPrice', '')
+      setPromotionalPrice('')
+    }
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -130,7 +172,7 @@ const CourseCreate = () => {
               </Card.Text>
             )}
           </Form.Group>
-          {/* <Form.Group className="mb-3">
+          <Form.Group className="mb-3">
             <Form.Label htmlFor="description">Mô tả khóa học</Form.Label>
             <Form.Control
               type="text"
@@ -141,8 +183,8 @@ const CourseCreate = () => {
             {errors.description?.type === 'required' && (
               <Card.Text as="div" className='error-text'>Mô tả khóa học không được trống</Card.Text>
             )}
-          </Form.Group> */}
-          <Form.Group className="mb-3">
+          </Form.Group>
+          {/* <Form.Group className="mb-3">
             <Form.Label htmlFor="description">Mô tả khóa học</Form.Label>
             <Editor
               // {...register('description', { required: true })}
@@ -157,7 +199,7 @@ const CourseCreate = () => {
                 Mô tả khóa học không được trống
               </Card.Text>
             )}
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group className="mb-3">
             <Form.Label htmlFor="level">Cấp độ</Form.Label>
             <Form.Control
@@ -187,22 +229,23 @@ const CourseCreate = () => {
             <Form.Control
               type="text"
               id="price"
+              value={priceCourse}
               {...register('price', {
                 required: true,
-                validate: {
-                  priceGreaterThan: value => value > 0,
+                onChange(event) {
+                  handlePriceCourse(event)
                 },
               })}
-              isInvalid={errors.price?.type === 'required' || errors.price?.type === 'priceGreaterThan'}
+              isInvalid={errors.price?.type === 'required' || errorPrice !== ''}
             />
             {errors.price?.type === 'required' && (
               <Card.Text as="div" className="error-text">
                 Giá không được trống
               </Card.Text>
             )}
-            {errors.price?.type === 'priceGreaterThan' && (
+            {errorPrice && (
               <Card.Text as="div" className="error-text">
-                Giá phải lớn hơn 0
+                {errorPrice}
               </Card.Text>
             )}
           </Form.Group>
@@ -211,16 +254,17 @@ const CourseCreate = () => {
             <Form.Control
               type="text"
               id="promotionalPrice"
+              value={promotionalPrice}
               {...register('promotionalPrice', {
-                validate: {
-                  levelGreaterThan: value => value >= 0,
+                onChange(event) {
+                  handlePromotionalPrice(event)
                 },
               })}
-              isInvalid={errors.promotionalPrice?.type === 'levelGreaterThan'}
+              isInvalid={errorPromotionalPrice !== ''}
             />
-            {errors.promotionalPrice?.type === 'levelGreaterThan' && (
+            {errorPromotionalPrice && (
               <Card.Text as="div" className="error-text">
-                Giá khuyến mãi phải lớn hơn 0
+                {errorPromotionalPrice}
               </Card.Text>
             )}
           </Form.Group>
@@ -228,8 +272,8 @@ const CourseCreate = () => {
             <Form.Label>Môn học</Form.Label>
             <Form.Select
               aria-label="Môn học"
-              {...register('subject_id', { required: true })}
-              isInvalid={errors.subject_id?.type === 'required'}
+              {...register('subjectId', { required: true })}
+              isInvalid={errors.subjectId?.type === 'required'}
             >
               {subjects &&
                 subjects?.map((subject, i) => (
@@ -238,7 +282,7 @@ const CourseCreate = () => {
                   </option>
                 ))}
             </Form.Select>
-            {errors.subject_id?.type === 'required' && (
+            {errors.subjectId?.type === 'required' && (
               <Card.Text as="div" className="error-text">
                 Vui lòng chọn môn học
               </Card.Text>

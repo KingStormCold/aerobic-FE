@@ -60,7 +60,6 @@ export const login: (email: string, password: string, rememberMe?: boolean) => A
         return;
       }
       const response = result.payload as AxiosResponse;
-      console.log('response', response)
       const bearerToken = response?.data?.access_token;
       if (bearerToken) {
         const jwt = bearerToken

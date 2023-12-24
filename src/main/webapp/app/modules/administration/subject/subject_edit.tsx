@@ -9,9 +9,14 @@ import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import Image from 'react-bootstrap/Image';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { isJsonString } from 'app/shared/util/string-utils';
 
 export const SubjectUpdate = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +30,11 @@ export const SubjectUpdate = () => {
   const subjectDetail = useAppSelector(state => state.subject.subject);
   const childCategoriesErrorMessage = useAppSelector(state => state.subject.childCategoriesErrorMessage);
   const updateSubjectErrorMessage = useAppSelector(state => state.subject.updateSubjectErrorMessage);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [inputContent, setInputContent] = useState("");
+  const [isOpenContentPreview, setIsOpenContentPreview] = useState(false);
+  const [subjectContent, setSubjectContent] = useState('')
+  const [urlImage, setUrlImage] = useState('')
 
   useEffect(() => {
     if (childCategoriesErrorMessage) {
@@ -39,11 +49,17 @@ export const SubjectUpdate = () => {
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
     if (subjectDetail) {
-      setValue('subjectContent', subjectDetail?.content)
+      setValue('content', subjectDetail?.content)
+      if (isJsonString(subjectDetail?.content)) {
+        setEditorState(EditorState.createWithContent(
+          convertFromRaw(JSON.parse(subjectDetail?.content))
+        ),)
+      }
       setValue('subjectPromotionalPrice', subjectDetail?.promotional_price)
       setValue('subjectImage', subjectDetail?.image)
       setValue('categoryId', String(subjectDetail?.category_id))
       setCategoryId(String(subjectDetail?.category_id))
+      setUrlImage(subjectDetail?.image)
     }
   }, [subjectDetail])
 
@@ -55,21 +71,21 @@ export const SubjectUpdate = () => {
     watch,
     formState: { errors }
   } = useForm<{
-    subjectContent: string;
+    content: string;
     subjectImage: string;
     subjectPromotionalPrice: number;
     categoryId: string;
   }>();
 
- const ediSubject = (data) => {
-  const requestBody = {
-    subject_content: 'data?.subjectContent',
-    promotionalPriceSubject: Number(data?.subjectPromotionalPrice),
-    subject_image: data?.subjectImage,
-    category_id: data?.categoryId
-  } as IUpdateSubject
-  dispatch(updateSubject({id: subjectDetail?.id, requestBody}))
- }
+  const ediSubject = (data) => {
+    const requestBody = {
+      subject_content: data?.content,
+      promotionalPriceSubject: Number(data?.subjectPromotionalPrice),
+      subject_image: data?.subjectImage,
+      category_id: data?.categoryId
+    } as IUpdateSubject
+    dispatch(updateSubject({ id: subjectDetail?.id, requestBody }))
+  }
 
   useEffect(() => {
     if (updateSubjectSuccess) {
@@ -91,6 +107,26 @@ export const SubjectUpdate = () => {
     setCategoryId(event.target.value)
   }
 
+  const convertImages = (htmlText) => {
+    if (!htmlText.includes('<div style="text-align')) {
+      let convertText = htmlText.replace('<img src="', '<div style="text-align:center;"><img src="')
+      convertText = convertText.replace('" alt="undefined" style="height: auto;width: auto"/>', '" alt="undefined" style="height: auto;width: auto"></div>')
+      return convertText
+    }
+    return htmlText.replace('<div style="text-align:none;"><img', '<div style="text-align:center;"><img')
+  }
+
+  const onEditorStateChange = (editorState1) => {
+    setEditorState(editorState1);
+    document.getElementById("editContent").textContent
+    setSubjectContent(JSON.stringify(convertToRaw(editorState1.getCurrentContent())))
+    setValue('content', JSON.stringify(convertToRaw(editorState1.getCurrentContent())))
+  }
+
+  const handleImageSubject = (e) => {
+    setUrlImage(e.target.value);
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -99,21 +135,6 @@ export const SubjectUpdate = () => {
       </h3>
       <div>
         <Form onSubmit={handleSubmit(ediSubject)}>
-          <Form.Group className="mb-3">
-            <Form.Label>Nội dung</Form.Label>
-            <Form.Control
-              type="text"
-              id="subjectContent"
-              {...register('subjectContent', {
-                required: true,
-              })}
-              isInvalid={errors.subjectContent?.type === 'required'}
-            />
-            {errors.subjectContent?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Nội dung không được trống</Card.Text>
-            )}
-          </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Giá khuyến mãi</Form.Label>
             <Form.Control
@@ -136,12 +157,16 @@ export const SubjectUpdate = () => {
               id="subjectImage"
               {...register('subjectImage', {
                 required: true,
+                onChange(event) {
+                  handleImageSubject(event)
+                },
               })}
               isInvalid={errors.subjectImage?.type === 'required'}
             />
             {errors.subjectImage?.type === 'required' && (
               <Card.Text as="div" className='error-text'>Nội dung không được trống</Card.Text>
             )}
+            {urlImage && <Image className='image-thumbnail' src={`${urlImage}`} thumbnail />}
           </Form.Group>
 
           <Form.Group className="mb-3">
@@ -158,6 +183,36 @@ export const SubjectUpdate = () => {
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
             </Form.Select>
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Nội dung</Form.Label>
+            <Editor
+              {...register('content', { required: true })}
+              editorState={editorState}
+              wrapperClassName="wrapper-class"
+              editorClassName="editor-class"
+              toolbarClassName="toolbar-class"
+              onEditorStateChange={onEditorStateChange}
+              onChange={() => setInputContent(document.getElementById("editContent").textContent)}
+            />
+            {errors.content?.type === 'required' && (
+              <Card.Text as="div" className="error-text">
+                Nội dung không được trống
+              </Card.Text>
+            )}
+            <div hidden id="editContent">
+              {editorState &&
+                convertImages(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
+            </div>
+
+            {(inputContent) &&
+              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} nội dung</div>
+            }
+
+            {isOpenContentPreview &&
+              <div className='content-review' dangerouslySetInnerHTML={{ __html: inputContent }} />
+            }
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
         </Form>

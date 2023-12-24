@@ -13,8 +13,9 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import './subject_create.scss';
+import draftToHtml from 'draftjs-to-html';
 
 export const SubjectCreate = () => {
   const dispatch = useAppDispatch();
@@ -28,6 +29,10 @@ export const SubjectCreate = () => {
   const childCategoriesErrorMessage = useAppSelector(state => state.subject.childCategoriesErrorMessage);
   const createSubjectErrorMessage = useAppSelector(state => state.subject.createSubjectErrorMessage);
   const [editorStateShortDescription, setEditorStateShortDescription] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [inputContent, setInputContent] = useState("");
+  const [isOpenContentPreview, setIsOpenContentPreview] = useState(false);
+  const [subjectContent, setSubjectContent] = useState('')
 
   useEffect(() => {
     if (childCategoriesErrorMessage) {
@@ -37,7 +42,7 @@ export const SubjectCreate = () => {
 
   useEffect(() => {
     console.log('categories', categories)
-    if(categories.length > 0) {
+    if (categories.length > 0) {
       setValue('categoryId', categories[0].id);
     }
   }, [categories])
@@ -50,15 +55,20 @@ export const SubjectCreate = () => {
     watch,
     formState: { errors }
   } = useForm<{
-    subjectContent: string;
+    content: string,
     subjectImage: string;
     subjectPromotionalPrice: number;
     categoryId: number;
   }>();
 
   const addSubject = (data) => {
+    // if (subjectContent === '') {
+    //   errors.content?.type = 'required'
+    //   errors.content?.message = 'Nội dung không được trống'
+    //   return
+    // }
     const requestBody = {
-      subject_content: 'data?.subjectContent',
+      subject_content: subjectContent,
       promotionalPriceSubject: Number(data?.subjectPromotionalPrice),
       subject_image: data?.subjectImage,
       category_id: data?.categoryId
@@ -87,6 +97,22 @@ export const SubjectCreate = () => {
   const [urlImage, setUrlImage] = useState('')
   const handleImageSubject = (e) => {
     setUrlImage(e.target.value);
+  }
+
+  const convertImages = (htmlText) => {
+    if (!htmlText.includes('<div style="text-align')) {
+      let convertText = htmlText.replace('<img src="', '<div style="text-align:center;"><img src="')
+      convertText = convertText.replace('" alt="undefined" style="height: auto;width: auto"/>', '" alt="undefined" style="height: auto;width: auto"></div>')
+      return convertText
+    }
+    return htmlText.replace('<div style="text-align:none;"><img', '<div style="text-align:center;"><img')
+  }
+
+  const onEditorStateChange = (editorState1) => {
+    setEditorState(editorState1);
+    document.getElementById("editContent").textContent
+    setSubjectContent(JSON.stringify(convertToRaw(editorState1.getCurrentContent())))
+    setValue('content', JSON.stringify(convertToRaw(editorState1.getCurrentContent())))
   }
 
   return (
@@ -142,7 +168,7 @@ export const SubjectCreate = () => {
             <Form.Select aria-label="Danh mục"
               {...register('categoryId', {
               })}
-            >      
+            >
               {categories && categories?.map((category, i) => (
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
@@ -151,18 +177,31 @@ export const SubjectCreate = () => {
           <Form.Group className="mb-3">
             <Form.Label>Nội dung</Form.Label>
             <Editor
-              // {...register('description', { required: true })}
-              editorState={editorStateShortDescription}
-              toolbarClassName="toolbarClassName"
-              wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
-              onEditorStateChange={onEditorShortDescriptionStateChange}
+              {...register('content', { required: true })}
+              editorState={editorState}
+              wrapperClassName="wrapper-class"
+              editorClassName="editor-class"
+              toolbarClassName="toolbar-class"
+              onEditorStateChange={onEditorStateChange}
+              onChange={() => setInputContent(document.getElementById("editContent").textContent)}
             />
-            {errors.subjectContent?.type === 'required' && (
+            {errors.content?.type === 'required' && (
               <Card.Text as="div" className="error-text">
                 Nội dung không được trống
               </Card.Text>
             )}
+            <div hidden id="editContent">
+              {editorState &&
+                convertImages(draftToHtml(convertToRaw(editorState.getCurrentContent())))}
+            </div>
+
+            {(inputContent) &&
+              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} nội dung</div>
+            }
+
+            {isOpenContentPreview &&
+              <div className='content-review' dangerouslySetInnerHTML={{ __html: inputContent }} />
+            }
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
         </Form>

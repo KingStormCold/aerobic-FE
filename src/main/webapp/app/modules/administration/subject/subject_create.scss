@@ -3,3 +3,14 @@
   width: 200px;
   height: 200px;
 }
+
+.open-review-link {
+  cursor: pointer;
+}
+
+.content-review {
+  background-color: white;
+  padding: 10px;
+  min-height: 150px;
+  border: 1px solid var(--cui-input-border-color, #b1b7c1);
+}

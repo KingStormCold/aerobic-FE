@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loadable from 'react-loadable';
 import { Switch } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { Storage } from 'react-jhipster';
+import { useAppSelector } from './config/store';
 
 const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
@@ -20,8 +21,14 @@ const Client = Loadable({
 });
 
 const Routes = () => {
-
-  const roleAdmin = Storage.session.get('roleAdmin');
+  const [roleAdmin, setRoleAdmin] = useState(false);
+  const haveRoles = useAppSelector(state => state.authentication.roles);
+  useEffect(() => {
+    if (haveRoles.includes('ADMIN')) {
+      setRoleAdmin(true);
+    }
+  }, [haveRoles])
+  console.log('roleAdmin', roleAdmin)
   return (
     <Switch>
       <ErrorBoundaryRoute path="/login" component={Login} />

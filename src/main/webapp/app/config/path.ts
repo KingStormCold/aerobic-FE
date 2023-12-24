@@ -22,6 +22,11 @@ export const URL_PATH = {
       MANAGEMENT: '/admin/subject-management',
       CREATE: '/admin/subject-create',
       EDIT: '/admin/subject-edit'
+    },
+    VIDEO: {
+      MANAGEMENT: '/admin/video-management',
+      CREATE: '/admin/video-create',
+      EDIT: '/admin/video-edit'
     }
   },
   API: {
@@ -42,7 +47,12 @@ export const URL_PATH = {
     GET_USER: '/api/auth/get-users',
     GET_ROLES_USER: '/api/auth/get-roles',
     USER: 'api/auth/user',
+
+    VIDEOS: '/api/auth/videos',
+    GET_VIDEO: '/api/auth/get-video',
+    VIDEO: 'api/auth/insert-video',
+    DELETE_VIDEO: 'api/auth/video',
+    SHOW_COURSE_NAME: 'api/auth/show-course-name',
+
   }
- 
-  
 };

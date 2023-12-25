@@ -33,7 +33,7 @@ const Menus = () => {
         </li>
         {
           haveRoles.includes(CONSTANT.ROLES.USER) &&
-          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.USER.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+          <li className={_location['pathname'].includes(`/admin/user`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/user-management'>
               <svg className="nav-icon">
                 <DnsIcon />
@@ -43,7 +43,7 @@ const Menus = () => {
         }
         {
           haveRoles.includes(CONSTANT.ROLES.CATEGORY) &&
-          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.CATEGORY.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+          <li className={_location['pathname'].includes(`/admin/category`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/category-management'>
               <svg className="nav-icon">
                 <DnsIcon />
@@ -53,7 +53,7 @@ const Menus = () => {
         }
         {
           haveRoles.includes(CONSTANT.ROLES.SUBJECT) &&
-          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.SUBJECT.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+          <li className={_location['pathname'].includes(`/admin/subject`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/subject-management'>
               <svg className="nav-icon">
                 <DnsIcon />
@@ -63,7 +63,7 @@ const Menus = () => {
         }
         {
           haveRoles.includes(CONSTANT.ROLES.COURSE) &&
-          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.COURSE.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+          <li className={_location['pathname'].includes(`/admin/course`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/course-management'>
               <svg className="nav-icon">
                 <DnsIcon />

@@ -15,6 +15,8 @@ import { ICreateCourse } from './course_create';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { numberWithCommas } from 'app/shared/util/string-utils';
+import { REX } from 'app/config/constants';
 
 export const CourseEdit = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +33,8 @@ export const CourseEdit = () => {
   const subjects = useAppSelector(state => state.course.subjects);
   const [subjectId, setSubjectId] = useState('');
   const [editorStateShortDescription, setEditorStateShortDescription] = useState(EditorState.createEmpty());
+  const [priceCourse, setPriceCourse] = useState('');
+  const [promotionalPrice, setPromotionalPrice] = useState('');
 
   useEffect(() => {
     dispatch(showSubject());
@@ -38,19 +42,24 @@ export const CourseEdit = () => {
   useEffect(() => {
     // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
     // => hk có data để chỉnh sửa
-    if (coursesDetail === undefined) {
+    console.log('coursesDetail', coursesDetail.id)
+    if (coursesDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
     }
-  }, [coursesDetail]);
+    if (coursesDetail.id) {
+      setValue('name', coursesDetail?.name);
+      setValue('subjectId', coursesDetail?.subject_id);
+      setSubjectId(String(coursesDetail?.subject_id));
+      setValue('description', coursesDetail?.description);
+      setValue('level', coursesDetail?.level);
+      const price = numberWithCommas(coursesDetail?.price);
+      setValue('price', price);
+      setPriceCourse(price);
+      const promotionPrice = numberWithCommas(coursesDetail?.promotional_price);
+      setValue('promotionalPrice', promotionPrice);
+      setPromotionalPrice(promotionPrice)
+    }
 
-  useEffect(() => {
-    setValue('name', coursesDetail?.name);
-    setValue('subject_id', coursesDetail?.subject_id);
-    setSubjectId(String(coursesDetail?.subject_id));
-    setValue('description', coursesDetail?.description);
-    setValue('level', coursesDetail?.level);
-    setValue('price', coursesDetail?.price);
-    setValue('promotional_price', coursesDetail?.promotional_price);
   }, [coursesDetail]);
 
   const {
@@ -63,28 +72,30 @@ export const CourseEdit = () => {
   } = useForm<{
     id: number;
     name: string;
-    subject_id: number;
+    subjectId: number;
     description: string;
     level: number;
-    price: number;
-    promotional_price: number;
+    price: string;
+    promotionalPrice: string;
   }>();
 
   const editCourse = data => {
+    const price = data?.price.replaceAll('.', '')
+    const promotionPrice = data?.promotionalPrice.replaceAll('.', '')
     const requestBody = {
       name: data?.name,
-      subject_id: data?.subject_id,
+      subject_id: data?.subjectId,
       description: data?.description,
       level: data?.level,
-      price: data?.price,
-      promotional_price: data?.promotional_price,
-      id: 1,
+      price,
+      promotional_price: promotionPrice,
+
     } as ICreateCourse;
     dispatch(updateCourse({ id: coursesDetail?.id, requestBody }));
   };
 
   const handleSubject = (event: SelectChangeEvent) => {
-    setValue('subject_id', Number(event.target.value));
+    setValue('subjectId', Number(event.target.value));
     setSubjectId(event.target.value);
   };
 
@@ -99,6 +110,46 @@ export const CourseEdit = () => {
   const onEditorShortDescriptionStateChange = editorStateSD => {
     setEditorStateShortDescription(editorStateSD);
   };
+
+  const [errorPrice, setErrorPrice] = useState('');
+  const handlePriceCourse = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorPrice('Giá phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorPrice('')
+        setValue('price', convertMoney)
+        setPriceCourse(convertMoney);
+      }
+    } else {
+      setErrorPrice('')
+      setValue('price', '')
+      setPriceCourse('')
+    }
+  }
+
+  const [errorPromotionalPrice, setErrorPromotionalPrice] = useState('');
+  const handlePromotionalPrice = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorPromotionalPrice('Giá khuyến mãi phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorPromotionalPrice('')
+        setValue('promotionalPrice', convertMoney)
+        setPromotionalPrice(convertMoney);
+      }
+    } else {
+      setErrorPromotionalPrice('')
+      setValue('promotionalPrice', '')
+      setPromotionalPrice('')
+    }
+  }
 
   return (
     <>
@@ -128,7 +179,7 @@ export const CourseEdit = () => {
               </Card.Text>
             )}
           </Form.Group>
-          {/* <Form.Group className="mb-3">
+          <Form.Group className="mb-3">
             <Form.Label htmlFor="description">Mô tả khóa học</Form.Label>
             <Form.Control
               type="text"
@@ -139,8 +190,8 @@ export const CourseEdit = () => {
             {errors.description?.type === 'required' && (
               <Card.Text as="div" className='error-text'>Mô tả khóa học không được trống</Card.Text>
             )}
-          </Form.Group> */}
-          <Form.Group className="mb-3">
+          </Form.Group>
+          {/* <Form.Group className="mb-3">
             <Form.Label htmlFor="description">Mô tả khóa học</Form.Label>
             <Editor
               // {...register('description', { required: true })}
@@ -155,7 +206,7 @@ export const CourseEdit = () => {
                 Mô tả khóa học không được trống
               </Card.Text>
             )}
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group className="mb-3">
             <Form.Label htmlFor="level">Cấp độ</Form.Label>
             <Form.Control
@@ -185,40 +236,42 @@ export const CourseEdit = () => {
             <Form.Control
               type="text"
               id="price"
+              value={priceCourse}
               {...register('price', {
                 required: true,
-                validate: {
-                  priceGreaterThan: value => value > 0,
+                onChange(event) {
+                  handlePriceCourse(event)
                 },
               })}
-              isInvalid={errors.price?.type === 'required' || errors.price?.type === 'priceGreaterThan'}
+              isInvalid={errors.price?.type === 'required' || errorPrice !== ''}
             />
             {errors.price?.type === 'required' && (
               <Card.Text as="div" className="error-text">
                 Giá không được trống
               </Card.Text>
             )}
-            {errors.price?.type === 'priceGreaterThan' && (
+            {errorPrice && (
               <Card.Text as="div" className="error-text">
-                Giá phải lớn hơn 0
+                {errorPrice}
               </Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="promotional_price">Giá khuyến mãi</Form.Label>
+            <Form.Label htmlFor="promotionalPrice">Giá khuyến mãi</Form.Label>
             <Form.Control
               type="text"
-              id="promotional_price"
-              {...register('promotional_price', {
-                validate: {
-                  levelGreaterThan: value => value >= 0,
+              id="promotionalPrice"
+              value={promotionalPrice}
+              {...register('promotionalPrice', {
+                onChange(event) {
+                  handlePromotionalPrice(event)
                 },
               })}
-              isInvalid={errors.promotional_price?.type === 'levelGreaterThan'}
+              isInvalid={errorPromotionalPrice !== ''}
             />
-            {errors.promotional_price?.type === 'levelGreaterThan' && (
+            {errorPromotionalPrice && (
               <Card.Text as="div" className="error-text">
-                Giá khuyến mãi phải lớn hơn 0
+                {errorPromotionalPrice}
               </Card.Text>
             )}
           </Form.Group>
@@ -227,7 +280,7 @@ export const CourseEdit = () => {
             <Form.Select
               aria-label="Môn học"
               value={subjectId}
-              {...register('subject_id', {
+              {...register('subjectId', {
                 onChange(event) {
                   handleSubject(event);
                 },

@@ -1,4 +1,9 @@
 import DnsIcon from '@mui/icons-material/Dns';
+import GroupIcon from '@mui/icons-material/Group';
+import CategoryIcon from '@mui/icons-material/Category';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import QuizIcon from '@mui/icons-material/Quiz';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import { CONSTANT } from 'app/config/constants';
 import { URL_PATH } from 'app/config/path';
@@ -36,7 +41,7 @@ const Menus = () => {
           <li className={_location['pathname'].includes(`/admin/user`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/user-management'>
               <svg className="nav-icon">
-                <DnsIcon />
+                <GroupIcon />
               </svg> Quản lý người dùng
             </Link>
           </li>
@@ -46,7 +51,7 @@ const Menus = () => {
           <li className={_location['pathname'].includes(`/admin/category`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/category-management'>
               <svg className="nav-icon">
-                <DnsIcon />
+                <CategoryIcon />
               </svg> Quản lý danh mục
             </Link>
           </li>
@@ -56,12 +61,12 @@ const Menus = () => {
           <li className={_location['pathname'].includes(`/admin/subject`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/subject-management'>
               <svg className="nav-icon">
-                <DnsIcon />
+                <LibraryBooksIcon />
               </svg> Quản lý môn học
             </Link>
           </li>
         }
-        {
+        {/* {
           haveRoles.includes(CONSTANT.ROLES.COURSE) &&
           <li className={_location['pathname'].includes(`/admin/course`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/course-management'>
@@ -76,11 +81,21 @@ const Menus = () => {
           <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.VIDEO.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/video-management'>
               <svg className="nav-icon">
-                <DnsIcon />
+                <OndemandVideoIcon />
               </svg> Quản lý video
             </Link>
           </li>
         }
+        {
+          haveRoles.includes(CONSTANT.ROLES.TEST) &&
+          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.TEST.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
+            <Link className="nav-link" to='/admin/test-management'>
+              <svg className="nav-icon">
+                <QuizIcon />
+              </svg> Quản lý Bài Test
+            </Link>
+          </li>
+        } */}
       </ul>
     </div>
   )

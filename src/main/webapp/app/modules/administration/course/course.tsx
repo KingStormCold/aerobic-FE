@@ -1,4 +1,4 @@
-import { deleteCourse, Courses, resetCourse, updateStateCourse } from 'app/shared/reducers/course';
+import { coursesPagination, deleteCourse, resetCourse, updateStateCourse } from 'app/shared/reducers/course';
 import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import "bootstrap/dist/css/bootstrap.min.css";
 import moment from 'moment';
@@ -14,6 +14,7 @@ import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import './course.scss';
 import { ICourseDetail } from 'app/shared/model/course';
+import { numberWithCommas } from 'app/shared/util/string-utils';
 
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
@@ -35,14 +36,20 @@ export const CourseManagement = () => {
   const deleteCourseSuccess = useAppSelector(state => state.course.deleteCourseSuccess);
   const coursesErrorMessage = useAppSelector(state => state.course.coursesErrorMessage);
   const deleteCourseErrorMessage = useAppSelector(state => state.course.deleteCourseErrorMessage);
+  const subjectDetail = useAppSelector(state => state.subject.subject);
 
   useEffect(() => {
-    dispatch(Courses(1));
-  }, [dispatch]);
+    if (subjectDetail.id === undefined) {
+      history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
+    }
+    if (subjectDetail.id) {
+      dispatch(coursesPagination({ page: 1, id: subjectDetail.id }));
+    }
+  }, [subjectDetail]);
 
   const handlegetpage = (p) => {
     setTimeout(() => {
-      dispatch(Courses(p));
+      dispatch(coursesPagination({ page: p, id: subjectDetail.id }));
     }, 100);
   };
 
@@ -81,7 +88,7 @@ export const CourseManagement = () => {
   useEffect(() => {
     if (deleteCourseSuccess) {
       dispatch(updateStateOpenToastMessage({ message: 'Xóa khóa học thành công', isError: false }));
-      dispatch(Courses(1));
+      dispatch(coursesPagination({ page: 1, id: subjectDetail.id }));
     }
   }, [deleteCourseSuccess, dispatch]);
 
@@ -96,6 +103,11 @@ export const CourseManagement = () => {
       dispatch(updateStateOpenToastMessage({ message: deleteCourseErrorMessage, isError: true }));
     }
   }, [deleteCourseErrorMessage, dispatch]);
+
+  function handleDetailCourse(data: ICourseDetail) {
+    dispatch(updateStateCourse(data));
+    history.push(URL_PATH.ADMIN.COURSE.DETAIL)
+  }
 
   return (
     <div>
@@ -135,19 +147,23 @@ export const CourseManagement = () => {
               </td>
               <td>
                 <Truncate maxWidth={150} title={course.subject_name}>
-                  {course.subject_name}
+                  {course.subject_id}
                 </Truncate>
               </td>
               <td>{course.description}</td>
               <td>{course.level}</td>
-              <td>{course.price}</td>
-              <td>{course.promotional_price}</td>
+              <td>{String(course.price !== 0 ? numberWithCommas(course.price) : 0)}đ</td>
+              <td>{String(course.promotional_price !== 0 ? numberWithCommas(course.promotional_price) : 0)}đ</td>
               <td>{course.created_by}</td>
               <td>{moment(course.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>{course.updated_by}</td>
               <td>{moment(course.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>
-                <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
+                <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
+                  onClick={() => handleDetailCourse(course)} title="Chi tiết">
+                  <FontAwesomeIcon icon="info" />
+                </Button>
+                <Button size='small' id="editBtn" style={{ marginLeft: "10px", backgroundColor: "#ffe200" }}
                   onClick={() => handleEditCourse(course)} title="Chỉnh sửa">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>

@@ -42,7 +42,6 @@ export const CourseEdit = () => {
   useEffect(() => {
     // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
     // => hk có data để chỉnh sửa
-    console.log('coursesDetail', coursesDetail.id)
     if (coursesDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
     }
@@ -88,7 +87,7 @@ export const CourseEdit = () => {
       description: data?.description,
       level: data?.level,
       price,
-      promotional_price: promotionPrice,
+      promotional_price: Number(promotionPrice),
 
     } as ICreateCourse;
     dispatch(updateCourse({ id: coursesDetail?.id, requestBody }));
@@ -297,6 +296,8 @@ export const CourseEdit = () => {
           <Button type="submit" variant="success" className="btn-right">
             Chỉnh sửa
           </Button>
+          <br />
+          <br />
         </Form>
       </div>
     </>

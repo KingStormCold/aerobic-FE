@@ -30,10 +30,17 @@ const VideoCreate = () => {
   const createVideoSuccess = useAppSelector(state => state.video.createVideoSuccess);
   const createVideoErrorMessage = useAppSelector(state => state.video.createVideoErrorMessage);
   const getCourseNames = useAppSelector(state => state.video.getCourseNames);
+  const coursesDetail = useAppSelector(state => state.course.course);
 
   useEffect(() => {
-    dispatch(showCourseName());
-    setValue('finished', '0');
+    if (coursesDetail.id === undefined) {
+      history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT)
+    }
+    if (coursesDetail.id) {
+      dispatch(showCourseName());
+      setValue('finished', '0');
+      setValue('course_id', coursesDetail?.id)
+    }
   }, []);
 
   useEffect(() => {
@@ -147,12 +154,9 @@ const VideoCreate = () => {
               {...register('course_id', { required: true })}
               isInvalid={errors.course_id?.type === 'required'}
             >
-              {getCourseNames &&
-                getCourseNames?.map((getCourseName, i) => (
-                  <option value={`${getCourseName.id}`} key={getCourseName.id}>
-                    {getCourseName.name}
-                  </option>
-                ))}
+              <option value={`${coursesDetail?.id}`}>
+                {coursesDetail?.name}
+              </option>
             </Form.Select>
             {errors.course_id?.type === 'required' && (
               <Card.Text as="div" className="error-text">
@@ -163,6 +167,8 @@ const VideoCreate = () => {
           <Button type="submit" variant="success" className="btn-right">
             Thêm
           </Button>
+          <br />
+          <br />
         </Form>
       </div>
     </>

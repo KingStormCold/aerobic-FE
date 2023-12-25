@@ -16,6 +16,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import './subject_create.scss';
 import draftToHtml from 'draftjs-to-html';
+import { REX } from 'app/config/constants';
+import { numberWithCommas } from 'app/shared/util/string-utils';
 
 export const SubjectCreate = () => {
   const dispatch = useAppDispatch();
@@ -57,19 +59,15 @@ export const SubjectCreate = () => {
   } = useForm<{
     content: string,
     subjectImage: string;
-    subjectPromotionalPrice: number;
+    subjectPromotionalPrice: string;
     categoryId: number;
   }>();
 
   const addSubject = (data) => {
-    // if (subjectContent === '') {
-    //   errors.content?.type = 'required'
-    //   errors.content?.message = 'Nội dung không được trống'
-    //   return
-    // }
+    const subjectPromotionalPrice = data?.subjectPromotionalPrice.replaceAll('.', '')
     const requestBody = {
       subject_content: subjectContent,
-      promotionalPriceSubject: Number(data?.subjectPromotionalPrice),
+      promotional_price_subject: Number(subjectPromotionalPrice),
       subject_image: data?.subjectImage,
       category_id: data?.categoryId
     } as ICreateSubject
@@ -115,6 +113,27 @@ export const SubjectCreate = () => {
     setValue('content', JSON.stringify(convertToRaw(editorState1.getCurrentContent())))
   }
 
+  const [subjectPromotionalPrice, setSubjectPromotionalPrice] = useState('');
+  const [errorPrice, setErrorPrice] = useState('');
+  const handlePriceCourse = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorPrice('Giá phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorPrice('')
+        setValue('subjectPromotionalPrice', convertMoney)
+        setSubjectPromotionalPrice(convertMoney);
+      }
+    } else {
+      setErrorPrice('')
+      setValue('subjectPromotionalPrice', '')
+      setSubjectPromotionalPrice('')
+    }
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -124,26 +143,30 @@ export const SubjectCreate = () => {
       <div>
         <Form onSubmit={handleSubmit(addSubject)}>
           <Form.Group className="mb-3">
-            <Form.Label>Giá khuyến mãi</Form.Label>
+            <Form.Label htmlFor="price">Giá khuyến mãi</Form.Label>
             <Form.Control
-              type="Number"
-              id="subjectPromotionalPrice"
+              type="text"
+              id="price"
+              value={subjectPromotionalPrice}
               {...register('subjectPromotionalPrice', {
                 required: true,
-                validate: {
-                  promotionalPriceGreaterThan: value => value > 0,
+                onChange(event) {
+                  handlePriceCourse(event)
                 },
               })}
-              isInvalid={errors.subjectPromotionalPrice?.type === 'required' || errors.subjectPromotionalPrice?.type === 'promotionalPriceGreaterThan'}
+              isInvalid={errors.subjectPromotionalPrice?.type === 'required' || errorPrice !== ''}
             />
             {errors.subjectPromotionalPrice?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Giá khuyến mãi không được trống</Card.Text>
+              <Card.Text as="div" className="error-text">
+                Giá khuyến mã<i></i> không được trống
+              </Card.Text>
             )}
-            {errors.subjectPromotionalPrice?.type === 'promotionalPriceGreaterThan' && (
-              <Card.Text as="div" className='error-text'>Giá khuyến mãi phải lớn hơn 0</Card.Text>
+            {errorPrice && (
+              <Card.Text as="div" className="error-text">
+                {errorPrice}
+              </Card.Text>
             )}
           </Form.Group>
-
           <Form.Group className="mb-3">
             <Form.Label>Hình ảnh</Form.Label>
             <Form.Control
@@ -167,12 +190,16 @@ export const SubjectCreate = () => {
             <Form.Label>Danh mục</Form.Label>
             <Form.Select aria-label="Danh mục"
               {...register('categoryId', {
+                required: true
               })}
             >
               {categories && categories?.map((category, i) => (
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
             </Form.Select>
+            {errors.categoryId?.type === 'required' && (
+              <Card.Text as="div" className='error-text'>Danh mục không được trống</Card.Text>
+            )}
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Nội dung</Form.Label>

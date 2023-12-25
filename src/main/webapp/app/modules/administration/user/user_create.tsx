@@ -53,10 +53,11 @@ export const UserCreate = () => {
     const requestBody = {
       user_email: data?.email,
       user_password: data?.password,
+      user_password_confirmation: data?.confirmPassword,
       user_fullname: data?.fullname,
       user_phone: data?.phone,
       user_status: data?.status ? 1 : 0,
-      user_role_id: checkedRoles,
+      user_role_name: checkedRoles,
     } as ICreateUser
     dispatch(createUser(requestBody))
   }

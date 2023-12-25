@@ -32,15 +32,20 @@ export const VideoManagement = () => {
   const deleteVideoSuccess = useAppSelector(state => state.video.deleteVideoSuccess);
   const videosErrorMessage = useAppSelector(state => state.video.videosErrorMessage);
   const deleteVideoErrorMessage = useAppSelector(state => state.video.deleteVideoErrorMessage);
+  const coursesDetail = useAppSelector(state => state.course.course);
 
   useEffect(() => {
-    dispatch(videosPage(1));
-    return;
-  }, []);
+    if (coursesDetail.id === undefined) {
+      history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT)
+    }
+    if (coursesDetail.id) {
+      dispatch(videosPage({ page: 1, id: coursesDetail?.id }));
+    }
+  }, [coursesDetail]);
 
-  const handlegetpage = p => {
+  const handlegetpage = (p) => {
     setTimeout(() => {
-      dispatch(videosPage(1));
+      dispatch(videosPage({ page: p, id: coursesDetail?.id }));
       return;
     }, 100);
     return;
@@ -81,24 +86,21 @@ export const VideoManagement = () => {
 
   useEffect(() => {
     if (deleteVideoSuccess) {
-      console.log('vao');
-      console.log('deleteVideoSuccess', deleteVideoSuccess);
       dispatch(updateStateOpenToastMessage({ message: 'Xóa video thành công', isError: false }));
-      dispatch(videosPage(1));
+      dispatch(videosPage({ page: 1, id: coursesDetail.id }));
     }
   }, [deleteVideoSuccess]);
-
-  useEffect(() => {
-    if (videosErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'không Lấy được danh sách video. ' + videosErrorMessage, isError: true }));
-    }
-  }, [videosErrorMessage]);
 
   useEffect(() => {
     if (deleteVideoErrorMessage) {
       dispatch(updateStateOpenToastMessage({ message: deleteVideoErrorMessage, isError: true }));
     }
   }, [deleteVideoErrorMessage]);
+
+  function handleDetailVideo(data: IVideoDetail) {
+    dispatch(updateStateVideo(data));
+    history.push(URL_PATH.ADMIN.VIDEO.DETAIL)
+  }
 
   return (
     <div>
@@ -145,10 +147,14 @@ export const VideoManagement = () => {
                 <td>{video.updated_by}</td>
                 <td>{moment(video.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
                 <td>
+                  <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
+                    onClick={() => handleDetailVideo(video)} title="Chi tiết">
+                    <FontAwesomeIcon icon="info" />
+                  </Button>
                   <Button
                     size="small"
                     id="editBtn"
-                    style={{ marginLeft: '-3px', backgroundColor: '#ffe200' }}
+                    style={{ marginLeft: "10px", backgroundColor: '#ffe200' }}
                     onClick={() => handleEditVideo(video)}
                     title="Chỉnh sửa"
                   >

@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { ISubjectDetail } from 'app/shared/model/subject';
 import { deleteSubject, getSubjects, resetSubject, updateStateSubject } from 'app/shared/reducers/subject';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { numberWithCommas } from 'app/shared/util/string-utils';
 import "bootstrap/dist/css/bootstrap.min.css";
 import moment from 'moment';
 import React, { useEffect } from 'react';
@@ -60,6 +61,11 @@ export const SubjectManagement = () => {
     };
     setDataConfirm(_data);
     return false;
+  }
+
+  function handleDetailSubject(data: ISubjectDetail) {
+    dispatch(updateStateSubject(data))
+    history.push(URL_PATH.ADMIN.SUBJECT.DETAIL)
   }
 
   function handleEditSubject(data: ISubjectDetail) {
@@ -132,7 +138,7 @@ export const SubjectManagement = () => {
               </td>
               <td>
                 <Truncate maxWidth={100} title={String(subject.promotional_price)}>
-                  {String(subject.promotional_price)}
+                  {String(subject.promotional_price !== 0 ? numberWithCommas(subject.promotional_price) : 0)}đ
                 </Truncate>
               </td>
               <td>
@@ -145,8 +151,11 @@ export const SubjectManagement = () => {
               <td>{subject.updated_by}</td>
               <td>{moment(subject.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>
-                {/* <Link to={`/admin/user-management/edit`} > */}
-                <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
+                <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
+                  onClick={() => handleDetailSubject(subject)} title="Chi tiết">
+                  <FontAwesomeIcon icon="info" />
+                </Button>
+                <Button size='small' id="editBtn" style={{ marginLeft: "10px", backgroundColor: "#ffe200" }}
                   onClick={() => handleEditSubject(subject)} title="Chỉnh sửa">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>

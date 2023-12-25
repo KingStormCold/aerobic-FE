@@ -16,7 +16,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import { isJsonString } from 'app/shared/util/string-utils';
+import { isJsonString, numberWithCommas } from 'app/shared/util/string-utils';
+import { REX } from 'app/config/constants';
 
 export const SubjectUpdate = () => {
   const dispatch = useAppDispatch();
@@ -48,14 +49,16 @@ export const SubjectUpdate = () => {
     if (subjectDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
-    if (subjectDetail) {
+    if (subjectDetail.id) {
       setValue('content', subjectDetail?.content)
       if (isJsonString(subjectDetail?.content)) {
         setEditorState(EditorState.createWithContent(
           convertFromRaw(JSON.parse(subjectDetail?.content))
         ),)
       }
-      setValue('subjectPromotionalPrice', subjectDetail?.promotional_price)
+      const price = numberWithCommas(subjectDetail?.promotional_price);
+      setValue('subjectPromotionalPrice', price);
+      setSubjectPromotionalPrice(price);
       setValue('subjectImage', subjectDetail?.image)
       setValue('categoryId', String(subjectDetail?.category_id))
       setCategoryId(String(subjectDetail?.category_id))
@@ -73,14 +76,15 @@ export const SubjectUpdate = () => {
   } = useForm<{
     content: string;
     subjectImage: string;
-    subjectPromotionalPrice: number;
+    subjectPromotionalPrice: string;
     categoryId: string;
   }>();
 
   const ediSubject = (data) => {
+    const promotionalPriceSubject = data?.subjectPromotionalPrice.replaceAll('.', '')
     const requestBody = {
       subject_content: data?.content,
-      promotionalPriceSubject: Number(data?.subjectPromotionalPrice),
+      promotional_price_subject: Number(promotionalPriceSubject),
       subject_image: data?.subjectImage,
       category_id: data?.categoryId
     } as IUpdateSubject
@@ -127,6 +131,27 @@ export const SubjectUpdate = () => {
     setUrlImage(e.target.value);
   }
 
+  const [subjectPromotionalPrice, setSubjectPromotionalPrice] = useState('');
+  const [errorPrice, setErrorPrice] = useState('');
+  const handlePriceCourse = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorPrice('Giá phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorPrice('')
+        setValue('subjectPromotionalPrice', convertMoney)
+        setSubjectPromotionalPrice(convertMoney);
+      }
+    } else {
+      setErrorPrice('')
+      setValue('subjectPromotionalPrice', '')
+      setSubjectPromotionalPrice('')
+    }
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -136,17 +161,28 @@ export const SubjectUpdate = () => {
       <div>
         <Form onSubmit={handleSubmit(ediSubject)}>
           <Form.Group className="mb-3">
-            <Form.Label>Giá khuyến mãi</Form.Label>
+            <Form.Label htmlFor="price">Giá khuyến mãi</Form.Label>
             <Form.Control
-              type="Number"
-              id="subjectPromotionalPrice"
+              type="text"
+              id="price"
+              value={subjectPromotionalPrice}
               {...register('subjectPromotionalPrice', {
                 required: true,
+                onChange(event) {
+                  handlePriceCourse(event)
+                },
               })}
-              isInvalid={errors.subjectPromotionalPrice?.type === 'required'}
+              isInvalid={errors.subjectPromotionalPrice?.type === 'required' || errorPrice !== ''}
             />
             {errors.subjectPromotionalPrice?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Giá khuyến mãi không được trống</Card.Text>
+              <Card.Text as="div" className="error-text">
+                Giá khuyến mã<i></i> không được trống
+              </Card.Text>
+            )}
+            {errorPrice && (
+              <Card.Text as="div" className="error-text">
+                {errorPrice}
+              </Card.Text>
             )}
           </Form.Group>
 
@@ -179,6 +215,7 @@ export const SubjectUpdate = () => {
                 },
               })}
             >
+              <option value={`${subjectDetail?.category_id}`}>{subjectDetail?.category_name}</option>
               {categories && categories?.map((category, i) => (
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
@@ -215,6 +252,8 @@ export const SubjectUpdate = () => {
             }
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
+          <br />
+          <br />
         </Form>
 
       </div>

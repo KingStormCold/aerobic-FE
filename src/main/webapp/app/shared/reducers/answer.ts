@@ -1,33 +1,33 @@
+import { ITestDetail } from './../model/test';
 import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Storage } from 'react-jhipster';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
 import { URL_PATH } from 'app/config/path';
-import { IVideoDetail, ICreateVideo, IUpdateVideo, ICourseNameDetail } from '../model/video';
+import { IAnswerDetail, ICreateAnswer, IUpdateAnswer } from '../model/answer';
 
 const initialState = {
   loading: false,
   totalPage: 0,
   pageNum: 0,
-  videos: [] as ReadonlyArray<IVideoDetail>,
-  videosErrorMessage: '',
-  deleteVideoSuccess: false,
-  deleteVideoErrorMessage: '',
-  getVideosErrorMessage: '',
-  createVideoSuccess: false,
-  createVideoErrorMessage: '',
-  updateVideoSuccess: false,
-  updateVideoErrorMessage: '',
-  video: {} as IVideoDetail,
-  getCourseNames: [] as ReadonlyArray<ICourseNameDetail>
+  answers: [] as ReadonlyArray<IAnswerDetail>,
+  answersErrorMessage: '',
+  deleteAnswerSuccess: false,
+  deleteAnswerErrorMessage: '',
+  getAnswersErrorMessage: '',
+  createAnswerSuccess: false,
+  createAnswerErrorMessage: '',
+  updateAnswerSuccess: false,
+  updateAnswerErrorMessage: '',
+  answer: {} as IAnswerDetail,
 };
 
-export type VideoState = Readonly<typeof initialState>;
+export type AnswerState = Readonly<typeof initialState>;
 
-export const videosPage = createAsyncThunk(
-  'admin/videos',
-  async (data: { page: number, id: number }) => {
-    return await axios.get<any>(`${URL_PATH.API.VIDEOS}/${data.id}?page=${data.page}`)
+export const answers = createAsyncThunk(
+  'admin/answers',
+  async (page: number) => {
+    return await axios.get<any>(`${URL_PATH.API.ANSWERS}?page=${page}`)
   }, {
   serializeError: serializeAxiosError
 });
@@ -42,7 +42,7 @@ export const getVideos = createAsyncThunk(
 
 export const createVideo = createAsyncThunk(
   'admin/create-video',
-  async (data: ICreateVideo) => {
+  async (data: ICreateAnswer) => {
     return await axios.post<any>(`${URL_PATH.API.VIDEO}`, data)
   }, {
   serializeError: serializeAxiosError
@@ -50,7 +50,7 @@ export const createVideo = createAsyncThunk(
 
 export const updateVideo = createAsyncThunk(
   'admin/update-video',
-  async (data: { requestBody: IUpdateVideo, id: number }) => {
+  async (data: { requestBody: IUpdateAnswer, id: number }) => {
     return await axios.put<any>(`${URL_PATH.API.DELETE_VIDEO}/${data.id}`, data.requestBody)
   }, {
   serializeError: serializeAxiosError
@@ -72,106 +72,96 @@ export const showCourseName = createAsyncThunk(
   serializeError: serializeAxiosError
 });
 
-export const VideoSlice = createSlice({
-  name: 'Video',
-  initialState: initialState as VideoState,
+export const AnswerSlice = createSlice({
+  name: 'answer',
+  initialState: initialState as AnswerState,
   reducers: {
-    resetVideo() {
+    resetAnswer() {
       return initialState;
     },
-    updateStateVideo(state, action) {
+    updateStateAnswer(state, action) {
       return {
         ...state,
-        video: action.payload
+        answer: action.payload
       }
     }
   },
   extraReducers(builder) {
     builder
-      .addMatcher(isFulfilled(videosPage), (state, action) => {
+      .addMatcher(isFulfilled(answers), (state, action) => {
         state.loading = false
-        state.videos = action.payload.data?.courses;
+        state.answers = action.payload.data?.tests;
         state.totalPage = action.payload.data?.totalPage;
         state.pageNum = action.payload.data?.pageNum;
       })
-      .addMatcher(isPending(videosPage), (state, action) => {
+      .addMatcher(isPending(answers), (state, action) => {
         state.loading = true
-        state.videosErrorMessage = ''
+        state.answersErrorMessage = ''
       })
-      .addMatcher(isRejected(videosPage), (state, action) => {
+      .addMatcher(isRejected(answers), (state, action) => {
         state.loading = false
         const httpStatusCode = action.error['response']?.status
-        state.videosErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+        state.answersErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       .addMatcher(isFulfilled(deleteVideo), (state, action) => {
         state.loading = false
-        state.deleteVideoSuccess = true
+        state.deleteAnswerSuccess = true
       })
       .addMatcher(isPending(deleteVideo), (state, action) => {
         state.loading = true
-        state.deleteVideoSuccess = false
-        state.deleteVideoErrorMessage = ''
+        state.deleteAnswerSuccess = false
+        state.deleteAnswerErrorMessage = ''
       })
       .addMatcher(isRejected(deleteVideo), (state, action) => {
         state.loading = false
         const httpStatusCode = action.error['response']?.status
-        state.deleteVideoErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+        state.deleteAnswerErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       .addMatcher(isFulfilled(getVideos), (state, action) => {
         state.loading = false
-        state.videos = action.payload.data?.videos;
+        state.answers = action.payload.data?.videos;
       })
       .addMatcher(isPending(getVideos), (state, action) => {
         state.loading = true
-        state.getVideosErrorMessage = ''
+        state.getAnswersErrorMessage = ''
       })
       .addMatcher(isRejected(getVideos), (state, action) => {
         state.loading = false
         const httpStatusCode = action.error['response']?.status
-        state.getVideosErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+        state.getAnswersErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       .addMatcher(isFulfilled(createVideo), (state, action) => {
         state.loading = false
-        state.createVideoSuccess = true;
+        state.createAnswerSuccess = true;
       })
       .addMatcher(isPending(createVideo), (state, action) => {
         state.loading = true
-        state.createVideoErrorMessage = ''
-        state.createVideoSuccess = false
+        state.createAnswerErrorMessage = ''
+        state.createAnswerSuccess = false
       })
       .addMatcher(isRejected(createVideo), (state, action) => {
         state.loading = false
         const httpStatusCode = action.error['response']?.status
-        state.createVideoErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+        state.createAnswerErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       .addMatcher(isFulfilled(updateVideo), (state, action) => {
         state.loading = false
-        state.updateVideoSuccess = true;
+        state.updateAnswerSuccess = true;
       })
       .addMatcher(isPending(updateVideo), (state, action) => {
         state.loading = true
-        state.updateVideoErrorMessage = ''
-        state.updateVideoSuccess = false
+        state.updateAnswerErrorMessage = ''
+        state.updateAnswerSuccess = false
       })
       .addMatcher(isRejected(updateVideo), (state, action) => {
         state.loading = false
         const httpStatusCode = action.error['response']?.status
-        state.updateVideoErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
-      })
-      .addMatcher(isFulfilled(showCourseName), (state, action) => {
-        state.loading = false
-        state.getCourseNames = action.payload.data?.courses;
-      })
-      .addMatcher(isPending(showCourseName), (state, action) => {
-        state.loading = true
-      })
-      .addMatcher(isRejected(showCourseName), (state, action) => {
-        state.loading = false
+        state.updateAnswerErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       ;
   },
 });
 
-export const { resetVideo, updateStateVideo } = VideoSlice.actions;
+export const { resetAnswer, updateStateAnswer } = AnswerSlice.actions;
 // Reducer
-export default VideoSlice.reducer;
+export default AnswerSlice.reducer;

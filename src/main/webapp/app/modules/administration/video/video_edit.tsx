@@ -1,18 +1,17 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useEffect, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
+import Loading from 'app/components/loading';
+import { URL_PATH } from 'app/config/path';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { getVideos, resetVideo, showCourseName, updateVideo } from 'app/shared/reducers/video';
+import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import { createVideo, getVideos, resetVideo, showCourseName, updateVideo } from 'app/shared/reducers/video';
-import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import Loading from 'app/components/loading';
-import { URL_PATH } from 'app/config/path';
-import { IUpdateVideo } from 'app/shared/model/video';
 import { ICreateVideo } from './video_create';
-import { SelectChangeEvent } from '@mui/material';
 
 export const VideoEdit = () => {
   const dispatch = useAppDispatch();
@@ -23,10 +22,8 @@ export const VideoEdit = () => {
     dispatch(getVideos());
   }, []);
   const updateVideoSuccess = useAppSelector(state => state.video.updateVideoSuccess);
-  const getCourseNames = useAppSelector(state => state.video.getCourseNames);
   const videosDetail = useAppSelector(state => state.video.video);
-  const [link_video, setLink_video] = useState('');
-  const [course_id, setcourse_id] = useState('');
+  const coursesDetail = useAppSelector(state => state.course.course);
 
   useEffect(() => {
     dispatch(showCourseName());
@@ -34,18 +31,15 @@ export const VideoEdit = () => {
   useEffect(() => {
     // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
     // => hk có data để chỉnh sửa
-    if (videosDetail === undefined) {
+    if (videosDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
-  }, [videosDetail]);
-
-  useEffect(() => {
-    setValue('name', videosDetail?.name);
-    setLink_video(String(videosDetail?.link_video));
-    setcourse_id(String(videosDetail?.course_id));
-    setValue('finished', 0);
-    console.log(setLink_video)
-    return
+    if (videosDetail.id) {
+      setValue('name', videosDetail?.name);
+      setValue('finished', 0);
+      setValue('link_video', videosDetail?.link_video)
+      setValue('course_id', String(videosDetail?.course_id))
+    }
   }, [videosDetail]);
 
   const {
@@ -58,7 +52,7 @@ export const VideoEdit = () => {
   } = useForm<{
     id: number;
     name: string;
-    link_video: number;
+    link_video: string;
     course_id: string;
     finished: number;
   }>();
@@ -75,7 +69,6 @@ export const VideoEdit = () => {
 
   const handleSubject = (event: SelectChangeEvent) => {
     setValue('course_id', event.target.value);
-    setcourse_id(event.target.value);
   };
 
   useEffect(() => {
@@ -142,24 +135,20 @@ export const VideoEdit = () => {
             <Form.Label>Tên khóa học</Form.Label>
             <Form.Select
               aria-label="Tên khóa học"
-              value={course_id}
+              value={videosDetail?.course_id}
               {...register('course_id', {
-                onChange(event) {
-                  handleSubject(event);
-                },
               })}
             >
-              {getCourseNames &&
-                getCourseNames?.map((getCourseName, i) => (
-                  <option value={`${getCourseName.id}`} key={getCourseName.id}>
-                    {getCourseName.name}
-                  </option>
-                ))}
+              <option value={`${coursesDetail?.id}`}>
+                {coursesDetail?.name}
+              </option>
             </Form.Select>
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Chỉnh sửa
           </Button>
+          <br />
+          <br />
         </Form>
       </div>
     </>

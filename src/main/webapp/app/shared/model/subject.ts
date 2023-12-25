@@ -15,19 +15,19 @@ export interface ISubjectDetail {
 export interface ICreateSubject {
   subject_content: string,
   subject_image: string,
-  promotionalPriceSubject: number,
+  promotional_price_subject: number,
   category_id: number,
- 
+
 }
 
 export interface IUpdateSubject {
   subject_content: string,
   subject_image: string,
-  promotionalPriceSubject: number,
+  promotional_price_subject: number,
   category_id: number,
 }
 
-export interface CategoriesChild{
+export interface CategoriesChild {
   id: number,
   name: string,
 

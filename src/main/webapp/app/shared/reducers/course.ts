@@ -23,10 +23,10 @@ const initialState = {
 
 export type CourseState = Readonly<typeof initialState>;
 
-export const Courses = createAsyncThunk(
+export const coursesPagination = createAsyncThunk(
   'admin/courses',
-  async (page: number) => {
-    return await axios.get<any>(`${URL_PATH.API.COURSES}?page=${page}`)
+  async (data: { page: number, id: number }) => {
+    return await axios.get<any>(`${URL_PATH.API.COURSES}/${data.id}?page=${data.page}`)
   }, {
   serializeError: serializeAxiosError
 });
@@ -87,17 +87,17 @@ export const CourseSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addMatcher(isFulfilled(Courses), (state, action) => {
+      .addMatcher(isFulfilled(coursesPagination), (state, action) => {
         state.loading = false
         state.courses = action.payload.data?.courses;
         state.totalPage = action.payload.data.totalPage;
         state.pageNum = action.payload.data.pageNum;
       })
-      .addMatcher(isPending(Courses), (state, action) => {
+      .addMatcher(isPending(coursesPagination), (state, action) => {
         state.loading = true
         state.coursesErrorMessage = ''
       })
-      .addMatcher(isRejected(Courses), (state, action) => {
+      .addMatcher(isRejected(coursesPagination), (state, action) => {
         state.loading = false
         const httpStatusCode = action.error['response']?.status
         state.coursesErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''

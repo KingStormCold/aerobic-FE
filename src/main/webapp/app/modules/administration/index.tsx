@@ -25,11 +25,14 @@ import UserCreate from './user/user_create';
 import UserEdit from './user/user_edit';
 import UserManagement from './user/user';
 import VideoManagement from './video/video';
- import  VideoEdit  from './video/video_edit';
+import VideoEdit from './video/video_edit';
 import VideoCreate from './video/video_create';
 import TestManagement from './test/test';
 import TestCreate from './test/test_create';
 import TestEdit from './test/test_edit';
+import SubjectDetail from './subject/subject_detail';
+import CourseDetail from './course/course_detail';
+import VideoDetail from './video/video_detail';
 
 
 const Routes = ({ match }) => {
@@ -60,21 +63,24 @@ const Routes = ({ match }) => {
                 ({roleCategory && <PrivateRoute exact path={`${match.url}/category-create`} component={CategoryCreate} />})
                 ({roleCategory && <PrivateRoute exact path={`${match.url}/category-edit`} component={CategoryEdit} />})
 
-                ({roleCourse && <PrivateRoute exact path={`${match.url}/course-management`} component={CourseManagement} />})
-                ({roleCourse && <PrivateRoute exact path={`${match.url}/course-create`} component={CourseCreate} />})
-                ({roleCourse && <PrivateRoute exact path={`${match.url}/course-edit`} component={CourseEdit} />})
-
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-management`} component={SubjectManagement} />})
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-create`} component={SubjectCreate} />})
                 ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-edit`} component={SubjectEdit} />})
+                ({roleSubject && <PrivateRoute exact path={`${match.url}/subject-detail`} component={SubjectDetail} />})
 
-                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-management`} component={VideoManagement} />})
-                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-create`} component={VideoCreate} />})
-                ({roleVideo && <PrivateRoute exact path={`${match.url}/video-edit`} component={VideoEdit} />})
+                ({roleCourse && <PrivateRoute exact path={`${match.url}/subject-detail/course-management`} component={CourseManagement} />})
+                ({roleCourse && <PrivateRoute exact path={`${match.url}/subject-detail/course-create`} component={CourseCreate} />})
+                ({roleCourse && <PrivateRoute exact path={`${match.url}/subject-detail/course-edit`} component={CourseEdit} />})
+                ({roleCourse && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail`} component={CourseDetail} />})
 
-                ({roleTest && <PrivateRoute exact path={`${match.url}/test-management`} component={TestManagement} />})
-                ({roleTest && <PrivateRoute exact path={`${match.url}/test-create`} component={TestCreate} />})
-                ({roleTest && <PrivateRoute exact path={`${match.url}/test-edit`} component={TestEdit} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-management`} component={VideoManagement} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-create`} component={VideoCreate} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-edit`} component={VideoEdit} />})
+                ({roleVideo && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail`} component={VideoDetail} />})
+
+                ({roleTest && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail/test-management`} component={TestManagement} />})
+                ({roleTest && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail/test-create`} component={TestCreate} />})
+                ({roleTest && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail/test-edit`} component={TestEdit} />})
               </Switch>
             </div>
           </div>

@@ -26,8 +26,8 @@ export type TestState = Readonly<typeof initialState>;
 
 export const getTests = createAsyncThunk(
   'admin/get-tests',
-  async (page: number) => {
-    return await axios.get<any>(`${URL_PATH.API.GET_TESTS}?page=${page}`)
+  async (data: { page: number, id: number }) => {
+    return await axios.get<any>(`${URL_PATH.API.TESTS}/${data.id}?page=${data.page}`)
   }, {
   serializeError: serializeAxiosError
 });
@@ -48,7 +48,7 @@ export const createTest = createAsyncThunk(
   serializeError: serializeAxiosError
 });
 
-export const updateTest= createAsyncThunk(
+export const updateTest = createAsyncThunk(
   'admin/update-test',
   async (data: { requestBody: IUpdateTest, id: number }) => {
     return await axios.put<any>(`${URL_PATH.API.DELETE_TEST}/${data.id}`, data.requestBody)
@@ -56,7 +56,7 @@ export const updateTest= createAsyncThunk(
   serializeError: serializeAxiosError
 });
 
-export const deleteTest= createAsyncThunk(
+export const deleteTest = createAsyncThunk(
   'admin/delete-test',
   async (id: string) => {
     return await axios.delete<any>(`${URL_PATH.API.DELETE_TEST}/${id}`)

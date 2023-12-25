@@ -68,11 +68,11 @@ const CourseCreate = () => {
     const promotionPrice = data?.promotionalPrice.replaceAll('.', '')
     const requestBody: ICreateCourse = {
       name: data.name,
-      subject_id: data.subject_id,
+      subject_id: data.subjectId,
       description: data.description,
       level: data.level,
       price,
-      promotional_price: promotionPrice,
+      promotional_price: Number(promotionPrice),
     };
     dispatch(createCourse(requestBody));
   };
@@ -291,6 +291,8 @@ const CourseCreate = () => {
           <Button type="submit" variant="success" className="btn-right">
             Thêm
           </Button>
+          <br />
+          <br />
         </Form>
       </div>
     </>

@@ -13,25 +13,28 @@ export const URL_PATH = {
       CREATE: '/admin/category-create',
       EDIT: '/admin/category-edit'
     },
-    COURSE: {
-      MANAGEMENT: '/admin/course-management',
-      CREATE: '/admin/course-create',
-      EDIT: '/admin/course-edit'
-    },
     SUBJECT: {
       MANAGEMENT: '/admin/subject-management',
       CREATE: '/admin/subject-create',
-      EDIT: '/admin/subject-edit'
+      EDIT: '/admin/subject-edit',
+      DETAIL: '/admin/subject-detail'
+    },
+    COURSE: {
+      MANAGEMENT: '/admin/subject-detail/course-management',
+      CREATE: '/admin/subject-detail/course-create',
+      EDIT: '/admin/subject-detail/course-edit',
+      DETAIL: '/admin/subject-detail/course-detail'
     },
     VIDEO: {
-      MANAGEMENT: '/admin/video-management',
-      CREATE: '/admin/video-create',
-      EDIT: '/admin/video-edit'
+      MANAGEMENT: '/admin/subject-detail/course-detail/video-management',
+      CREATE: '/admin/subject-detail/course-detail/video-create',
+      EDIT: '/admin/subject-detail/course-detail/video-edit',
+      DETAIL: '/admin/subject-detail/course-detail/video-detail'
     },
     TEST: {
-      MANAGEMENT: '/admin/test-management',
-      CREATE: '/admin/test-create',
-      EDIT: '/admin/test-edit'
+      MANAGEMENT: '/admin/subject-detail/course-detail/video-detail/test-management',
+      CREATE: '/admin/subject-detail/course-detail/video-detail/test-create',
+      EDIT: '/admin/subject-detail/course-detail/video-detail/test-edit'
     }
   },
   API: {
@@ -67,7 +70,7 @@ export const URL_PATH = {
 
     ANSWERS: 'api/auth/get-answers',
     GET_ANSWERS: 'api/auth/get-answer',
-    ANSWER:'api/auth/answer',
+    ANSWER: 'api/auth/answer',
     SHOW_TEST_NAME: 'api/auth/show-test-name',
   }
 };

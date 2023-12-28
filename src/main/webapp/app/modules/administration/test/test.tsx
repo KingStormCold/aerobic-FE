@@ -6,6 +6,7 @@ import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { ITestDetail } from 'app/shared/model/test';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 import { deleteTest, getTests, resetTest, updateStateTest } from 'app/shared/reducers/test';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +14,6 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import './test.scss';
 const USER_EDIT_TOKEN = 'user-management-token-user-edit';
 
 export const TestManagement = () => {
@@ -34,6 +34,7 @@ export const TestManagement = () => {
   const testsErrorMessage = useAppSelector(state => state.test.testsErrorMessage);
   const deleteTestErrorMessage = useAppSelector(state => state.test.deleteTestErrorMessage);
   const videoDetail = useAppSelector(state => state.video.video);
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     if (videoDetail.id === undefined) {
@@ -41,6 +42,8 @@ export const TestManagement = () => {
     }
     if (videoDetail.id) {
       dispatch(getTests({ page: 1, id: videoDetail?.id }));
+      const splitTitle = title.split(" > Test ")
+      dispatch(updateStateTitle(splitTitle[0] + " > Test "))
     }
   }, [videoDetail]);
 
@@ -60,8 +63,8 @@ export const TestManagement = () => {
     setIsOpenConfirm(true);
     setDeleteTestId(id);
     const _data = {
-      title: 'Xóa danh mục: ' + testName,
-      description: 'Bạn thật sự muốn xóa danh mục ' + testName + ' này không?',
+      title: 'Xóa câu hỏi: ' + testName,
+      description: 'Bạn thật sự muốn xóa câu hỏi ' + testName + ' này không?',
       lblCancel: 'Hủy',
       lblOk: 'Đồng ý',
     };
@@ -108,8 +111,13 @@ export const TestManagement = () => {
     <div>
       {loading && <Loading />}
       <h3>Danh sách bài test</h3>
+      <Link to={`${URL_PATH.ADMIN.VIDEO.MANAGEMENT}`}>
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Quay lại">
+          <FontAwesomeIcon icon="chevron-left" />
+        </Button>
+      </Link>
       <Link to={`${URL_PATH.ADMIN.TEST.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm">
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>
@@ -143,6 +151,9 @@ export const TestManagement = () => {
                 <Truncate maxWidth={100} title={test.test_content}>
                   {test.test_content}
                 </Truncate>
+              </td>
+              <td>
+                {test.serial_answer}
               </td>
               <td>
                 <Truncate maxWidth={100} title={test?.answers[0].answer_content}>

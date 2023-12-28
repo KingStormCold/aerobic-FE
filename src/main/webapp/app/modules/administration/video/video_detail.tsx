@@ -2,6 +2,7 @@
 import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 import { getVideos, showCourseName } from 'app/shared/reducers/video';
 import React, { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -18,6 +19,7 @@ export const VideoDetail = () => {
   }, []);
   const videoDetail = useAppSelector(state => state.video.video);
   const coursesDetail = useAppSelector(state => state.course.course);
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     dispatch(showCourseName());
@@ -28,11 +30,18 @@ export const VideoDetail = () => {
     if (videoDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
+    if (videoDetail.id) {
+      dispatch(updateStateTitle(title + " > " + videoDetail?.name))
+    }
   }, [videoDetail]);
 
   const handleAddQuiz = data => {
     history.push(URL_PATH.ADMIN.TEST.MANAGEMENT)
   };
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
+  }
 
   return (
     <>
@@ -73,6 +82,9 @@ export const VideoDetail = () => {
         </Form.Group>
         <Button type="submit" variant="success" className="btn-right" onClick={handleAddQuiz}>
           Thêm câu hỏi
+        </Button>
+        <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+          Quay lại
         </Button>
         <br />
         <br />

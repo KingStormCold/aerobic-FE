@@ -13,6 +13,7 @@ import { useHistory } from 'react-router-dom';
 import { ICreateUser } from 'app/shared/model/user';
 import './user_create.scss';
 import { ValidatedField } from 'react-jhipster';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const UserCreate = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,13 @@ export const UserCreate = () => {
   const rolesErrorMessage = useAppSelector(state => state.user.rolesErrorMessage);
   const createUserErrorMessage = useAppSelector(state => state.user.createUserErrorMessage);
   const [checkedRoles, setcheckedRoles] = useState([]);
+  const title = useAppSelector(state => state.categoryShow.title);
+
+  useEffect(() => {
+    if (title === '') {
+      dispatch(updateStateTitle("Người dùng"))
+    }
+  }, [title])
 
   useEffect(() => {
     if (rolesErrorMessage) {
@@ -89,7 +97,7 @@ export const UserCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Thêm User
+        Thêm người dùng
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addUser)}>

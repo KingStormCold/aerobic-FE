@@ -3,6 +3,7 @@ import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { IUpdateTest } from 'app/shared/model/test';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 import { showVideoName, resetTest, updateTest } from 'app/shared/reducers/test';
 import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import React, { useEffect, useState } from 'react';
@@ -11,7 +12,6 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import './test_edit.scss';
 
 export const TestEdit = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +26,7 @@ export const TestEdit = () => {
   const parentTestsErrorMessage = useAppSelector(state => state.test.getVideoNames);
   const updateTestErrorMessage = useAppSelector(state => state.test.updateTestErrorMessage);
   const videoDetail = useAppSelector(state => state.video.video);
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     if (videoDetail.id === undefined) {
@@ -101,6 +102,7 @@ export const TestEdit = () => {
       setValue('answer_3', testDetail?.answers[2]?.answer_content);
       setValue('answer_id_4', testDetail?.answers[3]?.id);
       setValue('answer_4', testDetail?.answers[3]?.answer_content);
+      dispatch(updateStateTitle(title + " > " + testDetail?.test_content))
     }
   }, [testDetail]);
   useEffect(() => {
@@ -116,6 +118,10 @@ export const TestEdit = () => {
       dispatch(updateStateOpenToastMessage({ message: updateTestErrorMessage, isError: true }));
     }
   }, [updateTestErrorMessage]);
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.TEST.MANAGEMENT);
+  }
 
   return (
     <>
@@ -280,6 +286,9 @@ export const TestEdit = () => {
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Chỉnh sửa
+          </Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
           </Button>
           <br />
           <br />

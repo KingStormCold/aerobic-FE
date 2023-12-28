@@ -10,8 +10,6 @@ import { resetToastMessage, updateStateOpenToastMessage } from 'app/shared/reduc
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
-import './test_create.scss';
-
 
 const TestCreate = () => {
   const dispatch = useAppDispatch();
@@ -85,6 +83,10 @@ const TestCreate = () => {
       );
     }
   }, [createTestErrorMessage, dispatch]);
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.TEST.MANAGEMENT);
+  }
 
   return (
     <>
@@ -249,6 +251,9 @@ const TestCreate = () => {
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Thêm
+          </Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
           </Button>
           <br />
           <br />

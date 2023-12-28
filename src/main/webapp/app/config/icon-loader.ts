@@ -47,6 +47,7 @@ import { faTicketAlt } from '@fortawesome/free-solid-svg-icons/faTicketAlt';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons/faWindowClose';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faBars } from '@fortawesome/free-solid-svg-icons/faBars';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 
 export const loadIcons = () => {
   library.add(
@@ -97,5 +98,6 @@ export const loadIcons = () => {
     faShieldAlt,
     faBars,
     faWindowClose,
+    faChevronLeft
   );
 };

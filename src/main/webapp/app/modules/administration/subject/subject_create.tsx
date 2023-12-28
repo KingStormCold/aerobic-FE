@@ -18,6 +18,7 @@ import './subject_create.scss';
 import draftToHtml from 'draftjs-to-html';
 import { REX } from 'app/config/constants';
 import { numberWithCommas } from 'app/shared/util/string-utils';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const SubjectCreate = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,13 @@ export const SubjectCreate = () => {
   const [inputContent, setInputContent] = useState("");
   const [isOpenContentPreview, setIsOpenContentPreview] = useState(false);
   const [subjectContent, setSubjectContent] = useState('')
+  const title = useAppSelector(state => state.categoryShow.title);
+
+  useEffect(() => {
+    if (title === '') {
+      dispatch(updateStateTitle("Môn học"))
+    }
+  }, [title])
 
   useEffect(() => {
     if (childCategoriesErrorMessage) {
@@ -134,6 +142,10 @@ export const SubjectCreate = () => {
     }
   }
 
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT);
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -231,6 +243,9 @@ export const SubjectCreate = () => {
             }
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
+          </Button>
         </Form>
 
       </div>

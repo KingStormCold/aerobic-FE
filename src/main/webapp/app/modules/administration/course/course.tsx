@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import './course.scss';
 import { ICourseDetail } from 'app/shared/model/course';
 import { numberWithCommas } from 'app/shared/util/string-utils';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
@@ -37,6 +38,7 @@ export const CourseManagement = () => {
   const coursesErrorMessage = useAppSelector(state => state.course.coursesErrorMessage);
   const deleteCourseErrorMessage = useAppSelector(state => state.course.deleteCourseErrorMessage);
   const subjectDetail = useAppSelector(state => state.subject.subject);
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     if (subjectDetail.id === undefined) {
@@ -44,6 +46,8 @@ export const CourseManagement = () => {
     }
     if (subjectDetail.id) {
       dispatch(coursesPagination({ page: 1, id: subjectDetail.id }));
+      const splitTitle = title.split(" > Khóa học ")
+      dispatch(updateStateTitle(splitTitle[0] + " > Khóa học "))
     }
   }, [subjectDetail]);
 
@@ -113,12 +117,16 @@ export const CourseManagement = () => {
     <div>
       {loading && <Loading />}
       <h3>Danh sách khóa học</h3>
+      <Link to={`${URL_PATH.ADMIN.SUBJECT.MANAGEMENT}`}>
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Quay lại">
+          <FontAwesomeIcon icon="chevron-left" />
+        </Button>
+      </Link>
       <Link to={`${URL_PATH.ADMIN.COURSE.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm">
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>
-      <hr />
       <Table hover responsive striped>
         <thead>
           <tr>
@@ -133,7 +141,7 @@ export const CourseManagement = () => {
             <th>Ngày tạo</th>
             <th>Người sửa</th>
             <th>Ngày sửa</th>
-            <th>Action</th>
+            <th className='w-155'>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -158,7 +166,7 @@ export const CourseManagement = () => {
               <td>{moment(course.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>{course.updated_by}</td>
               <td>{moment(course.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
-              <td>
+              <td className='w-155'>
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
                   onClick={() => handleDetailCourse(course)} title="Chi tiết">
                   <FontAwesomeIcon icon="info" />

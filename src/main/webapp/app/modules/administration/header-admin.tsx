@@ -6,6 +6,8 @@ import { useAppSelector } from 'app/config/store';
 
 const HeaderAdmin = () => {
 
+  const title = useAppSelector(state => state.categoryShow.title);
+
   return (
     <header className="header header-sticky mb-4">
       <div className="container-fluid">
@@ -42,7 +44,7 @@ const HeaderAdmin = () => {
       <div className="header-divider"></div>
       <div className="container-fluid">
         <nav aria-label="breadcrumb">
-
+          {title}
         </nav>
       </div>
     </header>

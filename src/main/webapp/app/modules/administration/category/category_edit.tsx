@@ -11,7 +11,6 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import './category_edit.scss';
 
 export const CategoryEdit = () => {
   const dispatch = useAppDispatch();

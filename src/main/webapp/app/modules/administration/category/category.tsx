@@ -13,7 +13,7 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import './category.scss';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
 export const CategoryManagement = () => {
@@ -34,6 +34,7 @@ export const CategoryManagement = () => {
   const deleteCategoryErrorMessage = useAppSelector(state => state.category.deleteCategoryErrorMessage);
 
   useEffect(() => {
+    dispatch(updateStateTitle("Danh mục"))
     dispatch(getCategories(1));
   }, [])
 
@@ -104,11 +105,10 @@ export const CategoryManagement = () => {
       {loading && <Loading />}
       <h3>Danh sách danh mục</h3>
       <Link to={`${URL_PATH.ADMIN.CATEGORY.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm">
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>
-      <hr />
       <Table hover responsive striped>
         <thead>
           <tr>

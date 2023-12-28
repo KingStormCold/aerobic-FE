@@ -18,6 +18,7 @@ import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { isJsonString, numberWithCommas } from 'app/shared/util/string-utils';
 import { REX } from 'app/config/constants';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const SubjectUpdate = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ export const SubjectUpdate = () => {
   const [isOpenContentPreview, setIsOpenContentPreview] = useState(false);
   const [subjectContent, setSubjectContent] = useState('')
   const [urlImage, setUrlImage] = useState('')
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     if (childCategoriesErrorMessage) {
@@ -63,6 +65,7 @@ export const SubjectUpdate = () => {
       setValue('categoryId', String(subjectDetail?.category_id))
       setCategoryId(String(subjectDetail?.category_id))
       setUrlImage(subjectDetail?.image)
+      dispatch(updateStateTitle(title + " > " + subjectDetail?.name));
     }
   }, [subjectDetail])
 
@@ -152,11 +155,15 @@ export const SubjectUpdate = () => {
     }
   }
 
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT);
+  }
+
   return (
     <>
       {loading && <Loading />}
       <h3>
-        Thêm môn học
+        Sửa môn học
       </h3>
       <div>
         <Form onSubmit={handleSubmit(ediSubject)}>
@@ -252,6 +259,9 @@ export const SubjectUpdate = () => {
             }
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
+          </Button>
           <br />
           <br />
         </Form>

@@ -11,7 +11,6 @@ import Form from 'react-bootstrap/Form';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import './course_create.scss';
 import { numberWithCommas } from 'app/shared/util/string-utils';
 import { REX } from 'app/config/constants';
 
@@ -142,6 +141,10 @@ const CourseCreate = () => {
       setValue('promotionalPrice', '')
       setPromotionalPrice('')
     }
+  }
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
   }
 
   return (
@@ -290,6 +293,9 @@ const CourseCreate = () => {
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Thêm
+          </Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
           </Button>
           <br />
           <br />

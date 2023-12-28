@@ -10,7 +10,7 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import './category_create.scss';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const CategoryCreate = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +23,13 @@ export const CategoryCreate = () => {
   const createCategorySuccess = useAppSelector(state => state.category.createCategorySuccess);
   const parentCategoriesErrorMessage = useAppSelector(state => state.category.parentCategoriesErrorMessage);
   const createCategoryErrorMessage = useAppSelector(state => state.category.createCategoryErrorMessage);
+  const title = useAppSelector(state => state.categoryShow.title);
+
+  useEffect(() => {
+    if (title === '') {
+      dispatch(updateStateTitle("Danh mục"))
+    }
+  }, [title])
 
   useEffect(() => {
     if (parentCategoriesErrorMessage) {

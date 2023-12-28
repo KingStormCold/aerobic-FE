@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useHistory } from 'react-router-dom';
 import './course_edit.scss';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const CourseDetail = () => {
   const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ export const CourseDetail = () => {
   const [subjectId, setSubjectId] = useState('');
   const [priceCourse, setPriceCourse] = useState('');
   const [promotionalPrice, setPromotionalPrice] = useState('');
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     dispatch(showSubject());
@@ -37,6 +39,7 @@ export const CourseDetail = () => {
       setPriceCourse(price);
       const promotionPrice = numberWithCommas(coursesDetail?.promotional_price);
       setPromotionalPrice(promotionPrice)
+      dispatch(updateStateTitle(title + " > " + coursesDetail?.name))
     }
 
   }, [coursesDetail]);
@@ -45,10 +48,14 @@ export const CourseDetail = () => {
     history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
   };
 
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
+  }
+
   return (
     <>
       {loading && <Loading />}
-      <h3>Sửa khóa học</h3>
+      <h3>Chi tiết khóa học</h3>
       <div>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="name">Tên khóa học</Form.Label>
@@ -107,6 +114,9 @@ export const CourseDetail = () => {
         </Form.Group>
         <Button type="submit" variant="success" className="btn-right" onClick={handleAddVideo}>
           Thêm Video
+        </Button>
+        <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+          Quay lại
         </Button>
         <br />
         <br />

@@ -12,6 +12,7 @@ import user from './user';
 import video from './video';
 import test from './test';
 import answer from './answer';
+import categoryShow from './category-show'
 
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 const rootReducer = {
@@ -27,7 +28,8 @@ const rootReducer = {
   user,
   video,
   test,
-  answer
+  answer,
+  categoryShow,
 };
 
 export default rootReducer;

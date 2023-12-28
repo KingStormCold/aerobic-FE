@@ -6,6 +6,7 @@ import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { ISubjectDetail } from 'app/shared/model/subject';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 import { deleteSubject, getSubjects, resetSubject, updateStateSubject } from 'app/shared/reducers/subject';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import { numberWithCommas } from 'app/shared/util/string-utils';
@@ -35,6 +36,7 @@ export const SubjectManagement = () => {
   const subjectsErrorMessage = useAppSelector(state => state.subject.subjectsErrorMessage);
   const deleteSubjectErrorMessage = useAppSelector(state => state.subject.deleteSubjectErrorMessage);
   useEffect(() => {
+    dispatch(updateStateTitle("Môn học"))
     dispatch(getSubjects(1));
   }, [])
 
@@ -108,11 +110,10 @@ export const SubjectManagement = () => {
       {loading && <Loading />}
       <h3>Danh sách môn học</h3>
       <Link to={`${URL_PATH.ADMIN.SUBJECT.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm">
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>
-      <hr />
       <Table hover responsive striped>
         <thead>
           <tr>
@@ -124,7 +125,7 @@ export const SubjectManagement = () => {
             <th>Ngày tạo</th>
             <th>Người sửa</th>
             <th>Ngày sửa</th>
-            <th>Action</th>
+            <th className='w-155'>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -150,7 +151,7 @@ export const SubjectManagement = () => {
               <td>{moment(subject.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>{subject.updated_by}</td>
               <td>{moment(subject.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
-              <td>
+              <td className='w-155'>
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
                   onClick={() => handleDetailSubject(subject)} title="Chi tiết">
                   <FontAwesomeIcon icon="info" />

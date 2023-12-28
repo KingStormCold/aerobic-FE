@@ -1,6 +1,7 @@
 import Loading from 'app/components/loading';
 import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 import { coursesPagination } from 'app/shared/reducers/course';
 import { getChildCategories } from 'app/shared/reducers/subject';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
@@ -24,6 +25,7 @@ export const SubjectDetail = () => {
   const subjectDetail = useAppSelector(state => state.subject.subject);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [urlImage, setUrlImage] = useState('')
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì category bị undefined
@@ -41,6 +43,7 @@ export const SubjectDetail = () => {
       setSubjectPromotionalPrice(price);
       setCategoryId(String(subjectDetail?.category_id))
       setUrlImage(subjectDetail?.image)
+      dispatch(updateStateTitle(title + " > " + subjectDetail?.name));
     }
   }, [subjectDetail])
 
@@ -51,7 +54,7 @@ export const SubjectDetail = () => {
 
   const onEditorStateChange = (editorState1) => {
     setEditorState(editorState1);
-    document.getElementById("editContent").textContent
+    // document.getElementById("editContent").textContent
   }
 
   const [subjectPromotionalPrice, setSubjectPromotionalPrice] = useState('');
@@ -60,7 +63,7 @@ export const SubjectDetail = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Thêm môn học
+        Chi tiết môn học
       </h3>
       <div>
         <Form.Group className="mb-3">

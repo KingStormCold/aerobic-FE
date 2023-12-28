@@ -12,6 +12,7 @@ import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { ICreateVideo } from './video_create';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const VideoEdit = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +23,9 @@ export const VideoEdit = () => {
     dispatch(getVideos());
   }, []);
   const updateVideoSuccess = useAppSelector(state => state.video.updateVideoSuccess);
-  const videosDetail = useAppSelector(state => state.video.video);
+  const videoDetail = useAppSelector(state => state.video.video);
   const coursesDetail = useAppSelector(state => state.course.course);
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     dispatch(showCourseName());
@@ -31,16 +33,17 @@ export const VideoEdit = () => {
   useEffect(() => {
     // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
     // => hk có data để chỉnh sửa
-    if (videosDetail.id === undefined) {
+    if (videoDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
-    if (videosDetail.id) {
-      setValue('name', videosDetail?.name);
+    if (videoDetail.id) {
+      setValue('name', videoDetail?.name);
       setValue('finished', 0);
-      setValue('link_video', videosDetail?.link_video)
-      setValue('course_id', String(videosDetail?.course_id))
+      setValue('link_video', videoDetail?.link_video)
+      setValue('course_id', String(videoDetail?.course_id))
+      dispatch(updateStateTitle(title + " > " + videoDetail?.name))
     }
-  }, [videosDetail]);
+  }, [videoDetail]);
 
   const {
     register,
@@ -64,7 +67,7 @@ export const VideoEdit = () => {
       course_id: data?.course_id,
       finished: data?.finished,
     } as ICreateVideo;
-    dispatch(updateVideo({ id: videosDetail?.id, requestBody }));
+    dispatch(updateVideo({ id: videoDetail?.id, requestBody }));
   };
 
   const handleSubject = (event: SelectChangeEvent) => {
@@ -78,6 +81,10 @@ export const VideoEdit = () => {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
   }, [updateVideoSuccess]);
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
+  }
 
   return (
     <>
@@ -135,7 +142,7 @@ export const VideoEdit = () => {
             <Form.Label>Tên khóa học</Form.Label>
             <Form.Select
               aria-label="Tên khóa học"
-              value={videosDetail?.course_id}
+              value={videoDetail?.course_id}
               {...register('course_id', {
               })}
             >
@@ -146,6 +153,9 @@ export const VideoEdit = () => {
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Chỉnh sửa
+          </Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
           </Button>
           <br />
           <br />

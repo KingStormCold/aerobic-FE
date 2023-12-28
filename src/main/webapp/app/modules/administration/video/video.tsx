@@ -13,7 +13,7 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import './video.scss';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 const USER_EDIT_TOKEN = 'user-management-token-user-edit';
 
 export const VideoManagement = () => {
@@ -33,6 +33,7 @@ export const VideoManagement = () => {
   const videosErrorMessage = useAppSelector(state => state.video.videosErrorMessage);
   const deleteVideoErrorMessage = useAppSelector(state => state.video.deleteVideoErrorMessage);
   const coursesDetail = useAppSelector(state => state.course.course);
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     if (coursesDetail.id === undefined) {
@@ -40,6 +41,8 @@ export const VideoManagement = () => {
     }
     if (coursesDetail.id) {
       dispatch(videosPage({ page: 1, id: coursesDetail?.id }));
+      const splitTitle = title.split(" > Video ")
+      dispatch(updateStateTitle(splitTitle[0] + " > Video "))
     }
   }, [coursesDetail]);
 
@@ -59,8 +62,8 @@ export const VideoManagement = () => {
     setIsOpenConfirm(true);
     setDeleteVideoId(id);
     const _data = {
-      title: 'Xóa danh mục: ' + videoName,
-      description: 'Bạn thật sự muốn xóa danh mục ' + videoName + ' này không?',
+      title: 'Xóa video: ' + videoName,
+      description: 'Bạn thật sự muốn xóa video ' + videoName + ' này không?',
       lblCancel: 'Hủy',
       lblOk: 'Đồng ý',
     };
@@ -106,8 +109,13 @@ export const VideoManagement = () => {
     <div>
       {loading && <Loading />}
       <h3>Danh sách video</h3>
+      <Link to={`${URL_PATH.ADMIN.COURSE.MANAGEMENT}`}>
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Quay lại">
+          <FontAwesomeIcon icon="chevron-left" />
+        </Button>
+      </Link>
       <Link to={`${URL_PATH.ADMIN.VIDEO.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: '-3px', backgroundColor: 'rgb(5 123 7)', color: 'white' }} title="Thêm">
+        <Button id="addBtn" style={{ marginLeft: '-3px', backgroundColor: 'rgb(5 123 7)', color: 'white' }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>

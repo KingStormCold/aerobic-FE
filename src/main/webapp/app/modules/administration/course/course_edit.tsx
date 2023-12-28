@@ -17,6 +17,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import { numberWithCommas } from 'app/shared/util/string-utils';
 import { REX } from 'app/config/constants';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 export const CourseEdit = () => {
   const dispatch = useAppDispatch();
@@ -35,6 +36,7 @@ export const CourseEdit = () => {
   const [editorStateShortDescription, setEditorStateShortDescription] = useState(EditorState.createEmpty());
   const [priceCourse, setPriceCourse] = useState('');
   const [promotionalPrice, setPromotionalPrice] = useState('');
+  const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
     dispatch(showSubject());
@@ -57,6 +59,7 @@ export const CourseEdit = () => {
       const promotionPrice = numberWithCommas(coursesDetail?.promotional_price);
       setValue('promotionalPrice', promotionPrice);
       setPromotionalPrice(promotionPrice)
+      dispatch(updateStateTitle(title + " > " + coursesDetail?.name))
     }
 
   }, [coursesDetail]);
@@ -148,6 +151,10 @@ export const CourseEdit = () => {
       setValue('promotionalPrice', '')
       setPromotionalPrice('')
     }
+  }
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
   }
 
   return (
@@ -295,6 +302,9 @@ export const CourseEdit = () => {
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Chỉnh sửa
+          </Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
           </Button>
           <br />
           <br />

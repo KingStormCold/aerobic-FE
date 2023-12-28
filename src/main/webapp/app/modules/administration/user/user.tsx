@@ -14,6 +14,7 @@ import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import './User.scss';
+import { updateStateTitle } from 'app/shared/reducers/category-show';
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
 export const UserManagement = () => {
@@ -34,6 +35,7 @@ export const UserManagement = () => {
   const deleteUserErrorMessage = useAppSelector(state => state.user.deleteUserErrorMessage);
 
   useEffect(() => {
+    dispatch(updateStateTitle("Người dùng"))
     dispatch(getUsers(1));
   }, [])
 
@@ -104,11 +106,10 @@ export const UserManagement = () => {
       {loading && <Loading />}
       <h3>Danh sách danh mục</h3>
       <Link to={`${URL_PATH.ADMIN.USER.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm">
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>
-      <hr />
       <Table hover responsive striped>
         <thead>
           <tr>

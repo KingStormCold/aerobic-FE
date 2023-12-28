@@ -101,7 +101,7 @@ export const UserEdit = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Cập Nhật Users
+        Cập nhật người dùng
       </h3>
       <div>
         <Form onSubmit={handleSubmit(editUser)}>

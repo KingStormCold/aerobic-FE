@@ -1,14 +1,14 @@
-import './menu.scss';
-
 import React from 'react';
+import CategoryMenu from './categoryMenu';
+import './menu.scss';
+import { Link } from 'react-router-dom';
 
 const Menu = () => {
-
   return (
-    <div className='menu-header'>
-
+    <div>
+      <CategoryMenu />
     </div>
-  )
+  );
 };
 
 export default Menu;

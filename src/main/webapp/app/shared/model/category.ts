@@ -19,3 +19,12 @@ export interface IUpdateCategory {
   parent_id: string,
 }
 
+export interface IMenuDetail {
+  id: number;
+  name: string;
+  sub_menu: ISubDetail[];
+}
+export interface ISubDetail {
+  id: number;
+  name: string;
+}

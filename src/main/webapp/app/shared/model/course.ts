@@ -35,3 +35,14 @@ export interface ISubjectDetail {
   id: number,
   name: string,
 }
+
+export interface IFullCourse {
+  subject_id: number,
+  subject_name: string,
+  id_course: number, 
+  name: string,
+  description
+  level: number,
+  price: number,
+  promotional_price: number,
+}

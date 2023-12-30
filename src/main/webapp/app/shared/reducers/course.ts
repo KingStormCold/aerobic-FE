@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Storage } from 'react-jhipster';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
 import { URL_PATH } from 'app/config/path';
-import { ICourseDetail, ICreateCourse, ISubjectDetail, IUpdateCourse } from '../model/course';
+import { ICourseDetail, ICreateCourse, IFullCourse, ISubjectDetail, IUpdateCourse } from '../model/course';
 
 const initialState = {
   loading: false,
@@ -19,6 +19,8 @@ const initialState = {
   updateCourseErrorMessage: '',
   course: {} as ICourseDetail,
   subjects: [] as ReadonlyArray<ISubjectDetail>,
+  fullCourses: [] as ReadonlyArray<IFullCourse>,
+  fullCourse:{} as IFullCourse,
 };
 
 export type CourseState = Readonly<typeof initialState>;
@@ -67,6 +69,14 @@ export const showSubject = createAsyncThunk(
   'admin/show-subject',
   async () => {
     return await axios.get<any>(`${URL_PATH.API.SHOW_SUBJECT}`)
+  }, {
+  serializeError: serializeAxiosError
+});
+
+export const getCoursesClient = createAsyncThunk(
+  'client/get-courses-client',
+  async () => {
+    return await axios.get<any>(`${URL_PATH.API.CLIENT_COURSES}`)
   }, {
   serializeError: serializeAxiosError
 });
@@ -168,6 +178,17 @@ export const CourseSlice = createSlice({
         state.loading = true
       })
       .addMatcher(isRejected(showSubject), (state, action) => {
+        state.loading = false
+      })
+
+      .addMatcher(isFulfilled(getCoursesClient), (state, action) => {
+        state.loading = false
+        state.fullCourses = action.payload.data?.courses;
+      })
+      .addMatcher(isPending(getCoursesClient), (state, action) => {
+        state.loading = true
+      })
+      .addMatcher(isRejected(getCoursesClient), (state, action) => {
         state.loading = false
       })
       ;

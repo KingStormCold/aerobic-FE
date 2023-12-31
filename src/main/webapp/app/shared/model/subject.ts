@@ -33,7 +33,7 @@ export interface CategoriesChild {
 
 export interface IClientSubjectDetail {
   subject_id: number;
-  subjectName: string;
+  subject_name: string;
   subject_content: string;
   subject_image: string;
 }

@@ -12,44 +12,56 @@ import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { numberWithCommas } from 'app/shared/util/string-utils';
 import { REX } from 'app/config/constants';
-import { subjectClient } from 'app/shared/reducers/subject';
+import { IClientSubjectDetail } from 'app/shared/model/subject';
+import Image from 'react-bootstrap/Image';
 
 export const Detail = () => {
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const loading = useAppSelector(state => state.subject.loading);
   const subjectDetailClient = useAppSelector(state => state.subject.subjectDetailClient);
+  const [urlImage, setUrlImage] = useState('');
 
   useEffect(() => {
     if (subjectDetailClient.subject_id) {
-      setValue('subjectName', subjectDetailClient?.subjectName);
+      setValue('subject_name', subjectDetailClient?.subject_name);
       setValue('subject_content', subjectDetailClient?.subject_content);
-      setValue('subject_image', subjectDetailClient?.subject_image);
+      setUrlImage(subjectDetailClient?.subject_image);
     }
   }, [subjectDetailClient]);
 
-  const { setValue } = useForm();
+  const {
+    register,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<{
+    subject_name: string;
+    subject_content: string;
+  }>();
+
+  const handleBack = () => {
+    history.push(URL_PATH.CLIENT.SUBJECT);
+  };
 
   return (
     <>
       {loading && <Loading />}
-      <div>
-        <Form>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="subjectName">Tên khóa học</Form.Label>
-            <Form.Control type="text" id="subjectName" readOnly />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="subject_content">Mô tả khóa học</Form.Label>
-            <Form.Control type="text" id="subject_content" readOnly />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label htmlFor="subject_image">Cấp độ</Form.Label>
-            <Form.Control type="text" id="subject_image" readOnly />
-          </Form.Group>
-        </Form>
+      <div className="container">
+        <h3 className="heading">Khóa học online tại nhà - {watch('subject_name')}</h3>
+        <div className="image-container">
+          <Image className="image-thumbnail" src={`${urlImage}`} thumbnail />
+        </div>
+        <p className="subheading">{watch('subject_content')}</p>
+        <Button color="dark" variant="dark" className="btn-right mr-10" onClick={handleBack}>
+          Bạn có muốn đang ký khóa học
+        </Button>
       </div>
     </>
   );
 };
 
 export default Detail;
+function updateCategory(arg0: { id: number; requestBody: IClientSubjectDetail }): any {
+  throw new Error('Function not implemented.');
+}

@@ -37,6 +37,22 @@ export interface IClientSubjectDetail {
   subject_content: string;
   subject_image: string;
 }
+
+export interface IClientCourse {
+  subject_id: number;
+  subject_name: string;
+  subject_image: string;
+  course: IClientCourseDetail[];
+}
+export interface IClientCourseDetail {
+  course_id: number;
+  course_name: string;
+  course_description: number;
+  level:  number;
+  price: number;
+  promotional_price:  number; 
+}
+
 export interface IClientSearchDetail {
   subject_id: number;
   subject_name: string;

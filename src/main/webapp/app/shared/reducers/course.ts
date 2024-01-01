@@ -81,6 +81,14 @@ export const getCoursesClient = createAsyncThunk(
   serializeError: serializeAxiosError
 });
 
+export const paymentCourse = createAsyncThunk(
+  'client/payment-courses',
+  async (data: {course_id: number, subject_id: number, subject_full: number }) => {
+    return await axios.post<any>(`${URL_PATH.API.CLIENT_PAYMENT_COURSE}`, data)
+  }, {
+  serializeError: serializeAxiosError
+});
+
 export const CourseSlice = createSlice({
   name: 'course',
   initialState: initialState as CourseState,
@@ -189,6 +197,16 @@ export const CourseSlice = createSlice({
         state.loading = true
       })
       .addMatcher(isRejected(getCoursesClient), (state, action) => {
+        state.loading = false
+      })
+
+      .addMatcher(isFulfilled(paymentCourse), (state, action) => {
+        state.loading = false
+      })
+      .addMatcher(isPending(paymentCourse), (state, action) => {
+        state.loading = true
+      })
+      .addMatcher(isRejected(paymentCourse), (state, action) => {
         state.loading = false
       })
       ;

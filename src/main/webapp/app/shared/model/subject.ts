@@ -52,3 +52,13 @@ export interface IClientCourseDetail {
   price: number;
   promotional_price:  number; 
 }
+
+export interface IClientSearchDetail {
+  subject_id: number;
+  subject_name: string;
+  subject_content: string;
+  subject_image: string;
+  total_course_fee: number;
+  total_discount: number;
+  total_videos: number;
+}

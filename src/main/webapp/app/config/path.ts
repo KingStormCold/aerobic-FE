@@ -39,6 +39,7 @@ export const URL_PATH = {
   },
   CLIENT: {
     SUBJECT: '/subject',
+    SEARCH: '/search',
   },
   API: {
     GET_CATEGORY: '/api/auth/get-categories',
@@ -81,5 +82,6 @@ export const URL_PATH = {
     CLIENT_SUBJECT: 'api/client/get-subject',
     CLIENT_PAYMENT_COURSE: 'api/client/payment-register',
     CLIENT_PAYMENT_SUBJECT: 'api/client/payment-subject',
+    CLIENT_SEARCH: 'api/client/search',
   },
 };

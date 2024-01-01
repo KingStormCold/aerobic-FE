@@ -13,7 +13,7 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import './User.scss';
+import './user_edit.scss';
 import { updateStateTitle } from 'app/shared/reducers/category-show';
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 

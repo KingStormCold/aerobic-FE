@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } fro
 import axios from 'axios';
 import { URL_PATH } from 'app/config/path';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
-import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientCourse } from '../model/subject';
+import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientCourse, IClientSearchDetail } from '../model/subject';
 const initialState = {
   loading: false,
   totalPage: 0,
@@ -22,6 +22,9 @@ const initialState = {
   categoryId: '',
   subjectDetailClient: {} as IClientSubjectDetail,
   courseDetailClient: {} as IClientCourse,
+  searchDetailClient: [] as ReadonlyArray<IClientSearchDetail>,
+  searchSubjectClientSucess: false,
+  contentSearch: ''
 };
 
 export type SubjectState = Readonly<typeof initialState>;
@@ -96,6 +99,16 @@ export const courseClient = createAsyncThunk(
   }
 );
 
+export const searchClient = createAsyncThunk(
+  'client/search-client',
+  async (data: { content_search: string, page: number }) => {
+    return await axios.post<any>(`${URL_PATH.API.CLIENT_SEARCH}?page=${data.page}`, data);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
 export const SubjectSlice = createSlice({
   name: 'Subject',
   initialState: initialState as SubjectState,
@@ -115,6 +128,12 @@ export const SubjectSlice = createSlice({
         categoryId: action.payload,
       };
     },
+    updateStateContentSearch(state, action) {
+      return {
+        ...state,
+        contentSearch: action.payload,
+      };
+    }
   },
 
   extraReducers(builder) {
@@ -214,10 +233,27 @@ export const SubjectSlice = createSlice({
         state.loading = false;
         const httpStatusCode = action.error['response']?.status;
         state.subjectsErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
+      })
+      .addMatcher(isFulfilled(searchClient), (state, action) => {
+        state.loading = false;
+        state.searchDetailClient = action.payload.data?.results;
+        state.searchSubjectClientSucess = true
+        state.totalPage = action.payload.data?.totalPage;
+        state.pageNum = action.payload.data?.pageNum;
+      })
+      .addMatcher(isPending(searchClient), (state, action) => {
+        state.loading = true;
+        state.subjectsErrorMessage = '';
+        state.searchSubjectClientSucess = false
+      })
+      .addMatcher(isRejected(searchClient), (state, action) => {
+        state.loading = false;
+        const httpStatusCode = action.error['response']?.status;
+        state.subjectsErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
       });
   },
 });
 
-export const { resetSubject, updateStateSubject, updateStateCategoryId } = SubjectSlice.actions;
+export const { resetSubject, updateStateSubject, updateStateCategoryId, updateStateContentSearch } = SubjectSlice.actions;
 // Reducer
 export default SubjectSlice.reducer;

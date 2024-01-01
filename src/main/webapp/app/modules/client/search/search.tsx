@@ -1,33 +1,94 @@
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import Pagination from '@mui/material/Pagination';
+import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
+import Loading from 'app/components/loading';
+import { URL_PATH } from 'app/config/path';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getSubjects, searchClient, subjectClient } from 'app/shared/reducers/subject';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import './search.scss';
+// import { updateStateTitle } from 'app/shared/reducers/category-show';
 
 
-export const Detail = () => {
+export const Search = () => {
+  const pageNum = useAppSelector(state => state.subject.pageNum);
+  const totalPage = useAppSelector(state => state.subject.totalPage);
+  const history = useHistory();
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(state => state.subject.loading);
+  const searchDetailClient = useAppSelector(state => state.subject.searchDetailClient);
+  const contentSearch = useAppSelector(state => state.subject.contentSearch);
+  // const [urlImage, setUrlImage] = useState('')
+
   const theme = useTheme();
 
+  const handlSubjectClick = subjectID => {
+    dispatch(subjectClient(subjectID));
+    history.push(URL_PATH.ADMIN.CATEGORY.EDIT);
+  }
+  
+  const handlegetpage = (p) => {
+    setTimeout(() => {
+      dispatch(searchClient({content_search: contentSearch, page: p}));
+      return;
+    }, 100);
+    return;
+  };
+
+  const handleChange = (e, p) => {
+    handlegetpage(p)
+  };
+  
+
   return (
-    <Card sx={{ display: 'flex' }}>
-      <CardMedia
-        component="img"
-        sx={{ width: 300, height: 300 }}
-        image="https://www.bing.com/th?id=OIP.UiDXds-GCoppiFfYx6IA7AHaEo&w=143&h=100&c=8&rs=1&qlt=90&o=6&dpr=1.3&pid=3.1&rm=2"
-        alt="Live from space album cover"
+    <>
+      {loading && <Loading />}
+      {searchDetailClient && searchDetailClient?.map((subject, i) => (
+        
+        <Card sx={{ display: 'flex' }} key={subject.subject_id} onClick={ e => handlSubjectClick(subject.subject_id)}>
+          <CardMedia 
+            component="img"
+            sx={{ width: 151 }}
+            image={subject.subject_image}
+            alt="Live from space album cover"
+          />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }} >
+            <CardContent sx={{ flex: '1 0 auto' }}>
+              <Typography component="div" variant="h5">
+                Môn học: {subject.subject_name}
+              </Typography>
+              <Typography component="div" variant="h5">
+                Nội dung: {subject.subject_content}
+              </Typography>
+              <Typography component="div" variant="h5">
+                Giá tiền: {subject.total_course_fee}
+              </Typography>
+              <Typography component="div" variant="h5">
+                Khuyến mãi: {subject.total_discount}
+              </Typography>
+              <Typography component="div" variant="h5">
+                Video: {subject.total_videos}
+              </Typography>
+            </CardContent>
+          </Box>
+        </Card>
+      ))}
+   <Pagination
+        count={totalPage}
+        size="large"
+        page={pageNum}
+        variant="outlined"
+        shape="rounded"
+        onChange={handleChange}
+        style={{ float: "right" }}
       />
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <CardContent sx={{ flex: '1 0 auto' }}>
-          <h3 className="heading">Khóa học online tại nhà </h3>
-          <p className="subheading">subject_content</p>
-          <p className="subheading">total_course_fee</p>
-          <p className="subheading">total_discount</p>
-          <p className="subheading">total_videos</p>
-        </CardContent>
-      </Box>
-    </Card>
+    </>
   );
 };
 
-export default Detail;
+export default Search;

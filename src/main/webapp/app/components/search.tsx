@@ -1,27 +1,37 @@
 
-import { useAppSelector } from 'app/config/store';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { searchClient, updateStateContentSearch } from 'app/shared/reducers/subject';
+import { URL_PATH } from 'app/config/path';
 
 
 const Search = () => {
     const history = useHistory();
     const [searchValue, setSearchValue] = useState("");
     const path = history.location.pathname
+    const dispatch = useAppDispatch();
+    const searchSubjectClientSucess = useAppSelector(state => state.subject.searchSubjectClientSucess);
 
     useEffect(() => {
-        if (history.location.pathname !== "/search") setSearchValue("")
-    }, [path])
+        if(searchSubjectClientSucess) {
+            history.push(URL_PATH.CLIENT.SEARCH);
+        }
+    }, [searchSubjectClientSucess])
 
     const handleSearch = () => {
-        history.push("/search?product_name=" + searchValue + "&page=0")
+        searchSubject()
     }
 
     const handleKeyPress = (e) => {
-        if (e.key === "Enter") history.push("/search?product_name=" + searchValue + "&page=0")
+        if (e.key === "Enter") searchSubject()
     }
 
+    const searchSubject = () =>{
+        dispatch(updateStateContentSearch(searchValue))
+        dispatch(searchClient({content_search: searchValue, page: 1}))
+    }
 
     return (
         <div className='header-search'>

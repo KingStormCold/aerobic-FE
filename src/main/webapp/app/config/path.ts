@@ -39,6 +39,7 @@ export const URL_PATH = {
   },
   CLIENT: {
     SUBJECT: '/subject',
+    SEARCH: '/search',
   },
   API: {
     GET_CATEGORY: '/api/auth/get-categories',
@@ -79,5 +80,7 @@ export const URL_PATH = {
     GET_MENU: 'api/client/get-menu',
     CLIENT_COURSES: 'api/client/get-courses',
     CLIENT_SUBJECT: 'api/client/get-subject',
+
+    CLIENT_SEARCH: 'api/client/search',
   },
 };

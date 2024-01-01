@@ -37,3 +37,12 @@ export interface IClientSubjectDetail {
   subject_content: string;
   subject_image: string;
 }
+export interface IClientSearchDetail {
+  subject_id: number;
+  subject_name: string;
+  subject_content: string;
+  subject_image: string;
+  total_course_fee: number;
+  total_discount: number;
+  total_videos: number;
+}

@@ -79,5 +79,7 @@ export const URL_PATH = {
     GET_MENU: 'api/client/get-menu',
     CLIENT_COURSES: 'api/client/get-courses',
     CLIENT_SUBJECT: 'api/client/get-subject',
+    CLIENT_PAYMENT_COURSE: 'api/client/payment-register',
+    CLIENT_PAYMENT_SUBJECT: 'api/client/payment-subject',
   },
 };

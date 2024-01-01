@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } fro
 import axios from 'axios';
 import { URL_PATH } from 'app/config/path';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
-import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail } from '../model/subject';
+import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientCourse } from '../model/subject';
 const initialState = {
   loading: false,
   totalPage: 0,
@@ -21,6 +21,7 @@ const initialState = {
   subject: {} as ISubjectDetail,
   categoryId: '',
   subjectDetailClient: {} as IClientSubjectDetail,
+  courseDetailClient: {} as IClientCourse,
 };
 
 export type SubjectState = Readonly<typeof initialState>;
@@ -79,6 +80,16 @@ export const subjectClient = createAsyncThunk(
   'client/subject-client',
   async (categoryId: number) => {
     return await axios.get<any>(`${URL_PATH.API.CLIENT_SUBJECT}/${categoryId}`);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const courseClient = createAsyncThunk(
+  'client/course-client',
+  async (subjectId: number) => {
+    return await axios.get<any>(`${URL_PATH.API.CLIENT_COURSES}/${subjectId}`);
   },
   {
     serializeError: serializeAxiosError,
@@ -191,6 +202,19 @@ export const SubjectSlice = createSlice({
         const httpStatusCode = action.error['response']?.status;
         state.subjectsErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
       })
+      .addMatcher(isFulfilled(courseClient), (state, action) => {
+        state.loading = false;
+        state.courseDetailClient = action.payload.data;
+      })
+      .addMatcher(isPending(courseClient), (state, action) => {
+        state.loading = true;
+        state.subjectsErrorMessage = '';
+      })
+      .addMatcher(isRejected(courseClient), (state, action) => {
+        state.loading = false;
+        const httpStatusCode = action.error['response']?.status;
+        state.subjectsErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
+      });
   },
 });
 

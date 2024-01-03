@@ -37,3 +37,37 @@ export interface IVideoNameDetail {
   id: number,
   name: string
 }
+
+export interface ITestClient {
+  test_id: number,
+  test_content: string,
+  serial_answer: number,
+  answers: IAnswerClient[]
+}
+
+export interface IAnswerClient {
+  id: number,
+  answer_test: string,
+  serial_answer: number
+}
+
+export interface ITestAnswerClient {
+  test_id: number,
+  serial_answer: number
+}
+
+export interface IResultCheckAnswer {
+  tests: IResultCheckAnswerDetail[],
+  total_correct: number
+}
+
+export interface IResultCheckAnswerDetail {
+  test_content: string,
+  isCorrect: boolean,
+  answers: IAnswerDetailClient[]
+}
+
+export interface IAnswerDetailClient {
+  answer_test: string,
+  checked: boolean
+}

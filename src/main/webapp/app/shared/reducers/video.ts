@@ -3,7 +3,8 @@ import axios from 'axios';
 import { Storage } from 'react-jhipster';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
 import { URL_PATH } from 'app/config/path';
-import { IVideoDetail, ICreateVideo, IUpdateVideo, ICourseNameDetail } from '../model/video';
+import { IVideoDetail, ICreateVideo, IUpdateVideo, ICourseNameDetail, ICourseVideo, IUpdateVideoUser } from '../model/video';
+import { ICoursePaymentClient, ICoursePaymentDetail } from '../model/course';
 
 const initialState = {
   loading: false,
@@ -19,7 +20,9 @@ const initialState = {
   updateVideoSuccess: false,
   updateVideoErrorMessage: '',
   video: {} as IVideoDetail,
-  getCourseNames: [] as ReadonlyArray<ICourseNameDetail>
+  getCourseNames: [] as ReadonlyArray<ICourseNameDetail>,
+  coursePaymentDetail: {} as ICoursePaymentClient,
+  videosByCourseId: {} as ICourseVideo
 };
 
 export type VideoState = Readonly<typeof initialState>;
@@ -72,6 +75,30 @@ export const showCourseName = createAsyncThunk(
   serializeError: serializeAxiosError
 });
 
+export const getVideoClient = createAsyncThunk(
+  'client/get-video-client',
+  async (courseId: number) => {
+    return await axios.get<any>(`${URL_PATH.API.COURSE_VIDEO}/${courseId}`)
+  }, {
+  serializeError: serializeAxiosError
+});
+
+export const countVideoClient = createAsyncThunk(
+  'client/count-video-client',
+  async (videoId: number) => {
+    return await axios.get<any>(`${URL_PATH.API.COUNT_VIDEO}/${videoId}`)
+  }, {
+  serializeError: serializeAxiosError
+});
+
+export const updateVideoUserClient = createAsyncThunk(
+  'client/update-video-user-client',
+  async (data: IUpdateVideoUser) => {
+    return await axios.post<any>(`${URL_PATH.API.UPDATE_VIDEO_USER}`, data)
+  }, {
+  serializeError: serializeAxiosError
+});
+
 export const VideoSlice = createSlice({
   name: 'Video',
   initialState: initialState as VideoState,
@@ -84,7 +111,13 @@ export const VideoSlice = createSlice({
         ...state,
         video: action.payload
       }
-    }
+    },
+    updateStateCoursePaymentDetail(state, action) {
+      return {
+        ...state,
+        coursePaymentDetail: action.payload
+      }
+    },
   },
   extraReducers(builder) {
     builder
@@ -168,10 +201,22 @@ export const VideoSlice = createSlice({
       .addMatcher(isRejected(showCourseName), (state, action) => {
         state.loading = false
       })
+      .addMatcher(isFulfilled(getVideoClient), (state, action) => {
+        state.loading = false
+        state.videosByCourseId = action.payload.data?.courses;
+      })
+      .addMatcher(isPending(getVideoClient), (state, action) => {
+        state.loading = true
+        state.videosByCourseId = {} as ICourseVideo
+      })
+      .addMatcher(isRejected(getVideoClient), (state, action) => {
+        state.loading = false
+      })
+
       ;
   },
 });
 
-export const { resetVideo, updateStateVideo } = VideoSlice.actions;
+export const { resetVideo, updateStateVideo, updateStateCoursePaymentDetail } = VideoSlice.actions;
 // Reducer
 export default VideoSlice.reducer;

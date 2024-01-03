@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -13,6 +13,7 @@ import './video_create.scss';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
+import ReactPlayer from 'react-player'
 
 export interface ICreateVideo {
   id: number;
@@ -20,6 +21,7 @@ export interface ICreateVideo {
   link_video: string;
   finished: string;
   course_id: number;
+  full_time: number;
 }
 
 const VideoCreate = () => {
@@ -31,6 +33,10 @@ const VideoCreate = () => {
   const createVideoErrorMessage = useAppSelector(state => state.video.createVideoErrorMessage);
   const getCourseNames = useAppSelector(state => state.video.getCourseNames);
   const coursesDetail = useAppSelector(state => state.course.course);
+  const [linkVideo, setLinkVideo] = useState('')
+  const [fullTimeVideo, setFullTimeVideo] = useState(0)
+  const [errorVideo, setErrorVideo] = useState('')
+  const player = useRef<ReactPlayer>(null)
 
   useEffect(() => {
     if (coursesDetail.id === undefined) {
@@ -53,6 +59,7 @@ const VideoCreate = () => {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<{
     name: string;
@@ -62,12 +69,18 @@ const VideoCreate = () => {
   }>();
 
   const addVideo = data => {
+    const duration = player.current.getDuration()
+    if (errorVideo || duration === null) {
+      setErrorVideo('link video không đúng')
+      return
+    }
     const requestBody: ICreateVideo = {
       name: data.name,
       link_video: data.link_video,
       finished: data.finished,
       course_id: data.course_id,
       id: 1,
+      full_time: fullTimeVideo
     };
     dispatch(createVideo(requestBody));
   };
@@ -94,6 +107,27 @@ const VideoCreate = () => {
       );
     }
   }, [createVideoErrorMessage, dispatch]);
+
+  const handleDuration = (duration) => {
+    console.log(duration);
+    if (duration) {
+      const fullTimeNumber = duration / 60
+      const fullTimeString = String(fullTimeNumber).split('.')
+      setFullTimeVideo(Number(fullTimeString[0]))
+      setErrorVideo('')
+    } else {
+      setFullTimeVideo(0)
+      setErrorVideo('link video không đúng')
+    }
+  };
+
+  const handleLinkVideo = (e) => {
+    setLinkVideo(e.target.value);
+  }
+
+  const handleBack = () => {
+    history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
+  }
 
   return (
     <>
@@ -125,13 +159,16 @@ const VideoCreate = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">link_video</Form.Label>
+            <Form.Label htmlFor="name">Link video</Form.Label>
             <Form.Control
               type="text"
               id="link_video"
               {...register('link_video', {
                 required: true,
                 maxLength: 255,
+                onChange(event) {
+                  handleLinkVideo(event)
+                },
               })}
               isInvalid={errors.link_video?.type === 'required' || errors.link_video?.type === 'maxLength'}
             />
@@ -145,8 +182,30 @@ const VideoCreate = () => {
                 link video không được quá 255 ký tự
               </Card.Text>
             )}
+            {errorVideo && (
+              <Card.Text as="div" className="error-text">
+                {errorVideo}
+              </Card.Text>
+            )}
           </Form.Group>
-
+          {linkVideo &&
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="name">Xem trước</Form.Label>
+              <ReactPlayer width={'100%'} height={'100%'}
+                url={linkVideo}
+                onDuration={handleDuration}
+                controls
+                ref={player}
+                config={{
+                  file: {
+                    attributes: {
+                      controlsList: 'nodownload',
+                    },
+                  },
+                }}
+              />
+            </Form.Group>
+          }
           <Form.Group className="mb-3" controlId="parentcourse">
             <Form.Label>Khóa học</Form.Label>
             <Form.Select
@@ -166,6 +225,9 @@ const VideoCreate = () => {
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
             Thêm
+          </Button>
+          <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
+            Quay lại
           </Button>
           <br />
           <br />

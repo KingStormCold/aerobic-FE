@@ -40,6 +40,7 @@ export const URL_PATH = {
   CLIENT: {
     SUBJECT: '/subject',
     SEARCH: '/search',
+    VIDEO: '/my-course/videos',
   },
   API: {
     GET_CATEGORY: '/api/auth/get-categories',
@@ -83,5 +84,13 @@ export const URL_PATH = {
     CLIENT_PAYMENT_COURSE: 'api/client/payment-register',
     CLIENT_PAYMENT_SUBJECT: 'api/client/payment-subject',
     CLIENT_SEARCH: 'api/client/search',
+    COURSE_PAYMENT: 'api/client/payment-subject',
+    COURSE_VIDEO: 'api/client/get-videos',
+
+    COUNT_VIDEO: 'api/client/count-video',
+    UPDATE_VIDEO_USER: 'api/client/update-video-user',
+    GET_QUIZ: 'api/client/get-tests',
+    CHECK_ANSWER: '/api/client/check-answer',
+    REGISTER_USER: 'api/auth/register'
   },
 };

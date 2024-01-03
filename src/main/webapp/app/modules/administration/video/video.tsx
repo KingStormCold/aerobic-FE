@@ -127,6 +127,7 @@ export const VideoManagement = () => {
             <th>Tên video</th>
             <th>Khóa học</th>
             <th>Link video</th>
+            <th>Thời gian</th>
             <th>Người tạo</th>
             <th>Ngày tạo</th>
             <th>Người sửa</th>
@@ -150,6 +151,7 @@ export const VideoManagement = () => {
                     {video.link_video}
                   </Truncate>
                 </td>
+                <td>{video.full_time} phút</td>
                 <td>{video.created_by}</td>
                 <td>{moment(video.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
                 <td>{video.updated_by}</td>

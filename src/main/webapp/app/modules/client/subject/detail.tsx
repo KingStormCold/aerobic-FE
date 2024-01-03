@@ -5,7 +5,7 @@ import Image from 'react-bootstrap/Image';
 import './detail.scss';
 import { URL_PATH } from 'app/config/path';
 import { courseClient } from 'app/shared/reducers/subject';
-import { Button } from 'reactstrap';
+import { Button, Col } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
 import { paymentCourse } from 'app/shared/reducers/course';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
@@ -15,6 +15,18 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { numberWithCommas } from 'app/shared/util/string-utils';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import draftToHtmlPuri from "draftjs-to-html";
+import Typography from '@mui/joy/Typography';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -24,6 +36,26 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  '&:nth-of-type(odd)': {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    border: 0,
+  },
+}));
 
 export const Detail = () => {
   const history = useHistory();
@@ -40,6 +72,10 @@ export const Detail = () => {
   const [subjectFull, setSubjectFull] = React.useState(0);
   const [courseName, setCourseName] = React.useState('');
   const [coursePrice, setCoursePrice] = React.useState(0);
+  const [displayReadmore, setDisplayReadmore] = useState(true);
+  const [height, setHeight] = useState(0);
+  const MAX_HEIGHT_CSS = "780px"
+  const MAX_HEIGHT = 780
 
   const handleClose = () => {
     setOpen(false);
@@ -67,6 +103,7 @@ export const Detail = () => {
     if (subjectDetailClient && subjectDetailClient.subject_id) {
       dispatch(courseClient(subjectDetailClient.subject_id));
     }
+    setHeight(document.getElementById("content").clientHeight)
   }, [subjectDetailClient]);
 
   const handlePayment = (course, subject, name, price) => {
@@ -83,6 +120,10 @@ export const Detail = () => {
     }
   };
 
+  const contentProduct = draftToHtmlPuri(
+    (subjectDetailClient != null && subjectDetailClient?.subject_content !== null && subjectDetailClient?.subject_content !== undefined && subjectDetailClient?.subject_content !== "") ? JSON.parse(subjectDetailClient?.subject_content) : ''
+  );
+
   return (
     <>
       {loading && <Loading />}
@@ -91,48 +132,80 @@ export const Detail = () => {
         <div className="image-container">
           <Image className="image-thumbnail" src={subjectDetailClient?.subject_image} thumbnail />
         </div>
-        <p className="subheading">{subjectDetailClient?.subject_content}</p>
-
-        <div className="container2">
-          <div className="table-container">
-            <div className="header">
-              <p className="heading">Tên khóa học</p>
-              <p className="heading">Giá</p>
-              <p className="heading">Giá khuyến mãi</p>
-              <p className="heading">Số tiền cần thanh toán</p>
-              <p className="heading"></p>
-            </div>
-            <div className="body ">
-              {courseDetailClients &&
-                courseDetailClients.map(course => (
-                  <div className="row" key={course.course_id}>
-                    <p className="heading">{course.course_name}</p>
-                    <p className="heading">{course.price}</p>
-                    <p className="heading">{course.promotional_price}</p>
-                    <p className="heading">{course.price - course.promotional_price}</p>
-                    <p>
-                      <Button
-                        type="submit"
-                        variant="success"
-                        className="btn-right"
-                        onClick={e =>
-                          handlePayment(
-                            course.course_id,
-                            subjectDetailClient.subject_id,
-                            course.course_name,
-                            course.price - course.promotional_price
-                          )
-                        }
-                      >
-                        Đăng ký
-                      </Button>
-                    </p>
+        <div id="content" className='subject-detail-container-content-row' >
+          <Col className='subject-detail-content-col-left'>
+            <div className='subject-detail-content-col-right-data' >
+              <div id="content" style={displayReadmore ? { maxHeight: MAX_HEIGHT_CSS, overflow: "hidden" } : {}}
+                dangerouslySetInnerHTML={{
+                  __html: contentProduct
+                }}
+              />
+              {displayReadmore
+                ?
+                <div className="readmore-button">
+                  <span onClick={() => setDisplayReadmore(!displayReadmore)} >Đọc tiếp bài viết <ExpandMoreIcon /></span>
+                </div>
+                : height > MAX_HEIGHT
+                  ?
+                  <div className="readmore-button">
+                    <span onClick={() => setDisplayReadmore(!displayReadmore)} >Rút gọn bài viết <ExpandLessIcon /> </span>
                   </div>
-                ))}
+                  : ""}
             </div>
-          </div>
+          </Col>
         </div>
-      </div>
+        <Typography color="warning" sx={{
+          backgroundColor: 'rgb(231 159 55 / 20%)',
+          textAlign: 'center',
+          fontSize: '24px',
+          fontWeight: '700',
+          height: '50px',
+          paddingTop: '10px'
+        }}>
+          ĐĂNG KÝ KHÓA HỌC
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }}>Tên khóa học</StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">Giá</StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">Giá giảm</StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">Tổng tiền</StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center"></StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {courseDetailClients && courseDetailClients.map((course) => (
+                <StyledTableRow key={course.course_id}>
+                  <StyledTableCell component="th" scope="row" sx={{ fontSize: '16px' }}>
+                    {course.course_name}
+                  </StyledTableCell>
+                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>{numberWithCommas(course.price)}đ</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>{numberWithCommas(course.promotional_price)}đ</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>{numberWithCommas(course.price - course.promotional_price)}đ</StyledTableCell>
+                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
+                    <Button
+                      color='success'
+                      className="btn-right"
+                      onClick={e =>
+                        handlePayment(
+                          course.course_id,
+                          subjectDetailClient.subject_id,
+                          course.course_name,
+                          course.price - course.promotional_price
+                        )
+                      }
+                    >
+                      Đăng ký
+                    </Button>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div >
 
       <React.Fragment>
         <Dialog
@@ -147,7 +220,7 @@ export const Detail = () => {
           </DialogTitle>
           <DialogActions>
             <Button onClick={handleClose}>Hủy</Button>
-            <Button onClick={handleBuy}>Mua</Button>
+            <Button onClick={handleBuy} color='success'>Mua</Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>

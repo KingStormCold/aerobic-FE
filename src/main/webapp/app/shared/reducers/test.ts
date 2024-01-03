@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Storage } from 'react-jhipster';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
 import { URL_PATH } from 'app/config/path';
-import { ITestDetail, ICreateTest, IUpdateTest, IVideoNameDetail } from '../model/test';
+import { ITestDetail, ICreateTest, IUpdateTest, IVideoNameDetail, ITestClient, ITestAnswerClient, IResultCheckAnswer } from '../model/test';
 
 const initialState = {
   loading: false,
@@ -19,8 +19,12 @@ const initialState = {
   updateTestSuccess: false,
   updateTestErrorMessage: '',
   test: {} as ITestDetail,
-  getVideoNames: [] as ReadonlyArray<IVideoNameDetail>
-};
+  getVideoNames: [] as ReadonlyArray<IVideoNameDetail>,
+  quizs: [] as ReadonlyArray<ITestClient>,
+  openQuiz: false,
+  resultQuiz: {} as IResultCheckAnswer,
+  resultQuizSuccess: false
+}
 
 export type TestState = Readonly<typeof initialState>;
 
@@ -72,6 +76,22 @@ export const showVideoName = createAsyncThunk(
   serializeError: serializeAxiosError
 });
 
+export const getQuizsAndAnswer = createAsyncThunk(
+  'client/get-quizs',
+  async (videoId: number) => {
+    return await axios.get<any>(`${URL_PATH.API.GET_QUIZ}/${videoId}`)
+  }, {
+  serializeError: serializeAxiosError
+});
+
+export const submitQuiz = createAsyncThunk(
+  'client/submit-quizs',
+  async (data: { quizs: ITestAnswerClient[] }) => {
+    return await axios.post<any>(`${URL_PATH.API.CHECK_ANSWER}`, data)
+  }, {
+  serializeError: serializeAxiosError
+});
+
 export const TestSlice = createSlice({
   name: 'Test',
   initialState: initialState as TestState,
@@ -84,7 +104,13 @@ export const TestSlice = createSlice({
         ...state,
         test: action.payload
       }
-    }
+    },
+    updateStateQuiz(state, action) {
+      return {
+        ...state,
+        openQuiz: action.payload
+      }
+    },
   },
   extraReducers(builder) {
     builder
@@ -168,10 +194,37 @@ export const TestSlice = createSlice({
       .addMatcher(isRejected(showVideoName), (state, action) => {
         state.loading = false
       })
+      .addMatcher(isFulfilled(getQuizsAndAnswer), (state, action) => {
+        state.loading = false
+        state.quizs = action.payload.data?.tests;
+      })
+      .addMatcher(isPending(getQuizsAndAnswer), (state, action) => {
+        state.loading = true
+        state.quizs = []
+        state.resultQuiz = {} as IResultCheckAnswer
+      })
+      .addMatcher(isRejected(getQuizsAndAnswer), (state, action) => {
+        state.loading = false
+      })
+      .addMatcher(isFulfilled(submitQuiz), (state, action) => {
+        state.loading = false
+        state.resultQuiz = action.payload.data?.result;
+        state.resultQuizSuccess = true
+      })
+      .addMatcher(isPending(submitQuiz), (state, action) => {
+        state.loading = true
+        state.resultQuiz = {} as IResultCheckAnswer
+        state.resultQuizSuccess = false
+        state.quizs = []
+      })
+      .addMatcher(isRejected(submitQuiz), (state, action) => {
+        state.loading = false
+      })
+    submitQuiz
       ;
   },
 });
 
-export const { resetTest, updateStateTest } = TestSlice.actions;
+export const { resetTest, updateStateTest, updateStateQuiz } = TestSlice.actions;
 // Reducer
 export default TestSlice.reducer;

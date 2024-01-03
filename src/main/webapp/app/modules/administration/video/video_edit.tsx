@@ -5,7 +5,7 @@ import { URL_PATH } from 'app/config/path';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import { getVideos, resetVideo, showCourseName, updateVideo } from 'app/shared/reducers/video';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
@@ -13,6 +13,7 @@ import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import { ICreateVideo } from './video_create';
 import { updateStateTitle } from 'app/shared/reducers/category-show';
+import ReactPlayer from 'react-player'
 
 export const VideoEdit = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +27,10 @@ export const VideoEdit = () => {
   const videoDetail = useAppSelector(state => state.video.video);
   const coursesDetail = useAppSelector(state => state.course.course);
   const title = useAppSelector(state => state.categoryShow.title);
+  const player = useRef<ReactPlayer>(null)
+  const [linkVideo, setLinkVideo] = useState('')
+  const [fullTimeVideo, setFullTimeVideo] = useState(0)
+  const [errorVideo, setErrorVideo] = useState('')
 
   useEffect(() => {
     dispatch(showCourseName());
@@ -42,6 +47,7 @@ export const VideoEdit = () => {
       setValue('link_video', videoDetail?.link_video)
       setValue('course_id', String(videoDetail?.course_id))
       dispatch(updateStateTitle(title + " > " + videoDetail?.name))
+      setLinkVideo(videoDetail?.link_video)
     }
   }, [videoDetail]);
 
@@ -61,11 +67,17 @@ export const VideoEdit = () => {
   }>();
 
   const editVideo = data => {
+    const duration = player.current.getDuration()
+    if (errorVideo || duration === null) {
+      setErrorVideo('link video không đúng')
+      return
+    }
     const requestBody = {
       name: data?.name,
       link_video: data?.link_video,
       course_id: data?.course_id,
       finished: data?.finished,
+      full_time: fullTimeVideo
     } as ICreateVideo;
     dispatch(updateVideo({ id: videoDetail?.id, requestBody }));
   };
@@ -84,6 +96,23 @@ export const VideoEdit = () => {
 
   const handleBack = () => {
     history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
+  }
+
+  const handleDuration = (duration) => {
+    console.log(duration);
+    if (duration) {
+      const fullTimeNumber = duration / 60
+      const fullTimeString = String(fullTimeNumber).split('.')
+      setFullTimeVideo(Number(fullTimeString[0]))
+      setErrorVideo('')
+    } else {
+      setFullTimeVideo(0)
+      setErrorVideo('link video không đúng')
+    }
+  };
+
+  const handleLinkVideo = (e) => {
+    setLinkVideo(e.target.value);
   }
 
   return (
@@ -123,6 +152,9 @@ export const VideoEdit = () => {
               {...register('link_video', {
                 required: true,
                 maxLength: 255,
+                onChange(event) {
+                  handleLinkVideo(event)
+                },
               })}
               isInvalid={errors.link_video?.type === 'required' || errors.link_video?.type === 'maxLength'}
             />
@@ -136,7 +168,30 @@ export const VideoEdit = () => {
                 Liên kết video không được quá 255 ký tự
               </Card.Text>
             )}
+            {errorVideo && (
+              <Card.Text as="div" className="error-text">
+                {errorVideo}
+              </Card.Text>
+            )}
           </Form.Group>
+          {linkVideo &&
+            <Form.Group className="mb-3">
+              <Form.Label htmlFor="name">Xem trước</Form.Label>
+              <ReactPlayer width={'100%'} height={'100%'}
+                url={linkVideo}
+                onDuration={handleDuration}
+                controls
+                ref={player}
+                config={{
+                  file: {
+                    attributes: {
+                      controlsList: 'nodownload',
+                    },
+                  },
+                }}
+              />
+            </Form.Group>
+          }
 
           <Form.Group className="mb-3" controlId="course_id">
             <Form.Label>Tên khóa học</Form.Label>

@@ -158,7 +158,10 @@ export const CourseManagement = () => {
                   {course.subject_id}
                 </Truncate>
               </td>
-              <td>{course.description}</td>
+              <td>
+                <Truncate maxWidth={150} title={course.description}>
+                  {course.description}
+                </Truncate></td>
               <td>{course.level}</td>
               <td>{String(course.price !== 0 ? numberWithCommas(course.price) : 0)}đ</td>
               <td>{String(course.promotional_price !== 0 ? numberWithCommas(course.promotional_price) : 0)}đ</td>

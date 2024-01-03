@@ -9,6 +9,7 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { Storage } from 'react-jhipster';
 import { useAppSelector } from './config/store';
+import Register from './modules/login/register';
 
 const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
@@ -33,6 +34,7 @@ const Routes = () => {
     <Switch>
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />
+      <ErrorBoundaryRoute path="/register" component={Register} />
       {roleAdmin && <PrivateRoute path="/admin" component={Admin} />}
       <PrivateRoute path="/" component={Client} />
       <ErrorBoundaryRoute component={PageNotFound} />

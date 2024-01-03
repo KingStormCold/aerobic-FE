@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Storage } from 'react-jhipster';
 import { IQueryParams, serializeAxiosError } from './reducer.utils';
 import { URL_PATH } from 'app/config/path';
-import { IUser, ICreateUser, IUpdateUser, IRoleDetail } from '../model/user';
+import { IUser, ICreateUser, IUpdateUser, IRoleDetail, IRegisterUser } from '../model/user';
 
 const initialState = {
   loading: false,
@@ -19,7 +19,9 @@ const initialState = {
   createUserErrorMessage: '',
   updateUserSuccess: false,
   updateUserErrorMessage: '',
-  user: {} as IUser
+  user: {} as IUser,
+  registerUserSuccess: false,
+  registerUserErrorMessgae: ''
 };
 
 export type UserState = Readonly<typeof initialState>;
@@ -60,6 +62,14 @@ export const deleteUser = createAsyncThunk(
   'admin/delete-user',
   async (id: string) => {
     return await axios.delete<any>(`${URL_PATH.API.USER}/${id}`)
+  }, {
+  serializeError: serializeAxiosError
+});
+
+export const registerUser = createAsyncThunk(
+  'client/register-user',
+  async (data: IRegisterUser) => {
+    return await axios.post<any>(`${URL_PATH.API.REGISTER_USER}`, data)
   }, {
   serializeError: serializeAxiosError
 });
@@ -149,6 +159,20 @@ export const UserSlice = createSlice({
         state.loading = false
         const httpStatusCode = action.error['response']?.status
         state.updateUserErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      .addMatcher(isFulfilled(registerUser), (state, action) => {
+        state.loading = false
+        state.registerUserSuccess = true;
+      })
+      .addMatcher(isPending(registerUser), (state, action) => {
+        state.loading = true
+        state.registerUserSuccess = false
+        state.registerUserErrorMessgae = ''
+      })
+      .addMatcher(isRejected(registerUser), (state, action) => {
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status
+        state.registerUserErrorMessgae = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
       })
       ;
   },

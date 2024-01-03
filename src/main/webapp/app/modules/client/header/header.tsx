@@ -1,30 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './header.scss';
 
-import RightSideBar from 'app/components/rightSideBar';
-import { useAppSelector } from 'app/config/store';
-import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import Search from 'app/components/search';
+import { useAppSelector } from 'app/config/store';
+import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
 const Header = () => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
+  const account = useAppSelector(state => state.authentication.account);
   const history = useHistory();
 
-  const loginLogout = () => {
-    if (!isAuthenticated) {
-      return (
-        <Link to="/login" className='header-link'>
-          Đăng nhập
-        </Link>
-      );
-    } else {
-      return (
-        <Link to="/logout" className='header-link'>
-          Đăng xuất
-        </Link>
-      );
-    }
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   return (
     <>
@@ -54,42 +50,94 @@ const Header = () => {
           </div>
 
           <div className='header-user'>
-            <span className='header-user-icon'>
-              <FontAwesomeIcon icon="user" />
-            </span>
+            {isAuthenticated &&
+              <span className='header-user-icon'>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  color="inherit"
+                >
+                  <FontAwesomeIcon icon="user" />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                  sx={{
+                    'li': {
+                      'a': {
+                        textDecoration: 'none',
+                        color: 'black',
+                        width: '100%',
+                        textAlign: 'center'
+                      }
+                    },
+                  }}
+                >
+                  <MenuItem>
+                    <Link className="nav-link" to='/admin/user-management'>
+                      Thay đổi mật khẩu
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link className="nav-link" to='/my-course'>
+                      Khóa học của tôi
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to="/logout" className='nav-link'>
+                      Đăng xuất
+                    </Link>
+                  </MenuItem>
+                </Menu>
+              </span>
+            }
+
             <div className='header-account-content'>
               <div className='header-btn'>
-                <div className='account-btnsignin'>
-                  Đăng ký
-                </div>
-                <span>/</span>
-                <div className='account-btnlogin'>
-                  {loginLogout()}
-                </div>
+                {!isAuthenticated &&
+                  <>
+                    <div className='account-btnsignin'>
+                      <Link to="/register" className='header-link'>
+                        Đăng ký
+                      </Link>
+                    </div>
+                    <div className='account-btnlogin'>
+                      <Link to="/login" className='header-link'>
+                        Đăng nhập
+                      </Link>
+                    </div>
+                  </>
+                }
+
               </div>
-              <div className='user-name'>
-                Thành viên
-              </div>
+              {isAuthenticated &&
+                <>
+                  <div className='user-name'>
+                    Xin chào
+                  </div>
+                  <div className='user-name'>
+                    {account?.data?.fullname}
+                  </div>
+                </>
+              }
             </div>
           </div>
-
-          <div className='header-cart'>
-            {/* <FontAwesomeIcon icon="shopping-bag" /> */}
-            <img src='content/images/header_cart.png' className='header-cart-img'></img>
-          </div>
-          <RightSideBar />
         </div>
       </div>
-      {/* <div
-                dangerouslySetInnerHTML={{
-                    __html: ZaloChat
-                }}
-            /> */}
-      {/* <div
-                dangerouslySetInnerHTML={{
-                    __html: MessengerChat
-                }}
-            /> */}
     </>
   );
 }

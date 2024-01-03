@@ -1,10 +1,10 @@
 export interface ICourseDetail {
   id: number,
   name: string,
-  description:string,
-  level:number,
-  price:number,
-  promotional_price:number,
+  description: string,
+  level: number,
+  price: number,
+  promotional_price: number,
   subject_name: string,
   subject_id: number,
   created_by: string,
@@ -15,7 +15,7 @@ export interface ICourseDetail {
 
 export interface ICreateCourse {
   name: string;
-  subject_id: number; 
+  subject_id: number;
   description: string;
   level: number;
   price: number;
@@ -24,7 +24,7 @@ export interface ICreateCourse {
 
 export interface IUpdateCourse {
   name: string;
-  subject_id: number; 
+  subject_id: number;
   description: string;
   level: number;
   price: number;
@@ -39,10 +39,36 @@ export interface ISubjectDetail {
 export interface IFullCourse {
   subject_id: number,
   subject_name: string,
-  id_course: number, 
+  id_course: number,
   name: string,
   description
   level: number,
   price: number,
   promotional_price: number,
+}
+
+export interface ICoursePayments {
+  subject_id: number,
+  subject_name: string,
+  courses: ICoursePaymentDetail[]
+}
+
+export interface ICoursePaymentDetail {
+  id: number,
+  name: string,
+  description: string,
+  image: string,
+  created_date: string,
+  progress_course: number,
+  status: boolean
+}
+
+export interface ICoursePaymentClient {
+  id: number,
+  name: string,
+  description: string,
+  image: string,
+  created_date: string,
+  subject_id: number,
+  subject_name: string,
 }

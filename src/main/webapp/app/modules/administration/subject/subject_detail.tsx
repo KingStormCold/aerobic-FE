@@ -97,7 +97,7 @@ export const SubjectDetail = () => {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group className="mb-3">
+        {/* <Form.Group className="mb-3">
           <Form.Label>Nội dung</Form.Label>
           <Editor
             disabled="true"
@@ -107,7 +107,7 @@ export const SubjectDetail = () => {
             toolbarClassName="toolbar-class"
             onEditorStateChange={onEditorStateChange}
           />
-        </Form.Group>
+        </Form.Group> */}
         <Button type='submit' variant="success" className='btn-right' onClick={handleAddCourse}>Thêm khóa học</Button>
         <br />
         <br />

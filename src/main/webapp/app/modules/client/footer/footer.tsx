@@ -45,11 +45,6 @@ const Footer = (props) => {
               <Col xs="6" className='footer-link-row-left-content-left'>
                 <ul className='footer-link-row-left-content-left-ul'>
                   <li>
-                    <Link to="/">
-                      Mua hàng trả góp
-                    </Link>
-                  </li>
-                  <li>
                     <Link to="/chinh-sach-bao-hanh">
                       Chính sách bảo hành
                     </Link>
@@ -182,11 +177,6 @@ const Footer = (props) => {
             <Row className='footer-link-row-left'>
               <Col xs={sizePolicyResp} className='footer-link-row-left-content-left'>
                 <ul className='footer-link-row-left-content-left-ul' style={{ paddingLeft: "0px", margin: "0" }}>
-                  <li>
-                    <Link to="/">
-                      Mua hàng trả góp
-                    </Link>
-                  </li>
                   <li>
                     <Link to="/chinh-sach-bao-hanh">
                       Chính sách bảo hành

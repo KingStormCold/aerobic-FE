@@ -32,3 +32,10 @@ export interface IUpdateUser {
 export interface IRoleDetail {
   name: string
 }
+
+export interface IRegisterUser {
+  user_email: string,
+  user_password: string,
+  user_phone: string,
+  user_fullname: string
+}

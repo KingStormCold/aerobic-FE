@@ -15,8 +15,8 @@ const Routes = ({ match }) => (
     <Menu />
     <Switch>
       <div className="main-layout">
-        <>{<PrivateRoute exact path={`${match.url}subject`} component={detail} />}</>
-        <>{<PrivateRoute exact path={`${match.url}search`} component={search} />}</>
+        {<PrivateRoute exact path={`${match.url}subject`} component={detail} />}
+        {<PrivateRoute exact path={`${match.url}search`} component={search} />}
       </div>
       <ScrollToTopButton />
     </Switch>

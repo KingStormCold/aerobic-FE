@@ -39,9 +39,6 @@ export interface IClientSubjectDetail {
 }
 
 export interface IClientCourse {
-  subject_id: number;
-  subject_name: string;
-  subject_image: string;
   course: IClientCourseDetail[];
 }
 export interface IClientCourseDetail {

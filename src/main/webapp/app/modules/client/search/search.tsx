@@ -14,7 +14,6 @@ import { useHistory } from 'react-router-dom';
 import './search.scss';
 // import { updateStateTitle } from 'app/shared/reducers/category-show';
 
-
 export const Search = () => {
   const pageNum = useAppSelector(state => state.subject.pageNum);
   const totalPage = useAppSelector(state => state.subject.totalPage);
@@ -29,63 +28,57 @@ export const Search = () => {
 
   const handlSubjectClick = subjectID => {
     dispatch(subjectClient(subjectID));
-    history.push(URL_PATH.ADMIN.CATEGORY.EDIT);
-  }
-  
-  const handlegetpage = (p) => {
+    history.push(URL_PATH.CLIENT.SUBJECT);
+  };
+
+  const handlegetpage = p => {
     setTimeout(() => {
-      dispatch(searchClient({content_search: contentSearch, page: p}));
+      dispatch(searchClient({ content_search: contentSearch, page: p }));
       return;
     }, 100);
     return;
   };
 
   const handleChange = (e, p) => {
-    handlegetpage(p)
+    handlegetpage(p);
   };
-  
 
   return (
     <>
       {loading && <Loading />}
-      {searchDetailClient && searchDetailClient?.map((subject, i) => (
-        
-        <Card sx={{ display: 'flex' }} key={subject.subject_id} onClick={ e => handlSubjectClick(subject.subject_id)}>
-          <CardMedia 
-            component="img"
-            sx={{ width: 151 }}
-            image={subject.subject_image}
-            alt="Live from space album cover"
-          />
-          <Box sx={{ display: 'flex', flexDirection: 'column' }} >
-            <CardContent sx={{ flex: '1 0 auto' }}>
-              <Typography component="div" variant="h5">
-                Môn học: {subject.subject_name}
-              </Typography>
-              <Typography component="div" variant="h5">
-                Nội dung: {subject.subject_content}
-              </Typography>
-              <Typography component="div" variant="h5">
-                Giá tiền: {subject.total_course_fee}
-              </Typography>
-              <Typography component="div" variant="h5">
-                Khuyến mãi: {subject.total_discount}
-              </Typography>
-              <Typography component="div" variant="h5">
-                Video: {subject.total_videos}
-              </Typography>
-            </CardContent>
-          </Box>
-        </Card>
-      ))}
-   <Pagination
+      {searchDetailClient &&
+        searchDetailClient?.map((subject, i) => (
+          <Card sx={{ display: 'flex' }} key={subject.subject_id} onClick={e => handlSubjectClick(subject.subject_id)}>
+            <CardMedia component="img" sx={{ width: 151 }} image={subject.subject_image} alt="Live from space album cover" />
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <CardContent sx={{ flex: '1 0 auto' }}>
+                <Typography component="div" variant="h5">
+                  Môn học: {subject.subject_name}
+                </Typography>
+                <Typography component="div" variant="h5">
+                  Nội dung: {subject.subject_content}
+                </Typography>
+                <Typography component="div" variant="h5">
+                  Giá tiền: {subject.total_course_fee}
+                </Typography>
+                <Typography component="div" variant="h5">
+                  Khuyến mãi: {subject.total_discount}
+                </Typography>
+                <Typography component="div" variant="h5">
+                  Video: {subject.total_videos}
+                </Typography>
+              </CardContent>
+            </Box>
+          </Card>
+        ))}
+      <Pagination
         count={totalPage}
         size="large"
         page={pageNum}
         variant="outlined"
         shape="rounded"
         onChange={handleChange}
-        style={{ float: "right" }}
+        style={{ float: 'right' }}
       />
     </>
   );

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import './categoryMenu.scss';
 import { getMenu } from 'app/shared/reducers/category';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { subjectClient, updateStateCategoryId } from 'app/shared/reducers/subject';
 import { useHistory } from 'react-router-dom';
 import { URL_PATH } from 'app/config/path';
@@ -34,30 +33,26 @@ const CategoryMenu = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav mr-auto">
-          {menus &&
-            menus.map((menu, index) => (
-              <NavDropdown
-                key={menu.id}
-                title={menu.name}
-                // show={selectedMenu === menu}
-                onMouseEnter={() => handleMenuEnter(menu)}
-                onMouseLeave={handleMenuLeave}
-              >
-                {menu.sub_menu &&
-                  menu.sub_menu.map(subMenu => (
-                    <NavDropdown.Item key={subMenu.id} onClick={e => handleMenuItemClick(subMenu.id)}>
-                      {subMenu.name}
-                    </NavDropdown.Item>
-                  ))}
-              </NavDropdown>
-            ))}
-        </ul>
-        <div className="navbar-nav ml-auto"></div>
-      </div>
-    </nav>
+    <div className="menu-bar">
+      <ul>
+        {menus &&
+          menus.map(menu => (
+            <li key={menu.id} title={menu.name} onMouseEnter={() => handleMenuEnter(menu)} onMouseLeave={handleMenuLeave}>
+              {menu.name}
+              {selectedMenu === menu && (
+                <ul className="submenu">
+                  {menu.sub_menu &&
+                    menu.sub_menu.map(subMenu => (
+                      <li key={subMenu.id} onClick={() => handleMenuItemClick(subMenu.id)}>
+                        {subMenu.name}
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </li>
+          ))}
+      </ul>
+    </div>
   );
 };
 

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
-
 import axios from 'axios';
 import { URL_PATH } from 'app/config/path';
-import { IQueryParams, serializeAxiosError } from './reducer.utils';
-import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientCourse, IClientSearchDetail } from '../model/subject';
+import {  serializeAxiosError } from './reducer.utils';
+import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientSearchDetail, IClientCourseDetail } from '../model/subject';
+
 const initialState = {
   loading: false,
   totalPage: 0,
@@ -21,7 +21,7 @@ const initialState = {
   subject: {} as ISubjectDetail,
   categoryId: '',
   subjectDetailClient: {} as IClientSubjectDetail,
-  courseDetailClient: {} as IClientCourse,
+  courseDetailClient: [] as ReadonlyArray<IClientCourseDetail>,
   searchDetailClient: [] as ReadonlyArray<IClientSearchDetail>,
   searchSubjectClientSucess: false,
   contentSearch: ''

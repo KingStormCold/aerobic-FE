@@ -20,7 +20,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/joy/Typography';
 import { numberWithCommas } from 'app/shared/util/string-utils';
-import MyCourse from '../client/my-course/my_course';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -100,7 +99,12 @@ export const HistoryPayment = () => {
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
-              <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }}>Course Name</StyledTableCell>
+              <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
+                Subject Name
+              </StyledTableCell>
+              <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
+                Course Name
+              </StyledTableCell>
               <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
                 Price
               </StyledTableCell>
@@ -113,9 +117,17 @@ export const HistoryPayment = () => {
           <TableBody>
             {historyPayments &&
               historyPayments.map(payment => (
-                <StyledTableRow key={payment.name}>
-                  <StyledTableCell component="th" scope="row" sx={{ fontSize: '16px' }}>
-                    {payment.name}
+                <StyledTableRow key={payment.subjectName}>
+                  <StyledTableCell component="th" scope="row" align="center" sx={{ fontSize: '16px' }}>
+                    {payment.subjectName}
+                  </StyledTableCell>
+                  <StyledTableCell
+                    component="th"
+                    scope="row"
+                    align="center"
+                    sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}
+                  >
+                    {payment.courseName}
                   </StyledTableCell>
                   <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
                     {numberWithCommas(payment.price)}đ

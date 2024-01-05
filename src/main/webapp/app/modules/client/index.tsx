@@ -11,6 +11,7 @@ import MyCourse from './my-course/my_course';
 import { useAppSelector } from 'app/config/store';
 import Video from './video/video';
 import { Switch } from 'react-router-dom';
+import ChangePass from '../login/change-pass';
 
 const Routes = ({ match }) => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
@@ -29,7 +30,7 @@ const Routes = ({ match }) => {
       </Switch>
       <Footer />
     </>
-  )
+  );
 };
 
 export default Routes;

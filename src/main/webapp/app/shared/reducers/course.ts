@@ -98,7 +98,7 @@ export const getCoursesClient = createAsyncThunk(
 
 export const paymentCourse = createAsyncThunk(
   'client/payment-courses',
-  async (data: { course_id: number; subject_id: number; subject_full: number }) => {
+  async (data: { course_id: number; subject_id: number; subject_full: number; free:  number}) => {
     return await axios.post<any>(`${URL_PATH.API.CLIENT_PAYMENT_COURSE}`, data);
   },
   {

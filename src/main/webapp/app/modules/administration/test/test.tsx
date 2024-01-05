@@ -156,23 +156,23 @@ export const TestManagement = () => {
                 {test.serial_answer}
               </td>
               <td>
-                <Truncate maxWidth={100} title={test?.answers[0].answer_content}>
-                  {test?.answers[0].answer_content}
+                <Truncate maxWidth={100} title={test?.answers[0]?.answer_content}>
+                  {test?.answers[0]?.answer_content}
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={test?.answers[1].answer_content}>
-                  {test?.answers[1].answer_content}
+                <Truncate maxWidth={100} title={test?.answers[1]?.answer_content}>
+                  {test?.answers[1]?.answer_content}
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={test?.answers[2].answer_content}>
-                  {test?.answers[2].answer_content}
+                <Truncate maxWidth={100} title={test?.answers[2]?.answer_content}>
+                  {test?.answers[2]?.answer_content}
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={test?.answers[3].answer_content}>
-                  {test?.answers[3].answer_content}
+                <Truncate maxWidth={100} title={test?.answers[3]?.answer_content}>
+                  {test?.answers[3]?.answer_content}
                 </Truncate>
               </td>
               <td>{test.created_by}</td>

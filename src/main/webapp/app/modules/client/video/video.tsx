@@ -23,6 +23,8 @@ import ReactPlayer from 'react-player';
 import './video.scss';
 import OpenQuiz from './open-quiz';
 import { Chip } from '@mui/material';
+import { Storage } from 'react-jhipster';
+import { MY_COURSE } from 'app/config/constants';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -45,10 +47,17 @@ const Video = () => {
   const [open, setOpen] = React.useState(false);
   const [videoDetail, setVideoDetail] = useState({} as ICourseVideoDetail)
   const openQuiz = useAppSelector(state => state.test.openQuiz)
+  const courseId = Storage.session.get(MY_COURSE);
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   useEffect(() => {
     if (coursePaymentDetail && coursePaymentDetail.id) {
       dispatch(getVideoClient(coursePaymentDetail.id))
+    }
+    else {
+      dispatch(getVideoClient(courseId))
     }
   }, [coursePaymentDetail])
 
@@ -59,7 +68,12 @@ const Video = () => {
   }
 
   const handleClose = () => {
-    dispatch(getVideoClient(coursePaymentDetail.id))
+    if (coursePaymentDetail && coursePaymentDetail.id) {
+      dispatch(getVideoClient(coursePaymentDetail.id))
+    }
+    else {
+      dispatch(getVideoClient(courseId))
+    }
     setOpen(false);
   };
 
@@ -78,7 +92,7 @@ const Video = () => {
 
     const playedSeconds = progress.playedSeconds
     const previousTime = String(playedSeconds).split('.')
-    if (Number(previousTime[0]) > 0 && Number(previousTime[0]) % 15 === 0) {
+    if (Number(previousTime[0]) > 0 && Number(previousTime[0]) % 10 === 0) {
       console.log(Number(previousTime[0]))
       console.log(Number(progressTime[0]))
       dispatch(updateVideoUserClient({
@@ -209,12 +223,20 @@ const Video = () => {
                     )}%`}</Typography>
                 </Box>
               </Box>
-              {item.finished === 1 &&
+              {item.finished === 1 && item.progress >= 85 &&
                 <Chip label="Hoàn thành bài test" color="success" size='small' sx={{
                   fontSize: '10px',
                   width: '110px',
                   paddingTop: '2px',
                   marginTop: '5px'
+                }} />
+              }
+              {item.finished === 0 && item.progress >= 85 &&
+                <Chip label="Chưa hoàn thành bài test" color="warning" size='small' sx={{
+                  fontSize: '10px',
+                  width: '140px',
+                  paddingTop: '2px',
+                  marginTop: '3px'
                 }} />
               }
               <CardActions>

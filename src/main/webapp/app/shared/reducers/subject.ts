@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { URL_PATH } from 'app/config/path';
-import {  serializeAxiosError } from './reducer.utils';
-import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientSearchDetail, IClientCourseDetail } from '../model/subject';
+import { serializeAxiosError } from './reducer.utils';
+import { ISubjectDetail, ICreateSubject, IUpdateSubject, CategoriesChild, IClientSubjectDetail, IClientSearchDetail, IClientCourseDetail, ISubjectContentDetail } from '../model/subject';
 
 const initialState = {
   loading: false,
@@ -24,7 +24,10 @@ const initialState = {
   courseDetailClient: [] as ReadonlyArray<IClientCourseDetail>,
   searchDetailClient: [] as ReadonlyArray<IClientSearchDetail>,
   searchSubjectClientSucess: false,
-  contentSearch: ''
+  contentSearch: '',
+  subjectsByYoga: [] as ReadonlyArray<ISubjectContentDetail>,
+  subjectsByGym: [] as ReadonlyArray<ISubjectContentDetail>,
+  subjectsByMeditate: [] as ReadonlyArray<ISubjectContentDetail>,
 };
 
 export type SubjectState = Readonly<typeof initialState>;
@@ -103,6 +106,36 @@ export const searchClient = createAsyncThunk(
   'client/search-client',
   async (data: { content_search: string, page: number }) => {
     return await axios.post<any>(`${URL_PATH.API.CLIENT_SEARCH}?page=${data.page}`, data);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const getSubjectByYoga = createAsyncThunk(
+  'client/subject_by_yoga',
+  async (data: { content_search: string, page_size: number }) => {
+    return await axios.post<any>(`${URL_PATH.API.GET_SUBJECT_CONTENT}`, data);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const getSubjectByGym = createAsyncThunk(
+  'client/subject_by_gym',
+  async (data: { content_search: string, page_size: number }) => {
+    return await axios.post<any>(`${URL_PATH.API.GET_SUBJECT_CONTENT}`, data);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const getSubjectByMeditate = createAsyncThunk(
+  'client/subject_by_meditate',
+  async (data: { content_search: string, page_size: number }) => {
+    return await axios.post<any>(`${URL_PATH.API.GET_SUBJECT_CONTENT}`, data);
   },
   {
     serializeError: serializeAxiosError,
@@ -248,9 +281,35 @@ export const SubjectSlice = createSlice({
       })
       .addMatcher(isRejected(searchClient), (state, action) => {
         state.loading = false;
-        const httpStatusCode = action.error['response']?.status;
-        state.subjectsErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
-      });
+        state.searchDetailClient = []
+        state.searchSubjectClientSucess = true
+      })
+
+      .addMatcher(isFulfilled(getSubjectByYoga), (state, action) => {
+        state.subjectsByYoga = action.payload.data?.data
+      })
+      .addMatcher(isPending(getSubjectByYoga), (state, action) => {
+        state.subjectsByYoga = []
+      })
+      .addMatcher(isRejected(getSubjectByYoga), (state, action) => {
+      })
+      .addMatcher(isFulfilled(getSubjectByGym), (state, action) => {
+        state.subjectsByGym = action.payload.data?.data
+      })
+      .addMatcher(isPending(getSubjectByGym), (state, action) => {
+        state.subjectsByGym = []
+      })
+      .addMatcher(isRejected(getSubjectByGym), (state, action) => {
+      })
+      .addMatcher(isFulfilled(getSubjectByMeditate), (state, action) => {
+        state.subjectsByMeditate = action.payload.data?.data
+      })
+      .addMatcher(isPending(getSubjectByMeditate), (state, action) => {
+        state.subjectsByMeditate = []
+      })
+      .addMatcher(isRejected(getSubjectByMeditate), (state, action) => {
+      })
+      ;
   },
 });
 

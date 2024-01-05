@@ -31,6 +31,7 @@ const initialState = {
   paymentCourseSuccess: false,
   paymentCourseErrorMessage: '',
   coursePayments: {} as ReadonlyArray<ICoursePayments>,
+  coursePaymentErrorMessage: '',
   historyPayments: [] as ReadonlyArray<IHistoryPayment>,
 };
 export type CourseState = Readonly<typeof initialState>;
@@ -146,6 +147,13 @@ export const CourseSlice = createSlice({
       return {
         ...state,
         course: action.payload,
+      };
+    },
+    updateStatePaymentCourseSuccess(state) {
+      return {
+        ...state,
+        paymentCourseSuccess: false,
+        paymentCourseErrorMessage: ''
       };
     },
   },
@@ -266,10 +274,13 @@ export const CourseSlice = createSlice({
       })
       .addMatcher(isPending(getCoursesPayment), (state, action) => {
         state.loading = true;
+        state.coursePayments = []
+        state.coursePaymentErrorMessage = ''
       })
       .addMatcher(isRejected(getCoursesPayment), (state, action) => {
-        state.loading = false;
-        state.coursePayments = [];
+        state.loading = false
+        const httpStatusCode = action.error['response']?.status;
+        state.coursePaymentErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
       })
       .addMatcher(isFulfilled(historyPayment), (state, action) => {
         state.loading = false;
@@ -286,6 +297,6 @@ export const CourseSlice = createSlice({
   },
 });
 
-export const { resetCourse, updateStateCourse } = CourseSlice.actions;
+export const { resetCourse, updateStateCourse, updateStatePaymentCourseSuccess } = CourseSlice.actions;
 // Reducer
 export default CourseSlice.reducer;

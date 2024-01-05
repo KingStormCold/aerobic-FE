@@ -11,6 +11,7 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import { getSession } from './shared/reducers/authentication';
 import { ToastMessage } from './components/toast-message';
 import { Storage } from 'react-jhipster';
+import { getSubjectByGym, getSubjectByMeditate, getSubjectByYoga } from './shared/reducers/subject';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -23,6 +24,15 @@ export const App = () => {
       dispatch(getSession());
     }
   }, [token]);
+
+  async function callSubject() {
+    await dispatch(getSubjectByMeditate({ content_search: 'meditate', page_size: 3 }))
+    await dispatch(getSubjectByYoga({ content_search: 'yoga', page_size: 5 }))
+    await dispatch(getSubjectByGym({ content_search: 'gym', page_size: 3 }))
+  }
+  useEffect(() => {
+    callSubject()
+  }, [])
 
   return (
     <Router>

@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import Image from 'react-bootstrap/Image';
 import './detail.scss';
 import { URL_PATH } from 'app/config/path';
-import { courseClient } from 'app/shared/reducers/subject';
+import { courseClient, subjectClient } from 'app/shared/reducers/subject';
 import { Button, Col } from 'reactstrap';
 import { useHistory } from 'react-router-dom';
-import { paymentCourse } from 'app/shared/reducers/course';
+import { paymentCourse, updateStatePaymentCourseSuccess } from 'app/shared/reducers/course';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,6 +26,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import draftToHtmlPuri from 'draftjs-to-html';
 import Typography from '@mui/joy/Typography';
+import { Storage } from 'react-jhipster';
+import { CATEGORY_ID } from 'app/config/constants';
 import { numberWithCommas } from 'app/shared/util/string-utils';
 
 const Transition = React.forwardRef(function Transition(
@@ -76,6 +78,9 @@ export const Detail = () => {
   const [height, setHeight] = useState(0);
   const MAX_HEIGHT_CSS = '780px';
   const MAX_HEIGHT = 780;
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const handleClose = () => {
     setOpen(false);
@@ -89,6 +94,8 @@ export const Detail = () => {
     if (paymentCourseSuccess) {
       dispatch(updateStateOpenToastMessage({ message: 'Bạn đã mua khóa học thành công', isError: false }));
       setOpen(false);
+      dispatch(updateStatePaymentCourseSuccess())
+      // history.push('/my-course');
     }
   }, [paymentCourseSuccess]);
 
@@ -96,8 +103,16 @@ export const Detail = () => {
     if (paymentCourseErrorMessage) {
       dispatch(updateStateOpenToastMessage({ message: paymentCourseErrorMessage, isError: true }));
       setOpen(false);
+      dispatch(updateStatePaymentCourseSuccess())
     }
   }, [paymentCourseErrorMessage]);
+
+  const categoryId = Storage.session.get(CATEGORY_ID);
+  useEffect(() => {
+    if (categoryId) {
+      dispatch(subjectClient(categoryId));
+    }
+  }, [categoryId])
 
   useEffect(() => {
     if (subjectDetailClient && subjectDetailClient.subject_id) {

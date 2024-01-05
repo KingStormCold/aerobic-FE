@@ -12,7 +12,9 @@ import { getSubjects, searchClient, subjectClient } from 'app/shared/reducers/su
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './search.scss';
-// import { updateStateTitle } from 'app/shared/reducers/category-show';
+import { numberWithCommas } from 'app/shared/util/string-utils';
+import { CATEGORY_ID, CONTENT_SEARCH } from 'app/config/constants';
+import { Storage } from 'react-jhipster';
 
 export const Search = () => {
   const pageNum = useAppSelector(state => state.subject.pageNum);
@@ -22,13 +24,29 @@ export const Search = () => {
   const loading = useAppSelector(state => state.subject.loading);
   const searchDetailClient = useAppSelector(state => state.subject.searchDetailClient);
   const contentSearch = useAppSelector(state => state.subject.contentSearch);
-  // const [urlImage, setUrlImage] = useState('')
+  const contentSearchSession = Storage.session.get(CONTENT_SEARCH);
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   const theme = useTheme();
 
-  const handlSubjectClick = subjectID => {
-    dispatch(subjectClient(subjectID));
+  useEffect(() => {
+    if (contentSearch) {
+      //
+    } else if (contentSearchSession) {
+      dispatch(searchClient({ content_search: contentSearchSession, page: 1 }));
+    }
+  }, [contentSearch])
+
+  async function handleSubject(subjectID, categoryId) {
+    Storage.session.set(CATEGORY_ID, categoryId)
+    await dispatch(subjectClient(subjectID));
     history.push(URL_PATH.CLIENT.SUBJECT);
+  }
+
+  const handlSubjectClick = (subjectID, categoryId) => {
+    handleSubject(subjectID, categoryId)
   };
 
   const handlegetpage = p => {
@@ -44,43 +62,53 @@ export const Search = () => {
   };
 
   return (
-    <>
+    <div>
       {loading && <Loading />}
-      {searchDetailClient &&
-        searchDetailClient?.map((subject, i) => (
-          <Card sx={{ display: 'flex' }} key={subject.subject_id} onClick={e => handlSubjectClick(subject.subject_id)}>
-            <CardMedia component="img" sx={{ width: 151 }} image={subject.subject_image} alt="Live from space album cover" />
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <CardContent sx={{ flex: '1 0 auto' }}>
-                <Typography component="div" variant="h5">
-                  Môn học: {subject.subject_name}
-                </Typography>
-                <Typography component="div" variant="h5">
-                  Nội dung: {subject.subject_content}
-                </Typography>
-                <Typography component="div" variant="h5">
-                  Giá tiền: {subject.total_course_fee}
-                </Typography>
-                <Typography component="div" variant="h5">
-                  Khuyến mãi: {subject.total_discount}
-                </Typography>
-                <Typography component="div" variant="h5">
-                  Video: {subject.total_videos}
-                </Typography>
-              </CardContent>
-            </Box>
-          </Card>
-        ))}
-      <Pagination
-        count={totalPage}
-        size="large"
-        page={pageNum}
-        variant="outlined"
-        shape="rounded"
-        onChange={handleChange}
-        style={{ float: 'right' }}
-      />
-    </>
+      <div className="blog">
+        <div className="container">
+          <div className="owl-carousel blog-carousel wow fadeInUp" data-wow-delay="0.1s">
+            {searchDetailClient &&
+              searchDetailClient?.map((subject, i) => (
+                <div className="blog-item" key={subject.subject_id} onClick={e => handlSubjectClick(subject.subject_id, subject.category_id)}>
+                  <div className="blog-img">
+                    <img src={subject.subject_image} alt="Blog" />
+                  </div>
+                  <div className="blog-text">
+                    <h2>{subject.subject_name}</h2>
+                    <div className="blog-meta">
+                      <p><i className="far fa-video-camera"></i>Tổng video: {subject.total_videos}</p>
+                    </div>
+                    <p>
+                      Giá tiền: {numberWithCommas(subject.total_course_fee)}đ
+                    </p>
+                    <p>
+                      Giá giảm: {numberWithCommas(subject.total_discount)}đ
+                    </p>
+                    <a className="btn" onClick={e => handlSubjectClick(subject.subject_id, subject.category_id)}>Read More <i className="fa fa-angle-right"></i></a>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
+      {searchDetailClient && searchDetailClient.length === 0 ?
+        <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
+          Không tìm thấy kết quả nào
+        </Typography>
+        :
+
+        <Pagination
+          count={totalPage}
+          size="large"
+          page={pageNum}
+          variant="outlined"
+          shape="rounded"
+          onChange={handleChange}
+          className='pagination-layout'
+        />
+      }
+
+    </div>
   );
 };
 

@@ -45,9 +45,9 @@ export interface IClientCourseDetail {
   course_id: number;
   course_name: string;
   course_description: number;
-  level:  number;
+  level: number;
   price: number;
-  promotional_price:  number; 
+  promotional_price: number;
 }
 
 export interface IClientSearchDetail {
@@ -58,4 +58,13 @@ export interface IClientSearchDetail {
   total_course_fee: number;
   total_discount: number;
   total_videos: number;
+  category_id: number;
+}
+
+export interface ISubjectContentDetail {
+  id: number;
+  name: string;
+  image: string,
+  promotional_price: number;
+  category_id: number
 }

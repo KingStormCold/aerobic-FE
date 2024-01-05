@@ -32,21 +32,21 @@ const CourseCreate = () => {
   const createCourseSuccess = useAppSelector(state => state.course.createCourseSuccess);
   const coursesErrorMessage = useAppSelector(state => state.course.coursesErrorMessage);
   const createCourseErrorMessage = useAppSelector(state => state.course.createCourseErrorMessage);
-  const subjects = useAppSelector(state => state.course.subjects);
+  const subject = useAppSelector(state => state.subject.subject);
   const [editorStateShortDescription, setEditorStateShortDescription] = useState(EditorState.createEmpty());
   const [priceCourse, setPriceCourse] = useState('');
   const [promotionalPrice, setPromotionalPrice] = useState('');
-  useEffect(() => {
-    dispatch(showSubject());
-    setValue('price', '');
-    setValue('promotionalPrice', '');
-  }, []);
 
   useEffect(() => {
-    if (subjects.length > 0) {
-      setValue('subjectId', subjects[0].id);
+    if (subject.id === undefined) {
+      history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
-  }, [subjects]);
+    if (subject.id) {
+      setValue('price', '');
+      setValue('promotionalPrice', '');
+      setValue('subjectId', subject.id);
+    }
+  }, [subject]);
 
   const {
     register,
@@ -278,12 +278,9 @@ const CourseCreate = () => {
               {...register('subjectId', { required: true })}
               isInvalid={errors.subjectId?.type === 'required'}
             >
-              {subjects &&
-                subjects?.map((subject, i) => (
-                  <option value={`${subject.id}`} key={subject.id}>
-                    {subject.name}
-                  </option>
-                ))}
+              <option value={`${subject.id}`}>
+                {subject.name}
+              </option>
             </Form.Select>
             {errors.subjectId?.type === 'required' && (
               <Card.Text as="div" className="error-text">

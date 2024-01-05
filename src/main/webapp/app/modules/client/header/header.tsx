@@ -40,7 +40,7 @@ const Header = () => {
             <div className="header-hotline-content">
               <div className="hotline-text">
                 <Link className="hotline-link" to="/hotline">
-                  Hotline hỗ trợ
+                  Hotline
                 </Link>
               </div>
               <a className="hotline-number" href="tel:0927346666">
@@ -129,10 +129,10 @@ const Header = () => {
                 )}
               </div>
               {isAuthenticated && (
-                <>
+                <div className='welcome'>
                   <div className="user-name">Xin chào</div>
                   <div className="user-name">{account?.data?.fullname}</div>
-                </>
+                </div>
               )}
             </div>
           </div>

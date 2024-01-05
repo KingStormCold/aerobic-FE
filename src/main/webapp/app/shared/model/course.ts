@@ -60,7 +60,9 @@ export interface ICoursePaymentDetail {
   image: string,
   created_date: string,
   progress_course: number,
-  status: boolean
+  status: boolean,
+  total_video: number,
+  total_finish_video: number
 }
 
 export interface ICoursePaymentClient {

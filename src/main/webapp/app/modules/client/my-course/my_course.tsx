@@ -18,6 +18,8 @@ import { useHistory } from 'react-router-dom';
 import { URL_PATH } from 'app/config/path';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { styled } from '@mui/material/styles';
+import { MY_COURSE } from 'app/config/constants';
+import { Storage } from 'react-jhipster';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -37,8 +39,12 @@ const MyCourse = () => {
   useEffect(() => {
     dispatch(getCoursesPayment());
   }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   const loading = useAppSelector(state => state.course.loading)
   const coursePayments = useAppSelector(state => state.course.coursePayments)
+  const coursePaymentErrorMessage = useAppSelector(state => state.course.coursePaymentErrorMessage)
 
   const hanldeStartCourse = (course: ICoursePaymentDetail, subjectName: string, subjectId: number) => {
     const data = {
@@ -51,6 +57,7 @@ const MyCourse = () => {
       subject_name: subjectName,
     } as ICoursePaymentClient
     dispatch(updateStateCoursePaymentDetail(data))
+    Storage.session.set(MY_COURSE, course.id);
     history.push(URL_PATH.CLIENT.VIDEO);
   }
   return (
@@ -61,6 +68,11 @@ const MyCourse = () => {
         flexDirection: 'column',
         flexWrap: 'wrap',
       }}>
+        {coursePaymentErrorMessage &&
+          <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
+            {coursePaymentErrorMessage}
+          </Typography>
+        }
         {coursePayments && coursePayments.length > 0 && coursePayments.map((item, index) => (
           <Box component="div" key={item.subject_id} sx={{
             display: 'flex',
@@ -73,7 +85,6 @@ const MyCourse = () => {
               display: 'flex',
               flexDirection: 'row',
               flexWrap: 'wrap',
-              width: '100%',
               marginLeft: '40px'
             }}>
               {item.courses && item.courses.length > 0 && item.courses.map((course, i) => (
@@ -92,11 +103,14 @@ const MyCourse = () => {
                     </Typography>
                     <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, marginBottom: '8px', fontSize: '12px' }}>
                       Tình trạng:&nbsp;
-                      {course.status ?
+                      {course.status && course.total_video !== 0 ?
                         <Chip label="Đã hoàn thành" color="success" variant="filled" />
                         :
                         <Chip label="Chưa hoàn thành" color="warning" variant="filled" />
                       }
+                    </Typography>
+                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, fontSize: '12px', marginBottom: '8px' }}>
+                      Video: {course.total_finish_video}/{course.total_video}
                     </Typography>
                     <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, fontSize: '12px' }}>
                       Tiến độ: {course.progress_course}%

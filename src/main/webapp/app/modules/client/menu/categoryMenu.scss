@@ -16,10 +16,6 @@
       display: inline-block;
       text-align: left;
 
-      @media(max-width:767px) {
-          display: none;
-      }
-
       .menu-dropdown {
           position: relative;
           display: inline-block;

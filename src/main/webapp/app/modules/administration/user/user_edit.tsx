@@ -12,6 +12,8 @@ import { useForm } from 'react-hook-form';
 import { ValidatedField } from 'react-jhipster';
 import { useHistory } from 'react-router-dom';
 import './user_edit.scss';
+import { REX } from 'app/config/constants';
+import { numberWithCommas } from 'app/shared/util/string-utils';
 
 export const UserEdit = () => {
   const dispatch = useAppDispatch();
@@ -26,6 +28,7 @@ export const UserEdit = () => {
   const rolesErrorMessage = useAppSelector(state => state.user.rolesErrorMessage);
   const updateUserErrorMessage = useAppSelector(state => state.user.updateUserErrorMessage);
   const [checkedRoles, setcheckedRoles] = useState([]);
+  const account = useAppSelector(state => state.authentication.account);
 
   useEffect(() => {
     if (rolesErrorMessage) {
@@ -44,6 +47,8 @@ export const UserEdit = () => {
       setValue('fullname', userDetail?.fullname)
       setValue('phone', userDetail?.phone)
       setValue('status', userDetail?.status)
+      const money = numberWithCommas(userDetail?.money);
+      setValue('money', money)
       if (userDetail?.roles && userDetail?.roles.length > 0) {
         userDetail?.roles.map(userRole => setcheckedRoles(prev => [...prev, userRole]));
       }
@@ -60,15 +65,16 @@ export const UserEdit = () => {
     fullname: string;
     phone: string;
     status: number;
-    money: number;
+    money: string;
   }>();
 
   const editUser = (data) => {
+    const money = data?.money.replaceAll('.', '')
     const requestBody = {
       user_fullname: data?.fullname,
       user_phone: data?.phone,
       user_status: data?.status ? 1 : 0,
-      user_money: data?.money,
+      user_money: Number(money),
       user_role_name: checkedRoles
     } as IUpdateUser
     dispatch(updateUser({ id: userDetail?.id, requestBody }))
@@ -96,6 +102,27 @@ export const UserEdit = () => {
       setcheckedRoles(prev => prev.filter(role => role !== props2.value));
     }
   };
+
+  const [moneyUser, setMoneyUser] = useState('');
+  const [errorMoney, setErrorMoney] = useState('');
+  const handleMoney = (e) => {
+    const value = e.target.value
+    if (value !== '' && value !== '0') {
+      const valueReplace = value.replaceAll('.', '')
+      if (!REX.number.test(valueReplace)) {
+        setErrorMoney('Giá phải là số')
+      } else {
+        const convertMoney = numberWithCommas(valueReplace)
+        setErrorMoney('')
+        setValue('money', convertMoney)
+        setMoneyUser(convertMoney);
+      }
+    } else {
+      setErrorMoney('')
+      setValue('money', '')
+      setMoneyUser('')
+    }
+  }
 
   return (
     <>
@@ -198,14 +225,23 @@ export const UserEdit = () => {
           <Form.Group className="mb-3">
             <Form.Label>Ví tiền</Form.Label>
             <Form.Control
-              type="number"
+              disabled={account?.data?.email !== 'admin@gmail.com'}
+              type="string"
               {...register('money', {
                 required: 'Nhập số tiền',
+                onChange(event) {
+                  handleMoney(event)
+                },
               })}
-              isInvalid={!!errors.money}
+              isInvalid={!!errors.money || errorMoney !== ''}
             />
             {errors.money && (
               <Card.Text as="div" className='error-text'>{errors.money.message}</Card.Text>
+            )}
+            {errorMoney && (
+              <Card.Text as="div" className="error-text">
+                {errorMoney}
+              </Card.Text>
             )}
           </Form.Group>
 

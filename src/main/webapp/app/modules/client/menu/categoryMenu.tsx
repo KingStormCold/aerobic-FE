@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { subjectClient, updateStateCategoryId } from 'app/shared/reducers/subject';
 import { useHistory } from 'react-router-dom';
 import { URL_PATH } from 'app/config/path';
+import { CATEGORY_ID } from 'app/config/constants';
+import { Storage } from 'react-jhipster';
 
 const CategoryMenu = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +31,7 @@ const CategoryMenu = () => {
   const handleMenuItemClick = categoryId => {
     dispatch(subjectClient(categoryId));
     dispatch(updateStateCategoryId(categoryId));
+    Storage.session.set(CATEGORY_ID, categoryId)
     history.push(URL_PATH.CLIENT.SUBJECT);
   };
   type Anchor = 'top' | 'left' | 'bottom' | 'right';
@@ -41,8 +44,8 @@ const CategoryMenu = () => {
   });
 
   return (
-    <div className="menu-header">
-      <div className="menu-hover">
+    <div className='menu-header'>
+      <div className='menu-hover'>
         {menus?.map((menu, i) => (
           <div className="menu-dropdown" id={String(menu.id)} key={`category-${i}`}>
             <button className="menu-dropbtn">{menu.name}</button>

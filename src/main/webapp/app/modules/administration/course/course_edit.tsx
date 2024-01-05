@@ -31,7 +31,7 @@ export const CourseEdit = () => {
   const coursesDetail = useAppSelector(state => state.course.course);
   const updateCourseErrorMessage = useAppSelector(state => state.course.updateCourseErrorMessage);
   const [parentCourse, setParentCourse] = useState('');
-  const subjects = useAppSelector(state => state.course.subjects);
+  const subject = useAppSelector(state => state.subject.subject);
   const [subjectId, setSubjectId] = useState('');
   const [editorStateShortDescription, setEditorStateShortDescription] = useState(EditorState.createEmpty());
   const [priceCourse, setPriceCourse] = useState('');
@@ -292,12 +292,9 @@ export const CourseEdit = () => {
                 },
               })}
             >
-              {subjects &&
-                subjects?.map((subject, i) => (
-                  <option value={`${subject.id}`} key={subject.id}>
-                    {subject.name}
-                  </option>
-                ))}
+              <option value={`${subject.id}`}>
+                {subject.name}
+              </option>
             </Form.Select>
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">

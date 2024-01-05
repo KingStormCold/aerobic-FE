@@ -34,7 +34,11 @@ export const CONSTANT = Object.freeze({
     COURSE: 'ADMIN_COURSE',
     SUBJECT: 'ADMIN_SUBJECT',
     VIDEO: 'ADMIN_VIDEO',
-    TEST:'ADMIN_TEST',
-    ANSWER:'ADMIN_ANSWER',
+    TEST: 'ADMIN_TEST',
+    ANSWER: 'ADMIN_ANSWER',
   }
 })
+
+export const MY_COURSE = "MY_COURSE"
+export const CONTENT_SEARCH = "CONTENT_SEARCH"
+export const CATEGORY_ID = "CATEGORY_ID"

@@ -222,7 +222,7 @@ export const Login = (props: RouteComponentProps<any>) => {
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link to="/login">
+                    <Link to="/register">
                       Bạn chưa có tài khoản? Đăng ký
                     </Link>
                   </Grid>

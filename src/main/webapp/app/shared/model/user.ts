@@ -4,6 +4,7 @@ export interface IUser {
   phone: string,
   fullname: string,
   status: number,
+  money: number,
   roles: string[],
   created_at: string,
   created_by: string,

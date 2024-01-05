@@ -65,8 +65,8 @@ const Footer = (props) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/">
-                      Hướng dẫn mua hàng từ xa
+                    <Link to="/contact">
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
@@ -95,8 +95,8 @@ const Footer = (props) => {
                                         </Link>
                                     </li> */}
                   <li>
-                    <Link to="/phuong-thuc-thanh-toan">
-                      Phương thức thanh toán
+                    <Link to="/recharge">
+                      Hình thức nạp tiền
                     </Link>
                   </li>
                   <li>
@@ -198,8 +198,8 @@ const Footer = (props) => {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/">
-                      Hướng dẫn mua hàng từ xa
+                    <Link to="/contact">
+                      Contact Us
                     </Link>
                   </li>
                 </ul>
@@ -228,8 +228,8 @@ const Footer = (props) => {
                                         </Link>
                                     </li> */}
                   <li>
-                    <Link to="/phuong-thuc-thanh-toan">
-                      Phương thức thanh toán
+                    <Link to="/recharge">
+                      Hình thức nạp tiền
                     </Link>
                   </li>
                   <li>

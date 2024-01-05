@@ -31,7 +31,6 @@ const VideoCreate = () => {
   const loading = useAppSelector(state => state.video.loading);
   const createVideoSuccess = useAppSelector(state => state.video.createVideoSuccess);
   const createVideoErrorMessage = useAppSelector(state => state.video.createVideoErrorMessage);
-  const getCourseNames = useAppSelector(state => state.video.getCourseNames);
   const coursesDetail = useAppSelector(state => state.course.course);
   const [linkVideo, setLinkVideo] = useState('')
   const [fullTimeVideo, setFullTimeVideo] = useState(0)
@@ -47,13 +46,7 @@ const VideoCreate = () => {
       setValue('finished', '0');
       setValue('course_id', coursesDetail?.id)
     }
-  }, []);
-
-  useEffect(() => {
-    if (getCourseNames?.length > 0) {
-      setValue('course_id', getCourseNames[0].id);
-    }
-  }, [getCourseNames]);
+  }, [coursesDetail]);
 
   const {
     register,

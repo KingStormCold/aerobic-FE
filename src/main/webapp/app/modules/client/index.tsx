@@ -12,7 +12,10 @@ import { useAppSelector } from 'app/config/store';
 import Video from './video/video';
 import { Switch } from 'react-router-dom';
 import History from '../login/history-payment';
-
+import Home from './home';
+import PhuongThucThanhToan from './phuongthucthanhtoan/phuongthucthanhtoan';
+import Contact from './contact';
+import HotLine from './hotline/hotline';
 const Routes = ({ match }) => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   return (
@@ -21,12 +24,15 @@ const Routes = ({ match }) => {
       <Menu />
       <Switch>
         <div className="main-layout">
-          <>{<PrivateRoute exact path={`${match.url}subject`} component={detail} />}</>
-          <>{<PrivateRoute exact path={`${match.url}search`} component={search} />}</>
+          {<PrivateRoute exact path={`${match.url}`} component={Home} />}
+          {<PrivateRoute exact path={`${match.url}recharge`} component={PhuongThucThanhToan} />}
+          {<PrivateRoute exact path={`${match.url}subject`} component={detail} />}
+          {<PrivateRoute exact path={`${match.url}search`} component={search} />}
           {isAuthenticated && <PrivateRoute exact path={`${match.url}my-course`} component={MyCourse} />}
           {isAuthenticated && <PrivateRoute exact path={`${match.url}my-course/videos`} component={Video} />}
           {isAuthenticated && <PrivateRoute exact path={`${match.url}history-payment`} component={History} />}
-        </div>
+          {<PrivateRoute exact path={`${match.url}contact`} component={Contact} />}
+          {<PrivateRoute exact path={`${match.url}hotline`} component={HotLine} />}        </div>
         <ScrollToTopButton />
       </Switch>
       <Footer />

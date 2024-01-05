@@ -155,7 +155,7 @@ export const CourseManagement = () => {
               </td>
               <td>
                 <Truncate maxWidth={150} title={course.subject_name}>
-                  {course.subject_id}
+                  {course.subject_name}
                 </Truncate>
               </td>
               <td>

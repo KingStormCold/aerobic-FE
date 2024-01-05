@@ -154,16 +154,17 @@ export const UserManagement = () => {
               <td>{user.updated_by}</td>
               <td>{moment(user.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>
-                {/* <Link to={`/admin/user-management/edit`} > */}
-                <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
+                {user.email === 'admin@gmail.com' ? <></> : <><Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
                   onClick={() => handleEditUser(user)} title="Chỉnh sửa">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
-                {/* </Link> */}
-                <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteUser(user.id, user.email)} title="Xóa">
-                  <FontAwesomeIcon icon="trash" />
-                </Button>
+                  {/* </Link> */}
+                  <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
+                    onClick={() => handleDeleteUser(user.id, user.email)} title="Xóa">
+                    <FontAwesomeIcon icon="trash" />
+                  </Button></>}
+                {/* <Link to={`/admin/user-management/edit`} > */}
+
               </td>
             </tr>
           ))}

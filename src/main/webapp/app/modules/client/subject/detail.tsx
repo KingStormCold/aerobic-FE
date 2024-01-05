@@ -71,7 +71,7 @@ export const Detail = () => {
   const [subjectFull, setSubjectFull] = React.useState(0);
   const [courseName, setCourseName] = React.useState('');
   const [coursePrice, setCoursePrice] = React.useState(0);
-  const [free, setFree] = React.useState(0); // Add free state
+  const [free, setFree] = React.useState(0);
   const [displayReadmore, setDisplayReadmore] = useState(true);
   const [height, setHeight] = useState(0);
   const MAX_HEIGHT_CSS = '780px';

@@ -76,7 +76,8 @@ export interface ICoursePaymentClient {
 }
 
 export interface IHistoryPayment {
-  name: string,
+  subjectName: string,
+  courseName: string,
   price: number,
   created_at: string,
 }

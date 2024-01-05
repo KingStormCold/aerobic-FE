@@ -32,7 +32,8 @@ const Routes = ({ match }) => {
           {isAuthenticated && <PrivateRoute exact path={`${match.url}my-course/videos`} component={Video} />}
           {isAuthenticated && <PrivateRoute exact path={`${match.url}history-payment`} component={History} />}
           {<PrivateRoute exact path={`${match.url}contact`} component={Contact} />}
-          {<PrivateRoute exact path={`${match.url}hotline`} component={HotLine} />}        </div>
+          {<PrivateRoute exact path={`${match.url}hotline`} component={HotLine} />}{' '}
+        </div>
         <ScrollToTopButton />
       </Switch>
       <Footer />

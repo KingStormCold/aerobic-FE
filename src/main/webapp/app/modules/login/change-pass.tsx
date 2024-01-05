@@ -14,7 +14,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { changePass } from 'app/shared/reducers/user';
-import './change-pass.scss';
+// import './change-pass.scss';
 import { useHistory } from 'react-router-dom';
 import { URL_PATH } from 'app/config/path';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';

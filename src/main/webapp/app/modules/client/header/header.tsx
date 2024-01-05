@@ -24,34 +24,34 @@ const Header = () => {
   };
   return (
     <>
-      <div className='header-client'>
-        <div className='header-content'>
-          <div className='header-image' onClick={() => history.push("/")}>
-            <img src="content/images/aerobic.png" className='header-image-img' />
-            <span className='header-logo-text'> Aerobic</span>
+      <div className="header-client">
+        <div className="header-content">
+          <div className="header-image" onClick={() => history.push('/')}>
+            <img src="content/images/aerobic.png" className="header-image-img" />
+            <span className="header-logo-text"> Aerobic</span>
           </div>
 
           <Search />
 
-          <div className='header-hotline'>
-            <span className='header-hotline-icon'>
-              <FontAwesomeIcon className='fa-solid' icon="phone" />
+          <div className="header-hotline">
+            <span className="header-hotline-icon">
+              <FontAwesomeIcon className="fa-solid" icon="phone" />
             </span>
-            <div className='header-hotline-content'>
-              <div className='hotline-text'>
-                <Link className='hotline-link' to="/hotline">
+            <div className="header-hotline-content">
+              <div className="hotline-text">
+                <Link className="hotline-link" to="/hotline">
                   Hotline hỗ trợ
                 </Link>
               </div>
-              <a className='hotline-number' href="tel:0927346666">
+              <a className="hotline-number" href="tel:0927346666">
                 0927346666
               </a>
             </div>
           </div>
 
-          <div className='header-user'>
-            {isAuthenticated &&
-              <span className='header-user-icon'>
+          <div className="header-user">
+            {isAuthenticated && (
+              <span className="header-user-icon">
                 <IconButton
                   size="large"
                   aria-label="account of current user"
@@ -77,69 +77,69 @@ const Header = () => {
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
                   sx={{
-                    'li': {
-                      'a': {
+                    li: {
+                      a: {
                         textDecoration: 'none',
                         color: 'black',
                         width: '100%',
-                        textAlign: 'center'
-                      }
+                        textAlign: 'center',
+                      },
                     },
                   }}
                 >
                   <MenuItem>
-                    <Link className="nav-link" to='/change-password'>
+                    <Link className="nav-link" to="/change-password">
                       Thay đổi mật khẩu
                     </Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link className="nav-link" to='/my-course'>
+                    <Link className="nav-link" to="/my-course">
                       Khóa học của tôi
                     </Link>
                   </MenuItem>
                   <MenuItem>
-                    <Link to="/logout" className='nav-link'>
+                    <Link className="nav-link" to="/history-payment">
+                      Lịch sử giao dịch
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link to="/logout" className="nav-link">
                       Đăng xuất
                     </Link>
                   </MenuItem>
                 </Menu>
               </span>
-            }
+            )}
 
-            <div className='header-account-content'>
-              <div className='header-btn'>
-                {!isAuthenticated &&
+            <div className="header-account-content">
+              <div className="header-btn">
+                {!isAuthenticated && (
                   <>
-                    <div className='account-btnsignin'>
-                      <Link to="/register" className='header-link'>
+                    <div className="account-btnsignin">
+                      <Link to="/register" className="header-link">
                         Đăng ký
                       </Link>
                     </div>
-                    <div className='account-btnlogin'>
-                      <Link to="/login" className='header-link'>
+                    <div className="account-btnlogin">
+                      <Link to="/login" className="header-link">
                         Đăng nhập
                       </Link>
                     </div>
                   </>
-                }
-
+                )}
               </div>
-              {isAuthenticated &&
+              {isAuthenticated && (
                 <>
-                  <div className='user-name'>
-                    Xin chào
-                  </div>
-                  <div className='user-name'>
-                    {account?.data?.fullname}
-                  </div>
+                  <div className="user-name">Xin chào</div>
+                  <div className="user-name">{account?.data?.fullname}</div>
                 </>
-              }
+              )}
             </div>
           </div>
         </div>
       </div>
     </>
   );
-}
+};
 
 export default Header;

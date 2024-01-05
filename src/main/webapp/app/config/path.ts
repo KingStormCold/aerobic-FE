@@ -41,8 +41,8 @@ export const URL_PATH = {
     SUBJECT: '/subject',
     SEARCH: '/search',
     VIDEO: '/my-course/videos',
-    CHANGE_PASS: '/change-password'
-
+    CHANGE_PASS: '/change-password',
+    HISTORY_PAYMENT: '/history-payment',
   },
   API: {
     GET_CATEGORY: '/api/auth/get-categories',
@@ -95,6 +95,6 @@ export const URL_PATH = {
     CHECK_ANSWER: '/api/client/check-answer',
     REGISTER_USER: 'api/auth/register',
     CHANGE_PASS: 'api/auth/change-pass',
-
+    HISTORY_PAYMENT: '/api/client/get-payments',
   },
 };

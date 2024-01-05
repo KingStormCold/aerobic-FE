@@ -11,7 +11,7 @@ import MyCourse from './my-course/my_course';
 import { useAppSelector } from 'app/config/store';
 import Video from './video/video';
 import { Switch } from 'react-router-dom';
-import ChangePass from '../login/change-pass';
+import History from '../login/history-payment';
 
 const Routes = ({ match }) => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
@@ -25,6 +25,7 @@ const Routes = ({ match }) => {
           <>{<PrivateRoute exact path={`${match.url}search`} component={search} />}</>
           {isAuthenticated && <PrivateRoute exact path={`${match.url}my-course`} component={MyCourse} />}
           {isAuthenticated && <PrivateRoute exact path={`${match.url}my-course/videos`} component={Video} />}
+          {isAuthenticated && <PrivateRoute exact path={`${match.url}history-payment`} component={History} />}
         </div>
         <ScrollToTopButton />
       </Switch>

@@ -2,7 +2,15 @@ import { createAsyncThunk, createSlice, isPending, isFulfilled, isRejected } fro
 import axios from 'axios';
 import { serializeAxiosError } from './reducer.utils';
 import { URL_PATH } from 'app/config/path';
-import { ICourseDetail, ICoursePayments, ICreateCourse, IFullCourse, ISubjectDetail, IUpdateCourse } from '../model/course';
+import {
+  ICourseDetail,
+  ICoursePayments,
+  ICreateCourse,
+  IFullCourse,
+  IHistoryPayment,
+  ISubjectDetail,
+  IUpdateCourse,
+} from '../model/course';
 
 const initialState = {
   loading: false,
@@ -22,7 +30,8 @@ const initialState = {
   fullCourse: {} as IFullCourse,
   paymentCourseSuccess: false,
   paymentCourseErrorMessage: '',
-  coursePayments: {} as ReadonlyArray<ICoursePayments>
+  coursePayments: {} as ReadonlyArray<ICoursePayments>,
+  historyPayments: [] as ReadonlyArray<IHistoryPayment>,
 };
 export type CourseState = Readonly<typeof initialState>;
 
@@ -98,8 +107,18 @@ export const getCoursesClient = createAsyncThunk(
 
 export const paymentCourse = createAsyncThunk(
   'client/payment-courses',
-  async (data: { course_id: number; subject_id: number; subject_full: number; free:  number}) => {
+  async (data: { course_id: number; subject_id: number; subject_full: number; free: number }) => {
     return await axios.post<any>(`${URL_PATH.API.CLIENT_PAYMENT_COURSE}`, data);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const historyPayment = createAsyncThunk(
+  'client/history-payment',
+  async (page: number) => {
+    return await axios.get<any>(`${URL_PATH.API.HISTORY_PAYMENT}?page=${page}`);
   },
   {
     serializeError: serializeAxiosError,
@@ -109,10 +128,12 @@ export const paymentCourse = createAsyncThunk(
 export const getCoursesPayment = createAsyncThunk(
   'client/get-courses-payment',
   async () => {
-    return await axios.get<any>(`${URL_PATH.API.COURSE_PAYMENT}`)
-  }, {
-  serializeError: serializeAxiosError
-});
+    return await axios.get<any>(`${URL_PATH.API.COURSE_PAYMENT}`);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
 
 export const CourseSlice = createSlice({
   name: 'course',
@@ -232,7 +253,7 @@ export const CourseSlice = createSlice({
       .addMatcher(isPending(paymentCourse), (state, action) => {
         state.loading = true;
         state.paymentCourseSuccess = false;
-        state.paymentCourseErrorMessage = ''
+        state.paymentCourseErrorMessage = '';
       })
       .addMatcher(isRejected(paymentCourse), (state, action) => {
         state.loading = false;
@@ -240,17 +261,28 @@ export const CourseSlice = createSlice({
         state.paymentCourseErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
       })
       .addMatcher(isFulfilled(getCoursesPayment), (state, action) => {
-        state.loading = false
+        state.loading = false;
         state.coursePayments = action.payload.data?.payment_subjects;
       })
       .addMatcher(isPending(getCoursesPayment), (state, action) => {
-        state.loading = true
+        state.loading = true;
       })
       .addMatcher(isRejected(getCoursesPayment), (state, action) => {
-        state.loading = false
-        state.coursePayments = []
+        state.loading = false;
+        state.coursePayments = [];
       })
-      ;
+      .addMatcher(isFulfilled(historyPayment), (state, action) => {
+        state.loading = false;
+        state.historyPayments = action.payload.data?.payments;
+        state.totalPage = action.payload.data?.totalPage;
+        state.pageNum = action.payload.data?.pageNum;
+      })
+      .addMatcher(isPending(historyPayment), (state, action) => {
+        state.loading = true;
+      })
+      .addMatcher(isRejected(historyPayment), (state, action) => {
+        state.loading = false;
+      });
   },
 });
 

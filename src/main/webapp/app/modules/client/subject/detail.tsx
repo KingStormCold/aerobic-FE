@@ -14,7 +14,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-import { numberWithCommas } from 'app/shared/util/string-utils';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -25,8 +24,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import draftToHtmlPuri from "draftjs-to-html";
+import draftToHtmlPuri from 'draftjs-to-html';
 import Typography from '@mui/joy/Typography';
+import { numberWithCommas } from 'app/shared/util/string-utils';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -51,7 +51,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
   },
-  // hide last border
   '&:last-child td, &:last-child th': {
     border: 0,
   },
@@ -72,17 +71,18 @@ export const Detail = () => {
   const [subjectFull, setSubjectFull] = React.useState(0);
   const [courseName, setCourseName] = React.useState('');
   const [coursePrice, setCoursePrice] = React.useState(0);
+  const [free, setFree] = React.useState(0); // Add free state
   const [displayReadmore, setDisplayReadmore] = useState(true);
   const [height, setHeight] = useState(0);
-  const MAX_HEIGHT_CSS = "780px"
-  const MAX_HEIGHT = 780
+  const MAX_HEIGHT_CSS = '780px';
+  const MAX_HEIGHT = 780;
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleBuy = () => {
-    dispatch(paymentCourse({ course_id: Number(courseId), subject_id: Number(subjectId), subject_full: subjectFull }));
+    dispatch(paymentCourse({ course_id: Number(courseId), subject_id: Number(subjectId), subject_full: subjectFull, free: Number(free) })); // Pass free state
   };
 
   useEffect(() => {
@@ -103,10 +103,10 @@ export const Detail = () => {
     if (subjectDetailClient && subjectDetailClient.subject_id) {
       dispatch(courseClient(subjectDetailClient.subject_id));
     }
-    setHeight(document.getElementById("content").clientHeight)
+    setHeight(document.getElementById('content').clientHeight);
   }, [subjectDetailClient]);
 
-  const handlePayment = (course, subject, name, price) => {
+  const handlePayment = (course, subject, name, price, level) => {
     if (!isAuthenticated) {
       dispatch(updateStateOpenToastMessage({ message: 'Bạn vui lòng đăng nhập để có thể mua khóa học này', isError: true }));
       history.push(URL_PATH.LOGIN);
@@ -116,12 +116,22 @@ export const Detail = () => {
       setSubjectFull(course === 0 ? 1 : 0);
       setCourseName(name);
       setCoursePrice(price);
+      if (level === 1) {
+        setFree(1);
+      } else {
+        setFree(0);
+      }
       setOpen(true);
     }
   };
 
   const contentProduct = draftToHtmlPuri(
-    (subjectDetailClient != null && subjectDetailClient?.subject_content !== null && subjectDetailClient?.subject_content !== undefined && subjectDetailClient?.subject_content !== "") ? JSON.parse(subjectDetailClient?.subject_content) : ''
+    subjectDetailClient != null &&
+      subjectDetailClient?.subject_content !== null &&
+      subjectDetailClient?.subject_content !== undefined &&
+      subjectDetailClient?.subject_content !== ''
+      ? JSON.parse(subjectDetailClient?.subject_content)
+      : ''
   );
 
   return (
@@ -132,36 +142,45 @@ export const Detail = () => {
         <div className="image-container">
           <Image className="image-thumbnail" src={subjectDetailClient?.subject_image} thumbnail />
         </div>
-        <div id="content" className='subject-detail-container-content-row' >
-          <Col className='subject-detail-content-col-left'>
-            <div className='subject-detail-content-col-right-data' >
-              <div id="content" style={displayReadmore ? { maxHeight: MAX_HEIGHT_CSS, overflow: "hidden" } : {}}
+        <div id="content" className="subject-detail-container-content-row">
+          <Col className="subject-detail-content-col-left">
+            <div className="subject-detail-content-col-right-data">
+              <div
+                id="content"
+                style={displayReadmore ? { maxHeight: MAX_HEIGHT_CSS, overflow: 'hidden' } : {}}
                 dangerouslySetInnerHTML={{
-                  __html: contentProduct
+                  __html: contentProduct,
                 }}
               />
-              {displayReadmore
-                ?
+              {displayReadmore ? (
                 <div className="readmore-button">
-                  <span onClick={() => setDisplayReadmore(!displayReadmore)} >Đọc tiếp bài viết <ExpandMoreIcon /></span>
+                  <span onClick={() => setDisplayReadmore(!displayReadmore)}>
+                    Đọc tiếp bài viết <ExpandMoreIcon />
+                  </span>
                 </div>
-                : height > MAX_HEIGHT
-                  ?
-                  <div className="readmore-button">
-                    <span onClick={() => setDisplayReadmore(!displayReadmore)} >Rút gọn bài viết <ExpandLessIcon /> </span>
-                  </div>
-                  : ""}
+              ) : height > MAX_HEIGHT ? (
+                <div className="readmore-button">
+                  <span onClick={() => setDisplayReadmore(!displayReadmore)}>
+                    Rút gọn bài viết <ExpandLessIcon />{' '}
+                  </span>
+                </div>
+              ) : (
+                ''
+              )}
             </div>
           </Col>
         </div>
-        <Typography color="warning" sx={{
-          backgroundColor: 'rgb(231 159 55 / 20%)',
-          textAlign: 'center',
-          fontSize: '24px',
-          fontWeight: '700',
-          height: '50px',
-          paddingTop: '10px'
-        }}>
+        <Typography
+          color="warning"
+          sx={{
+            backgroundColor: 'rgb(231 159 55 / 20%)',
+            textAlign: 'center',
+            fontSize: '24px',
+            fontWeight: '700',
+            height: '50px',
+            paddingTop: '10px',
+          }}
+        >
           ĐĂNG KÝ KHÓA HỌC
         </Typography>
         <TableContainer component={Paper}>
@@ -169,43 +188,57 @@ export const Detail = () => {
             <TableHead>
               <TableRow>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }}>Tên khóa học</StyledTableCell>
-                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">Giá</StyledTableCell>
-                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">Giá giảm</StyledTableCell>
-                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">Tổng tiền</StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
+                  Giá
+                </StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
+                  Giá giảm
+                </StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
+                  Tổng tiền
+                </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {courseDetailClients && courseDetailClients.map((course) => (
-                <StyledTableRow key={course.course_id}>
-                  <StyledTableCell component="th" scope="row" sx={{ fontSize: '16px' }}>
-                    {course.course_name}
-                  </StyledTableCell>
-                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>{numberWithCommas(course.price)}đ</StyledTableCell>
-                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>{numberWithCommas(course.promotional_price)}đ</StyledTableCell>
-                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>{numberWithCommas(course.price - course.promotional_price)}đ</StyledTableCell>
-                  <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
-                    <Button
-                      color='success'
-                      className="btn-right"
-                      onClick={e =>
-                        handlePayment(
-                          course.course_id,
-                          subjectDetailClient.subject_id,
-                          course.course_name,
-                          course.price - course.promotional_price
-                        )
-                      }
-                    >
-                      Đăng ký
-                    </Button>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {courseDetailClients &&
+                courseDetailClients.map(course => (
+                  <StyledTableRow key={course.course_id}>
+                    <StyledTableCell component="th" scope="row" sx={{ fontSize: '16px' }}>
+                      {course.course_name}
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
+                      {numberWithCommas(course.price)}đ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
+                      {numberWithCommas(course.promotional_price)}đ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
+                      {numberWithCommas(course.price - course.promotional_price)}đ
+                    </StyledTableCell>
+                    <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
+                      <Button
+                        color="success"
+                        className="btn-right"
+                        onClick={e =>
+                          handlePayment(
+                            course.course_id,
+                            subjectDetailClient.subject_id,
+                            course.course_name,
+                            course.price - course.promotional_price,
+                            course.level
+                          )
+                        }
+                      >
+                        Đăng ký
+                      </Button>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
             </TableBody>
           </Table>
         </TableContainer>
-      </div >
+      </div>
 
       <React.Fragment>
         <Dialog
@@ -220,7 +253,9 @@ export const Detail = () => {
           </DialogTitle>
           <DialogActions>
             <Button onClick={handleClose}>Hủy</Button>
-            <Button onClick={handleBuy} color='success'>Mua</Button>
+            <Button onClick={handleBuy} color="success">
+              Mua
+            </Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>

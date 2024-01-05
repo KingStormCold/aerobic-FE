@@ -88,7 +88,7 @@ const Header = () => {
                   }}
                 >
                   <MenuItem>
-                    <Link className="nav-link" to='/admin/user-management'>
+                    <Link className="nav-link" to='/change-password'>
                       Thay đổi mật khẩu
                     </Link>
                   </MenuItem>

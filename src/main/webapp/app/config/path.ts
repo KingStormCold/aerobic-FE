@@ -36,6 +36,11 @@ export const URL_PATH = {
       CREATE: '/admin/subject-detail/course-detail/video-detail/test-create',
       EDIT: '/admin/subject-detail/course-detail/video-detail/test-edit',
     },
+    PAYMENT:{
+      MANAGEMENT:'/admin/payment-management',
+      DETAIL:'/admin/payment-detail',
+      // EDIT:'/admin/payment-edit',
+    },
   },
   CLIENT: {
     SUBJECT: '/subject',
@@ -91,6 +96,11 @@ export const URL_PATH = {
     UPDATE_VIDEO_USER: 'api/client/update-video-user',
     GET_QUIZ: 'api/client/get-tests',
     CHECK_ANSWER: '/api/client/check-answer',
-    REGISTER_USER: 'api/auth/register'
+    REGISTER_USER: 'api/auth/register',
+
+    GET_PAYMENT:'api/auth/get-payments',
+    GET_DETAIL_PAYMENT:'api/auth/get-details',
+    // EDIT_PAYMENT:'api/auth/edit-payment',
+    
   },
 };

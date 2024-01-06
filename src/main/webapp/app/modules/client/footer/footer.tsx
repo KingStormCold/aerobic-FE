@@ -162,7 +162,7 @@ const Footer = (props) => {
               <img src="content/images/footer_visa.png" className='footer-img-fa' />
               {/* <img width="275" src="content/images/footer_payment.png"></img> */}
             </div>
-            <img style={{ marginLeft: '20px' }} src="content/images/footer_certificate.png" alt="Network Trust Certification" />
+            <img style={{ marginLeft: '20px' }} src="content/images/footer_certificate.png" alt="" />
           </Col>
           {/* <Col xs = "4" className='footer-info-certificate'>
                         <div className='footer-info-certificate-img'>

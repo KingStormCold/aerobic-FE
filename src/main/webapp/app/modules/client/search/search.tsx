@@ -76,13 +76,13 @@ export const Search = () => {
                   <div className="blog-text">
                     <h2>{subject.subject_name}</h2>
                     <div className="blog-meta">
-                      <p><i className="far fa-video-camera"></i>Tổng video: {subject.total_videos}</p>
+                      <p><i className="far fa-video-camera"></i>Total video: {subject.total_videos}</p>
                     </div>
                     <p>
-                      Giá tiền: {numberWithCommas(subject.total_course_fee)}đ
+                    Price: {numberWithCommas(subject.total_course_fee)}đ
                     </p>
                     <p>
-                      Giá giảm: {numberWithCommas(subject.total_discount)}đ
+                    Price drop: {numberWithCommas(subject.total_discount)}đ
                     </p>
                     <a className="btn" onClick={e => handlSubjectClick(subject.subject_id, subject.category_id)}>Read More <i className="fa fa-angle-right"></i></a>
                   </div>
@@ -93,7 +93,7 @@ export const Search = () => {
       </div>
       {searchDetailClient && searchDetailClient.length === 0 ?
         <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
-          Không tìm thấy kết quả nào
+          No results found
         </Typography>
         :
 

@@ -28,8 +28,6 @@ export const SubjectDetail = () => {
   const title = useAppSelector(state => state.categoryShow.title);
 
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì category bị undefined
-    // => hk có data để chỉnh sửa
     if (subjectDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
@@ -63,11 +61,11 @@ export const SubjectDetail = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Chi tiết môn học
+      Course details
       </h3>
       <div>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="price">Giá khuyến mãi</Form.Label>
+          <Form.Label htmlFor="price">Promo price</Form.Label>
           <Form.Control
             type="text"
             id="price"
@@ -77,7 +75,7 @@ export const SubjectDetail = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Hình ảnh</Form.Label>
+          <Form.Label>Image</Form.Label>
           <Form.Control
             type="text"
             id="subjectImage"
@@ -88,7 +86,7 @@ export const SubjectDetail = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Danh mục</Form.Label>
+          <Form.Label>Directory</Form.Label>
           <Form.Select aria-label="Danh mục"
             value={categoryId}
             disabled
@@ -108,7 +106,7 @@ export const SubjectDetail = () => {
             onEditorStateChange={onEditorStateChange}
           />
         </Form.Group> */}
-        <Button type='submit' variant="success" className='btn-right' onClick={handleAddCourse}>Thêm khóa học</Button>
+        <Button type='submit' variant="success" className='btn-right' onClick={handleAddCourse}>Add a course</Button>
         <br />
         <br />
       </div>

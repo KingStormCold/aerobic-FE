@@ -46,7 +46,7 @@ export const SubjectCreate = () => {
 
   useEffect(() => {
     if (childCategoriesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách danh mục. ' + childCategoriesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get the category list. ' + childCategoriesErrorMessage, isError: true }))
     }
   }, [childCategoriesErrorMessage])
 
@@ -84,7 +84,7 @@ export const SubjectCreate = () => {
 
   useEffect(() => {
     if (createSubjectSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Thêm môn học thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'More successful subjects', isError: false }))
       dispatch(resetSubject())
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
@@ -150,12 +150,12 @@ export const SubjectCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Thêm môn học
+      More subjects
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addSubject)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="price">Giá khuyến mãi</Form.Label>
+            <Form.Label htmlFor="price">Promo price</Form.Label>
             <Form.Control
               type="text"
               id="price"
@@ -170,7 +170,7 @@ export const SubjectCreate = () => {
             />
             {errors.subjectPromotionalPrice?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Giá khuyến mã<i></i> không được trống
+                Promo price<i></i> cant be empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -180,7 +180,7 @@ export const SubjectCreate = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Hình ảnh</Form.Label>
+            <Form.Label>Image</Form.Label>
             <Form.Control
               type="text"
               id="subjectImage"
@@ -193,13 +193,13 @@ export const SubjectCreate = () => {
               isInvalid={errors.subjectImage?.type === 'required'}
             />
             {errors.subjectImage?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Nội dung không được trống</Card.Text>
+              <Card.Text as="div" className='error-text'>Content cant be blank</Card.Text>
             )}
             {urlImage && <Image className='image-thumbnail' src={`${urlImage}`} thumbnail />}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Danh mục</Form.Label>
+            <Form.Label>Directory</Form.Label>
             <Form.Select aria-label="Danh mục"
               {...register('categoryId', {
                 required: true
@@ -210,11 +210,11 @@ export const SubjectCreate = () => {
               ))}
             </Form.Select>
             {errors.categoryId?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Danh mục không được trống</Card.Text>
+              <Card.Text as="div" className='error-text'>Categories cant be empty</Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Nội dung</Form.Label>
+            <Form.Label>Content</Form.Label>
             <Editor
               {...register('content', { required: true })}
               editorState={editorState}
@@ -226,7 +226,7 @@ export const SubjectCreate = () => {
             />
             {errors.content?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Nội dung không được trống
+                Content cant be blank
               </Card.Text>
             )}
             <div hidden id="editContent">
@@ -235,16 +235,16 @@ export const SubjectCreate = () => {
             </div>
 
             {(inputContent) &&
-              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} nội dung</div>
+              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} Content</div>
             }
 
             {isOpenContentPreview &&
               <div className='content-review' dangerouslySetInnerHTML={{ __html: inputContent }} />
             }
           </Form.Group>
-          <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
+          <Button type='submit' variant="success" className='btn-right'>Add</Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-            Quay lại
+          Back
           </Button>
         </Form>
 

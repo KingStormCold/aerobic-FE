@@ -46,22 +46,22 @@ const Footer = (props) => {
                 <ul className='footer-link-row-left-content-left-ul'>
                   <li>
                     <Link to="/chinh-sach-bao-hanh">
-                      Chính sách bảo hành
+                    Warranty Policy
                     </Link>
                   </li>
                   <li>
                     <Link to="/thu-cu-doi-moi">
-                      Chính sách đổi trả
+                    Return Policy
                     </Link>
                   </li>
                   {/* <li>
                                         <Link to="/">
-                                            Chính sách bán hàng
+                                            Sales Policy
                                         </Link>
                                     </li> */}
                   <li>
                     <Link to="/">
-                      Chính sách bảo mật
+                    Privacy Policy
                     </Link>
                   </li>
                   <li>
@@ -76,27 +76,27 @@ const Footer = (props) => {
                 <ul>
                   <li>
                     <Link to="/thong-tin-cua-hang">
-                      Hệ thống cửa hàng
+                    Store system
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      Khuyến mãi trong tháng
+                    Promotion of the month
                     </Link>
                   </li>
                   {/* <li>
                                         <Link to="/">
-                                            Công nghệ 24h
+                                            24h Technology
                                         </Link>
                                     </li> */}
                   {/* <li>
                                         <Link to ="/thu-cu-doi-moi">
-                                            Trade-in thu cũ lên đời
+                                            Trade-in old autumn comes into existence
                                         </Link>
                                     </li> */}
                   <li>
                     <Link to="/recharge">
-                      Hình thức nạp tiền
+                    Deposit methods
                     </Link>
                   </li>
                   <li>
@@ -110,7 +110,7 @@ const Footer = (props) => {
           </Col>
           <Col xs={sizeSupportFooter} className='footer-link-col-right'>
             <div className='footer-link-col-right-content'>
-              <h4> Hỗ trợ</h4>
+              <h4> Support</h4>
               {/* <div className='footer-contact-card'>
                                 <div className='footer-contact-content'>
                                     <div className='footer-contact-text'>Gọi tư vấn máy - phụ kiện</div>
@@ -120,14 +120,14 @@ const Footer = (props) => {
                             </div> */}
               <div className='footer-contact-card'>
                 <div className='footer-contact-content'>
-                  <div className='footer-contact-text'>Khiếu nại - Góp ý</div>
+                  <div className='footer-contact-text'>Complaints - Feedback</div>
                   <div className='footer-contact-time'>(08:00 – 21:30)</div>
                 </div>
                 <div className='footer-contact-phone'>092 734 6666</div>
               </div>
               <div className='footer-contact-card-last'>
                 <div className='footer-contact-content'>
-                  <div className='footer-contact-text'>Bảo hành - Hỗ trợ kỹ thuật</div>
+                  <div className='footer-contact-text'>Warranty - Technical Support</div>
                   <div className='footer-contact-time'>(08:00 – 21:30)</div>
                 </div>
                 <div className='footer-contact-phone'>092 734 6666</div>
@@ -144,7 +144,7 @@ const Footer = (props) => {
         </Row>
         <Row className='footer-info-row'>
           <Col xs="6" className='footer-info-contact'>
-            <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up" /> Kết nối với chúng tôi</div>
+            <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up" /> Connect with us</div>
             <div className='footer-info-contact-img'>
               <a onClick={() => window.open("https://www.facebook.com/Mrbangstoree", "_blank")}>
                 <img src="content/images/footer_facebook.png" className='footer-img-fa' />
@@ -155,18 +155,18 @@ const Footer = (props) => {
             </div>
           </Col>
           <Col xs="6" className='footer-info-payment'>
-            <div className='footer-info-payment-content'><FontAwesomeIcon icon="credit-card" /> Hỗ trợ thanh toán</div>
+            <div className='footer-info-payment-content'><FontAwesomeIcon icon="credit-card" /> Payment support</div>
             <div className='footer-info-payment-img'>
               <img src="content/images/footer_momo.png" className='footer-img-fa' />
               <img src="content/images/footer_vnpay.png" className='footer-img-fa' />
               <img src="content/images/footer_visa.png" className='footer-img-fa' />
               {/* <img width="275" src="content/images/footer_payment.png"></img> */}
             </div>
-            <img style={{ marginLeft: '20px' }} src="content/images/footer_certificate.png" alt="Chung nhan Tin Nhiem Mang" />
+            <img style={{ marginLeft: '20px' }} src="content/images/footer_certificate.png" alt="" />
           </Col>
           {/* <Col xs = "4" className='footer-info-certificate'>
                         <div className='footer-info-certificate-img'>
-                            <img src="content/images/footer_certificate.png" alt="Chung nhan Tin Nhiem Mang"/>
+                            <img src="content/images/footer_certificate.png" alt="Network Trust Certification"/>
                         </div>
                     </Col> */}
         </Row>
@@ -179,22 +179,22 @@ const Footer = (props) => {
                 <ul className='footer-link-row-left-content-left-ul' style={{ paddingLeft: "0px", margin: "0" }}>
                   <li>
                     <Link to="/chinh-sach-bao-hanh">
-                      Chính sách bảo hành
+                    Warranty Policy
                     </Link>
                   </li>
                   <li>
                     <Link to="/thu-cu-doi-moi">
-                      Chính sách đổi trả
+                    Return Policy
                     </Link>
                   </li>
                   {/* <li>
                                         <Link to="/">
-                                            Chính sách bán hàng
+                                            Sales Policy
                                         </Link>
                                     </li> */}
                   <li>
                     <Link to="/">
-                      Chính sách bảo mật
+                    Privacy Policy
                     </Link>
                   </li>
                   <li>
@@ -209,27 +209,27 @@ const Footer = (props) => {
                 <ul style={{ paddingLeft: "0px" }}>
                   <li>
                     <Link to="/thong-tin-cua-hang">
-                      Hệ thống cửa hàng
+                    Store system
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                      Khuyến mãi trong tháng
+                    Promotion of the month
                     </Link>
                   </li>
                   {/* <li>
                                         <Link to="/">
-                                            Công nghệ 24h
+                                            24h Technology
                                         </Link>
                                     </li> */}
                   {/* <li>
                                         <Link to ="/thu-cu-doi-moi">
-                                            Trade-in thu cũ lên đời
+                                            Trade-in old autumn comes into existence
                                         </Link>
                                     </li> */}
                   <li>
                     <Link to="/recharge">
-                      Hình thức nạp tiền
+                    Deposit methods
                     </Link>
                   </li>
                   <li>
@@ -243,7 +243,7 @@ const Footer = (props) => {
           </Col>
           <Col xs="12" className='footer-link-col-right'>
             <div className='footer-link-col-right-content'>
-              <h4> Hỗ trợ</h4>
+              <h4> Support</h4>
               {/* <div className='footer-contact-card'>
                                 <div className='footer-contact-content'>
                                     <div className='footer-contact-text'>Gọi tư vấn máy - phụ kiện</div>
@@ -253,21 +253,21 @@ const Footer = (props) => {
                             </div> */}
               <div className='footer-contact-card'>
                 <div className='footer-contact-content'>
-                  <div className='footer-contact-text'>Khiếu nại - Góp ý</div>
+                  <div className='footer-contact-text'>Complaints - Feedback</div>
                   <div className='footer-contact-time'>(08:00 – 21:30)</div>
                 </div>
                 <div className='footer-contact-phone'>092 734 6666</div>
               </div>
               <div className='footer-contact-card-last'>
                 <div className='footer-contact-content'>
-                  <div className='footer-contact-text'>Bảo hành - Hỗ trợ kỹ thuật</div>
+                  <div className='footer-contact-text'>Warranty - Technical Support</div>
                   <div className='footer-contact-time'>(08:00 – 21:30)</div>
                 </div>
                 <div className='footer-contact-phone'>092 734 6666</div>
               </div>
               {/* <div className='footer-contact-card-last'>
                                 <div className='footer-contact-content'>
-                                    <div className='footer-contact-text'>Gọi mua hàng từ xa</div>
+                                    <div className='footer-contact-text'>Call for remote purchases</div>
                                     <div className='footer-contact-time'>(08:00 – 21:30)</div>
                                 </div>
                                 <div className='footer-contact-phone'>1800 0123</div>
@@ -277,7 +277,7 @@ const Footer = (props) => {
         </Row>
         <Row className='footer-info-row'>
           <Col xs={sizeLowestFooter} className='footer-info-contact'>
-            <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up" /> Kết nối với chúng tôi</div>
+            <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up" /> Connect with us</div>
             <div className='footer-info-contact-img'>
               <a onClick={() => window.open("https://www.facebook.com/Mrbangstoree", "_blank")}>
                 <img src="content/images/footer_facebook.png" className='footer-img-fa' style={{ marginLeft: '5px' }} />
@@ -288,19 +288,19 @@ const Footer = (props) => {
             </div>
           </Col>
           <Col xs={sizeLowestFooter} className='footer-info-payment'>
-            <div className='footer-info-payment-content'><FontAwesomeIcon icon="credit-card" /> Hỗ trợ thanh toán</div>
+            <div className='footer-info-payment-content'><FontAwesomeIcon icon="credit-card" /> Payment support</div>
             <div className='footer-info-payment-img'>
               {/* <img width="275" src="content/images/footer_payment.png"></img> */}
               <img src="content/images/footer_momo.png" className='footer-img-fa' />
               <img src="content/images/footer_vnpay.png" className='footer-img-fa' />
               <img src="content/images/footer_visa.png" className='footer-img-fa' />
-              <img style={{ marginLeft: "20px" }} src="content/images/footer_certificate.png" alt="Chung nhan Tin Nhiem Mang" />
+              <img style={{ marginLeft: "20px" }} src="content/images/footer_certificate.png" alt="Network Trust Certification" />
 
             </div>
           </Col>
           {/* <Col xs = {sizeLowestFooter} className='footer-info-certificate'>
                         <div className='footer-info-certificate-img'>
-                            <img src="content/images/footer_certificate.png" alt="Chung nhan Tin Nhiem Mang"/>
+                            <img src="content/images/footer_certificate.png" alt="Network Trust Certification"/>
                         </div>
                     </Col> */}
         </Row>

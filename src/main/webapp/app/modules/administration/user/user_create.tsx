@@ -31,13 +31,13 @@ export const UserCreate = () => {
 
   useEffect(() => {
     if (title === '') {
-      dispatch(updateStateTitle("Người dùng"))
+      dispatch(updateStateTitle("User"))
     }
   }, [title])
 
   useEffect(() => {
     if (rolesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách vai trò' + rolesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get a list of roles' + rolesErrorMessage, isError: true }))
     }
   }, [rolesErrorMessage])
 
@@ -72,7 +72,7 @@ export const UserCreate = () => {
 
   useEffect(() => {
     if (createUserSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Thêm người dùng thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Add a successful user', isError: false }))
       dispatch(resetUser())
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
@@ -97,7 +97,7 @@ export const UserCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Thêm người dùng
+      Add users
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addUser)}>
@@ -106,10 +106,10 @@ export const UserCreate = () => {
             <Form.Control
               type="email"
               {...register('email', {
-                required: 'Email không được trống',
+                required: 'Email cant be blank',
                 pattern: {
                   value: /^\S+@\S+$/i,
-                  message: 'Email phải đúng định dạng',
+                  message: 'Emails must be in the correct format',
                 },
               })}
               isInvalid={!!errors.email}
@@ -120,11 +120,11 @@ export const UserCreate = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Họ và tên</Form.Label>
+            <Form.Label>Full name</Form.Label>
             <Form.Control
               type="text"
               {...register('fullname', {
-                required: 'Họ và tên không được trống',
+                required: 'Full name must not be blank',
               })}
               isInvalid={!!errors.fullname}
             />
@@ -135,14 +135,14 @@ export const UserCreate = () => {
 
           {/* Password */}
           <Form.Group className="mb-3">
-            <Form.Label>Mật khẩu</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               {...register('password', {
-                required: 'Mật khẩu không được trống',
+                required: 'Passwords cant be blank',
                 minLength: {
                   value: 6,
-                  message: 'Mật khẩu phải ít nhất 6 kí tự',
+                  message: 'Password must be at least 6 characters',
                 },
               })}
               isInvalid={!!errors.password}
@@ -154,13 +154,13 @@ export const UserCreate = () => {
 
           {/* Confirm Password */}
           <Form.Group className="mb-3">
-            <Form.Label>Xác nhận mật khẩu</Form.Label>
+            <Form.Label>Confirm password</Form.Label>
             <Form.Control
               type="password"
               {...register('confirmPassword', {
-                required: 'Xác nhận mật khẩu không được trống',
+                required: 'Confirm password cant be blank',
                 validate: {
-                  incorrectPassword: (value) => value === getValues('password') || 'Mật khẩu không trùng với nhau',
+                  incorrectPassword: (value) => value === getValues('password') || 'Passwords dont match each other',
                 }
               })}
               isInvalid={!!errors.confirmPassword}
@@ -172,14 +172,14 @@ export const UserCreate = () => {
 
           {/* Phone */}
           <Form.Group className="mb-3">
-            <Form.Label>Số điện thoại</Form.Label>
+            <Form.Label>Phone number</Form.Label>
             <Form.Control
               type="text"
               {...register('phone', {
-                required: 'Số điện thoại không được trống',
+                required: 'Phone number cant be blank',
                 pattern: {
                   value: /^[0-9]{10}$/i,
-                  message: 'Số điện thoại không hợp lệ',
+                  message: 'Invalid phone number',
                 },
               })}
               isInvalid={!!errors.phone}
@@ -193,13 +193,13 @@ export const UserCreate = () => {
           <Form.Group className="mb-3">
             <Form.Check
               type="switch"
-              label="Kích hoạt"
+              label="Activate"
               {...register('status')}
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Vai trò</Form.Label>
+            <Form.Label>Role</Form.Label>
             <div className='flex-display'>
               {
                 roles && roles?.map((role, i) => {
@@ -222,7 +222,7 @@ export const UserCreate = () => {
             </div>
           </Form.Group>
 
-          <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
+          <Button type='submit' variant="success" className='btn-right'>Add</Button>
         </Form>
 
       </div>

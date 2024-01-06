@@ -93,7 +93,7 @@ export const Register = () => {
 
   useEffect(() => {
     if (registerUserSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Đăng ký người dùng thành công', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Successful user registration', isError: false }));
       history.push(URL_PATH.LOGIN);
     }
   }, [registerUserSuccess])
@@ -131,7 +131,7 @@ export const Register = () => {
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               </Avatar>
               <Typography component="h1" variant="h5">
-                Đăng ký tài khoản
+              Sign up for an account
               </Typography>
               <Form onSubmit={handleSubmit(addUser)} className='form-layout'>
                 <Form.Group className="mb-3">
@@ -139,10 +139,10 @@ export const Register = () => {
                   <Form.Control
                     type="email"
                     {...register('email', {
-                      required: 'Email không được trống',
+                      required: 'Email cant be blank',
                       pattern: {
                         value: /^\S+@\S+$/i,
-                        message: 'Email phải đúng định dạng',
+                        message: 'Emails must be in the correct format',
                       },
                     })}
                     isInvalid={!!errors.email}
@@ -153,7 +153,7 @@ export const Register = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Họ và tên</Form.Label>
+                  <Form.Label>Full name</Form.Label>
                   <Form.Control
                     type="text"
                     {...register('fullname', {
@@ -168,14 +168,14 @@ export const Register = () => {
 
                 {/* Password */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Mật khẩu</Form.Label>
+                  <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
                     {...register('password', {
-                      required: 'Mật khẩu không được trống',
+                      required: 'Passwords cant be blank',
                       minLength: {
                         value: 6,
-                        message: 'Mật khẩu phải ít nhất 6 kí tự',
+                        message: 'Password must be at least 6 characters',
                       },
                     })}
                     isInvalid={!!errors.password}
@@ -187,13 +187,13 @@ export const Register = () => {
 
                 {/* Confirm Password */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Xác nhận mật khẩu</Form.Label>
+                  <Form.Label>Confirm password</Form.Label>
                   <Form.Control
                     type="password"
                     {...register('confirmPassword', {
-                      required: 'Xác nhận mật khẩu không được trống',
+                      required: 'Confirm password cant be blank',
                       validate: {
-                        incorrectPassword: (value) => value === getValues('password') || 'Mật khẩu không trùng với nhau',
+                        incorrectPassword: (value) => value === getValues('password') || 'Passwords dont match each other',
                       }
                     })}
                     isInvalid={!!errors.confirmPassword}
@@ -205,14 +205,14 @@ export const Register = () => {
 
                 {/* Phone */}
                 <Form.Group className="mb-3">
-                  <Form.Label>Số điện thoại</Form.Label>
+                  <Form.Label>Phone number</Form.Label>
                   <Form.Control
                     type="text"
                     {...register('phone', {
-                      required: 'Số điện thoại không được trống',
+                      required: 'Phone number cant be blank',
                       pattern: {
                         value: /^[0-9]{10}$/i,
-                        message: 'Số điện thoại không hợp lệ',
+                        message: 'Invalid phone number',
                       },
                     })}
                     isInvalid={!!errors.phone}
@@ -224,7 +224,7 @@ export const Register = () => {
                 {registerUserErrorMessgae && (
                   <Card.Text as="div" className='error-text'>{registerUserErrorMessgae}</Card.Text>
                 )}
-                <Button type='submit' variant="success" className='btn-right'>Đăng ký</Button>
+                <Button type='submit' variant="success" className='btn-right'>Register</Button>
               </Form>
             </Box>
           </Grid>

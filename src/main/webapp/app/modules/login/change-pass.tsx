@@ -88,7 +88,7 @@ export const ChangePassWord = () => {
   useEffect(() => {
     if (changePassSuccess) {
       dispatch(
-        updateStateOpenToastMessage({ message: 'Bạn đã đổi mật khẩu thành công, vui lòng đăng nhập lại để tiếp tục', isError: false })
+        updateStateOpenToastMessage({ message: 'You have successfully changed your password, please log in again to continue', isError: false })
       );
       history.push(URL_PATH.LOGOUT);
     }
@@ -131,19 +131,19 @@ export const ChangePassWord = () => {
             >
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
               <Typography component="h1" variant="h5">
-                Bạn muốn đổi mật khẩu
+              You want to change your password
               </Typography>
 
               <Form onSubmit={handleSubmit(addUser)} className="form-layout">
                 <Form.Group className="mb-3">
-                  <Form.Label>Mật khẩu cũ</Form.Label>
+                  <Form.Label>Old password</Form.Label>
                   <Form.Control
                     type="password"
                     {...register('old_password', {
-                      required: 'Mật khẩu không được trống',
+                      required: 'Passwords cant be blank',
                       minLength: {
                         value: 6,
-                        message: 'Mật khẩu phải ít nhất 6 kí tự',
+                        message: 'Password must be at least 6 characters',
                       },
                     })}
                     isInvalid={!!errors.old_password}
@@ -156,14 +156,14 @@ export const ChangePassWord = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Mật khẩu mới</Form.Label>
+                  <Form.Label>New password</Form.Label>
                   <Form.Control
                     type="password"
                     {...register('new_password', {
-                      required: 'Mật khẩu không được trống',
+                      required: 'Passwords cant be blank',
                       minLength: {
                         value: 6,
-                        message: 'Mật khẩu phải ít nhất 6 kí tự',
+                        message: 'Password must be at least 6 characters',
                       },
                     })}
                     isInvalid={!!errors.new_password}
@@ -176,13 +176,13 @@ export const ChangePassWord = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Xác nhận lại mật khẩu mới</Form.Label>
+                  <Form.Label>Reconfirm the new password</Form.Label>
                   <Form.Control
                     type="password"
                     {...register('new_password_confirmation', {
-                      required: 'Xác nhận mật khẩu không được trống',
+                      required: 'Confirm password cant be blank',
                       validate: {
-                        incorrectPassword: value => value === getValues('new_password') || 'Mật khẩu không trùng với nhau',
+                        incorrectPassword: value => value === getValues('new_password') || 'Passwords dont match each other',
                       },
                     })}
                     isInvalid={!!errors.new_password_confirmation}
@@ -195,7 +195,7 @@ export const ChangePassWord = () => {
                 </Form.Group>
 
                 <Button type="submit" variant="success" className="btn-right">
-                  Thay đổi
+                Change
                 </Button>
               </Form>
             </Box>

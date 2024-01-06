@@ -57,7 +57,7 @@ const OpenQuiz = () => {
     setErrorQuiz('')
     testAnswer.filter(item => {
       if (item.serial_answer === 0) {
-        setErrorQuiz('Vui lòng hoàn thành các câu hỏi')
+        setErrorQuiz('Please complete the questions')
         error = true
       }
     })
@@ -88,7 +88,7 @@ const OpenQuiz = () => {
           }}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Kết quả bài kiểm tra
+          Test results
           </DialogTitle>
           <DialogContent dividers>
             {resultQuiz.tests.map((item, index) => (
@@ -118,12 +118,12 @@ const OpenQuiz = () => {
               </Box>
             ))}
             <Card.Text as="div" className="success-text">
-              Số đáp án đúng {resultQuiz?.total_correct}/10
+            Number of correct answers {resultQuiz?.total_correct}/10
             </Card.Text>
           </DialogContent>
           <DialogActions>
             <Button variant="soft" autoFocus onClick={handleCloseQuiz}>
-              Đóng
+            Close
             </Button>
           </DialogActions>
         </Dialog>
@@ -145,7 +145,7 @@ const OpenQuiz = () => {
           }}
         >
           <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-            Bài kiểm tra
+          Tests
           </DialogTitle>
           <DialogContent dividers>
             {quizs && quizs.length > 0 && quizs.map((quiz, index) => (
@@ -158,7 +158,7 @@ const OpenQuiz = () => {
                 padding: '15px'
               }}>
                 <Typography level="title-lg" >
-                  Câu {index + 1}: {quiz.test_content}
+                Sentence {index + 1}: {quiz.test_content}
                 </Typography>
                 <RadioGroup
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -180,10 +180,10 @@ const OpenQuiz = () => {
               </Card.Text>
             )}
             <Button variant="soft" autoFocus onClick={handleCloseQuiz}>
-              Đóng
+            Close
             </Button>
             <Button variant="solid" size="sm" onClick={handleSubmitQuiz}>
-              Nộp bài
+            Submission
             </Button>
           </DialogActions>
         </Dialog>)

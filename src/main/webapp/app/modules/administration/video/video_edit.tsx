@@ -36,8 +36,7 @@ export const VideoEdit = () => {
     dispatch(showCourseName());
   }, []);
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
-    // => hk có data để chỉnh sửa
+    
     if (videoDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
@@ -88,7 +87,7 @@ export const VideoEdit = () => {
 
   useEffect(() => {
     if (updateVideoSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Sửa Video thành công', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Edit Video Successfully', isError: false }));
       dispatch(resetVideo());
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
@@ -107,7 +106,7 @@ export const VideoEdit = () => {
       setErrorVideo('')
     } else {
       setFullTimeVideo(0)
-      setErrorVideo('link video không đúng')
+      setErrorVideo('Incorrect video link')
     }
   };
 
@@ -118,11 +117,11 @@ export const VideoEdit = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Sửa Video</h3>
+      <h3>Edit Video</h3>
       <div>
         <Form onSubmit={handleSubmit(editVideo)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Tên video</Form.Label>
+            <Form.Label htmlFor="name">Video name</Form.Label>
             <Form.Control
               type="text"
               id="name"
@@ -134,12 +133,12 @@ export const VideoEdit = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Tên video không được trống
+                The video name cant be blank
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Tên video không được quá 100 ký tự
+                Video name cant be more than 100 characters
               </Card.Text>
             )}
           </Form.Group>
@@ -160,12 +159,12 @@ export const VideoEdit = () => {
             />
             {errors.link_video?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Liên kết video không được trống
+                Video links cant be blank
               </Card.Text>
             )}
             {errors.link_video?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Liên kết video không được quá 255 ký tự
+                Video links cant exceed 255 characters
               </Card.Text>
             )}
             {errorVideo && (
@@ -176,7 +175,7 @@ export const VideoEdit = () => {
           </Form.Group>
           {linkVideo &&
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="name">Xem trước</Form.Label>
+              <Form.Label htmlFor="name">Preview</Form.Label>
               <ReactPlayer width={'100%'} height={'100%'}
                 url={linkVideo}
                 onDuration={handleDuration}
@@ -194,9 +193,9 @@ export const VideoEdit = () => {
           }
 
           <Form.Group className="mb-3" controlId="course_id">
-            <Form.Label>Tên khóa học</Form.Label>
+            <Form.Label>Course Name</Form.Label>
             <Form.Select
-              aria-label="Tên khóa học"
+              aria-label="Course Name"
               value={videoDetail?.course_id}
               {...register('course_id', {
               })}
@@ -207,10 +206,10 @@ export const VideoEdit = () => {
             </Form.Select>
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-            Chỉnh sửa
+            Edit
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-            Quay lại
+            Back
           </Button>
           <br />
           <br />

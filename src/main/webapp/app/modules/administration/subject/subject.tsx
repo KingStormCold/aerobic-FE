@@ -36,7 +36,7 @@ export const SubjectManagement = () => {
   const subjectsErrorMessage = useAppSelector(state => state.subject.subjectsErrorMessage);
   const deleteSubjectErrorMessage = useAppSelector(state => state.subject.deleteSubjectErrorMessage);
   useEffect(() => {
-    dispatch(updateStateTitle("Môn học"))
+    dispatch(updateStateTitle("Subject"))
     dispatch(getSubjects(1));
   }, [])
 
@@ -56,10 +56,10 @@ export const SubjectManagement = () => {
     setIsOpenConfirm(true);
     setDeleteSubjectId(id);
     const _data = {
-      title: "Xóa môn học: " + subjectName,
-      description: "Bạn thật sự muốn xóa môn học " + subjectName + " này không?",
-      lblCancel: "Hủy",
-      lblOk: "Đồng ý",
+      title: "Delete a subject: " + subjectName,
+      description: "You really want to delete the subject " + subjectName + " really?",
+      lblCancel: "Cancel",
+      lblOk: "Agree",
     };
     setDataConfirm(_data);
     return false;
@@ -88,14 +88,14 @@ export const SubjectManagement = () => {
 
   useEffect(() => {
     if (deleteSubjectSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa môn học thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Successfully delete the subject', isError: false }))
       dispatch(getSubjects(1));
     }
   }, [deleteSubjectSuccess])
 
   useEffect(() => {
     if (subjectsErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy được danh sách môn học. ' + subjectsErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get the subject list. ' + subjectsErrorMessage, isError: true }))
     }
   }, [subjectsErrorMessage])
 
@@ -108,7 +108,7 @@ export const SubjectManagement = () => {
   return (
     <div>
       {loading && <Loading />}
-      <h3>Danh sách môn học</h3>
+      <h3>List of subjects</h3>
       <Link to={`${URL_PATH.ADMIN.SUBJECT.CREATE}`}>
         <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
@@ -118,13 +118,13 @@ export const SubjectManagement = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Tên</th>
-            <th>Giá khuyến mãi</th>
-            <th>Danh mục</th>
-            <th>Nguời tạo</th>
-            <th>Ngày tạo</th>
-            <th>Người sửa</th>
-            <th>Ngày sửa</th>
+            <th>Name</th>
+            <th>Promo price</th>
+            <th>Directory</th>
+            <th>Creator</th>
+            <th>Creation date</th>
+            <th>Fixer</th>
+            <th>Date of correction</th>
             <th className='w-155'>Action</th>
           </tr>
         </thead>
@@ -153,16 +153,16 @@ export const SubjectManagement = () => {
               <td>{moment(subject.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td className='w-155'>
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
-                  onClick={() => handleDetailSubject(subject)} title="Chi tiết">
+                  onClick={() => handleDetailSubject(subject)} title="Detail">
                   <FontAwesomeIcon icon="info" />
                 </Button>
                 <Button size='small' id="editBtn" style={{ marginLeft: "10px", backgroundColor: "#ffe200" }}
-                  onClick={() => handleEditSubject(subject)} title="Chỉnh sửa">
+                  onClick={() => handleEditSubject(subject)} title="Edit">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
                 {/* </Link> */}
                 <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteSubject(subject.id, subject.category_name)} title="Xóa">
+                  onClick={() => handleDeleteSubject(subject.id, subject.category_name)} title="Delete">
                   <FontAwesomeIcon icon="trash" />
                 </Button>
               </td>

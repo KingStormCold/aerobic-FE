@@ -18,9 +18,9 @@ const Home = () => {
           <div className="row align-items-center">
             <div className="col-sm-12 col-md-6">
               <div className="hero-text">
-                <h1>Tăng Cường Sức Khỏe</h1>
+                <h1>Health promotion</h1>
                 <p>
-                  Hỗ trợ vận động cơ thể, nhịp thở và tăng lưu lượng máu.
+                Supports body movement, breathing rate and increased blood flow.
                 </p>
                 <div className="hero-btn">
                   <Link className="btn" to="/register">Join Now</Link>

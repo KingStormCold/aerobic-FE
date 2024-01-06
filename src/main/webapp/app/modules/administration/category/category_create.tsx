@@ -27,13 +27,13 @@ export const CategoryCreate = () => {
 
   useEffect(() => {
     if (title === '') {
-      dispatch(updateStateTitle("Danh mục"))
+      dispatch(updateStateTitle("Directory"))
     }
   }, [title])
 
   useEffect(() => {
     if (parentCategoriesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách danh mục cha. ' + parentCategoriesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get the subcategory list. ' + parentCategoriesErrorMessage, isError: true }))
     }
   }, [parentCategoriesErrorMessage])
 
@@ -60,7 +60,7 @@ export const CategoryCreate = () => {
 
   useEffect(() => {
     if (createCategorySuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Thêm danh mục thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Add a success category', isError: false }))
       dispatch(resetCategory())
       history.push(URL_PATH.ADMIN.CATEGORY.MANAGEMENT)
     }
@@ -76,12 +76,12 @@ export const CategoryCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Thêm danh mục
+      Add a category
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addCategory)}>
           <Form.Group className="mb-3">
-            <Form.Label>Tên danh mục</Form.Label>
+            <Form.Label>Category Name</Form.Label>
             <Form.Control
               type="text"
               id="categoryName"
@@ -91,22 +91,22 @@ export const CategoryCreate = () => {
               isInvalid={errors.categoryName?.type === 'required'}
             />
             {errors.categoryName?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Tên danh mục không được trống</Card.Text>
+              <Card.Text as="div" className='error-text'>Category name cant be blank</Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Danh mục cha</Form.Label>
-            <Form.Select aria-label="Danh mục cha"
+            <Form.Label>Parent category</Form.Label>
+            <Form.Select aria-label="Parent category"
               {...register('parentCategory', {
               })}
             >
-              <option value="0">Chọn danh mục cha</option>
+              <option value="0">Select parent category</option>
               {parentCategories && parentCategories?.map((category, i) => (
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
             </Form.Select>
           </Form.Group>
-          <Button type='submit' variant="success" className='btn-right'>Thêm</Button>
+          <Button type='submit' variant="success" className='btn-right'>Add</Button>
         </Form>
 
       </div>

@@ -46,8 +46,8 @@ export const CourseManagement = () => {
     }
     if (subjectDetail.id) {
       dispatch(coursesPagination({ page: 1, id: subjectDetail.id }));
-      const splitTitle = title.split(" > Khóa học ")
-      dispatch(updateStateTitle(splitTitle[0] + " > Khóa học "))
+      const splitTitle = title.split(" > Course ")
+      dispatch(updateStateTitle(splitTitle[0] + " > Course "))
     }
   }, [subjectDetail]);
 
@@ -65,10 +65,10 @@ export const CourseManagement = () => {
     setIsOpenConfirm(true);
     setDeleteCourseId(id);
     const _data = {
-      title: "Xóa khóa học: " + courseName,
-      description: "Bạn thật sự muốn xóa khóa học " + courseName + " này không?",
-      lblCancel: "Hủy",
-      lblOk: "Đồng ý",
+      title: "Delete a course: " + courseName,
+      description: "You really want to delete the course " + courseName + " really?",
+      lblCancel: "Cancel",
+      lblOk: "Agreed",
     };
     setDataConfirm(_data);
   }
@@ -91,14 +91,14 @@ export const CourseManagement = () => {
 
   useEffect(() => {
     if (deleteCourseSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa khóa học thành công', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Successfully delete a course', isError: false }));
       dispatch(coursesPagination({ page: 1, id: subjectDetail.id }));
     }
   }, [deleteCourseSuccess, dispatch]);
 
   useEffect(() => {
     if (coursesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'không Lấy được danh sách khóa học. ' + coursesErrorMessage, isError: true }));
+      dispatch(updateStateOpenToastMessage({ message: 'failed to Get course list. ' + coursesErrorMessage, isError: true }));
     }
   }, [coursesErrorMessage, dispatch]);
 
@@ -131,16 +131,16 @@ export const CourseManagement = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Tên khóa học</th>
-            <th>Môn học</th>
-            <th>Mô tả</th>
-            <th>Cấp độ</th>
-            <th>Giá</th>
-            <th>Giá khuyến mãi</th>
-            <th>Nguời tạo</th>
-            <th>Ngày tạo</th>
-            <th>Người sửa</th>
-            <th>Ngày sửa</th>
+            <th>Course Name</th>
+            <th>Subject</th>
+            <th>Describe</th>
+            <th>Level</th>
+            <th>Price</th>
+            <th>Promo price</th>
+            <th>Creator</th>
+            <th>Creation date</th>
+            <th>Fixer</th>
+            <th>Date of correction</th>
             <th className='w-155'>Action</th>
           </tr>
         </thead>
@@ -171,15 +171,15 @@ export const CourseManagement = () => {
               <td>{moment(course.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td className='w-155'>
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
-                  onClick={() => handleDetailCourse(course)} title="Chi tiết">
+                  onClick={() => handleDetailCourse(course)} title="Detail">
                   <FontAwesomeIcon icon="info" />
                 </Button>
                 <Button size='small' id="editBtn" style={{ marginLeft: "10px", backgroundColor: "#ffe200" }}
-                  onClick={() => handleEditCourse(course)} title="Chỉnh sửa">
+                  onClick={() => handleEditCourse(course)} title="Edit">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
                 <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteCourse(course.id, course.name)} title="Xóa">
+                  onClick={() => handleDeleteCourse(course.id, course.name)} title="Delete">
                   <FontAwesomeIcon icon="trash" />
                 </Button>
               </td>

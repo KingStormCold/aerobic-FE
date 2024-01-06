@@ -64,7 +64,7 @@ const VideoCreate = () => {
   const addVideo = data => {
     const duration = player.current.getDuration()
     if (errorVideo || duration === null) {
-      setErrorVideo('link video không đúng')
+      setErrorVideo('Incorrect video link')
       return
     }
     const requestBody: ICreateVideo = {
@@ -82,7 +82,7 @@ const VideoCreate = () => {
     if (createVideoSuccess) {
       dispatch(
         updateStateOpenToastMessage({
-          message: 'Thêm video thành công',
+          message: 'Add successful videos',
           isError: false,
         })
       );
@@ -110,7 +110,7 @@ const VideoCreate = () => {
       setErrorVideo('')
     } else {
       setFullTimeVideo(0)
-      setErrorVideo('link video không đúng')
+      setErrorVideo('Incorrect video link')
     }
   };
 
@@ -125,11 +125,11 @@ const VideoCreate = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Thêm Video</h3>
+      <h3>Add Videos</h3>
       <div>
         <Form onSubmit={handleSubmit(addVideo)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Tên video</Form.Label>
+            <Form.Label htmlFor="name">Video name</Form.Label>
             <Form.Control
               type="text"
               id="name"
@@ -141,18 +141,18 @@ const VideoCreate = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Tên khóa học không được trống
+                Course name cant be blank
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Tên khóa học không được quá 100 ký tự
+                Course name must not exceed 100 characters
               </Card.Text>
             )}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Link video</Form.Label>
+            <Form.Label htmlFor="name">Video link</Form.Label>
             <Form.Control
               type="text"
               id="link_video"
@@ -167,12 +167,12 @@ const VideoCreate = () => {
             />
             {errors.link_video?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                link video không được trống
+                The video link should not be blank
               </Card.Text>
             )}
             {errors.link_video?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                link video không được quá 255 ký tự
+                Video link must not exceed 255 characters
               </Card.Text>
             )}
             {errorVideo && (
@@ -183,7 +183,7 @@ const VideoCreate = () => {
           </Form.Group>
           {linkVideo &&
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="name">Xem trước</Form.Label>
+              <Form.Label htmlFor="name">Preview</Form.Label>
               <ReactPlayer width={'100%'} height={'100%'}
                 url={linkVideo}
                 onDuration={handleDuration}
@@ -200,7 +200,7 @@ const VideoCreate = () => {
             </Form.Group>
           }
           <Form.Group className="mb-3" controlId="parentcourse">
-            <Form.Label>Khóa học</Form.Label>
+            <Form.Label>Course</Form.Label>
             <Form.Select
               aria-label="Môn học"
               {...register('course_id', { required: true })}
@@ -212,15 +212,15 @@ const VideoCreate = () => {
             </Form.Select>
             {errors.course_id?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Vui lòng chọn khóa học
+                Please select a course
               </Card.Text>
             )}
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-            Thêm
+          Add
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-            Quay lại
+          Back
           </Button>
           <br />
           <br />

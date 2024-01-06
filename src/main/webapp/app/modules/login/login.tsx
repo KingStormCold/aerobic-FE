@@ -159,13 +159,13 @@ export const Login = (props: RouteComponentProps<any>) => {
             >
               {loginError ? (
                 <Alert color="danger" data-cy="loginError">
-                  <span>Tài khoản hoặc mật khẩu không đúng</span>
+                  <span>Incorrect account or password</span>
                 </Alert>
               ) : null}
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               </Avatar>
               <Typography component="h1" variant="h5">
-                Đăng nhập
+              Log in
               </Typography>
               <Box component="form" noValidate sx={{ mt: 1 }}>
                 <TextField
@@ -184,7 +184,7 @@ export const Login = (props: RouteComponentProps<any>) => {
                   <div className="margin-top-05">
                     <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
                     <span className="color-text-D70925">
-                      Vui lòng nhập email.
+                    Please enter your email.
                     </span>
                   </div>
                 )}
@@ -204,26 +204,26 @@ export const Login = (props: RouteComponentProps<any>) => {
                   <div className="margin-top-05">
                     <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
                     <span className="color-text-D70925">
-                      Vui lòng nhập mật khẩu.
+                    Please enter your password.
                     </span>
                   </div>
                 )}
                 <br />
                 <br />
                 <Button id="register-submit" color="primary" onClick={handleSubmitLogin}>
-                  Đăng nhập
+                Log in
                 </Button>
                 <br />
                 <br />
                 <Grid container>
                   <Grid item xs>
                     <Link to="/login">
-                      Quên mật khẩu?
+                    Forgot your password?
                     </Link>
                   </Grid>
                   <Grid item>
                     <Link to="/register">
-                      Bạn chưa có tài khoản? Đăng ký
+                    Dont have an account yet? Register
                     </Link>
                   </Grid>
                 </Grid>

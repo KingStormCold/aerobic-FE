@@ -43,10 +43,10 @@ const YogaPage = () => {
                     <p>{item.name}</p>
                   </div>
                   <div className="subject-name text-center wow zoomIn" data-wow-delay="0.1s">
-                    <p>Đang giảm: {numberWithCommas(item.promotional_price)}đ</p>
+                    <p>Falling: {numberWithCommas(item.promotional_price)}đ</p>
                   </div>
                   <Button variant="contained" color="success" sx={{ fontWeight: 600 }} onClick={e => handlSubjectClick(item.id, item.category_id)}>
-                    Xem
+                  See
                   </Button>
                 </div>
               ))}
@@ -55,14 +55,14 @@ const YogaPage = () => {
           </div>
           <div className="col-lg-7 col-md-6">
             <div className="section-header text-left">
-              <h2>Thế giới Yoga</h2>
+              <h2>World of Yoga</h2>
             </div>
             <div className="about-text">
               <p>
-                Yoga là một phương pháp luyện tập lâu đời có nguồn gốc từ Ấn Độ khoảng 5.000 năm trước. Người ta thường cho rằng tập yoga là tập những động tác, tư thế uốn éo kỳ lạ. Nhưng thật ra, yoga bao gồm các bài tập giúp cải thiện thể chất, tinh thần, tình cảm và cả tâm linh của người tập.
+              Yoga is an age-old practice that originated in India about 5,000 years ago. It is often thought that yoga is practicing strange movements and postures. But actually, yoga consists of exercises that help improve the physical, mental, emotional and even spiritual of the practitioner.
               </p>
               <p>
-                Nhiều người tập tin rằng bộ môn này có thể thay đổi thế giới quan, giúp bình tâm và giảm căng thẳng, nhờ đó sẽ giúp cải thiện sức khỏe của bạn.
+              Many people believe that this practice can change your worldview, help you calm down and reduce stress, which in turn will help improve your health.
               </p>
             </div>
           </div>

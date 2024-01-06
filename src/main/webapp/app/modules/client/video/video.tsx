@@ -162,7 +162,7 @@ const Video = () => {
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose}>
-              Đóng
+            Close
             </Button>
           </DialogActions>
         </Dialog>
@@ -186,10 +186,10 @@ const Video = () => {
         fontSize="sm"
         sx={{ '--Typography-gap': '0.5rem', p: '1', marginTop: '16px' }}
       >
-        Bạn đang xem video của môn học &quot;{coursePaymentDetail.subject_name}&quot; với khóa học &quot;{coursePaymentDetail?.name}&quot;
+        You are watching a video of the subject &quot;{coursePaymentDetail.subject_name}&quot; with the course &quot;{coursePaymentDetail?.name}&quot;
       </Typography>
       <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
-        Để được làm bài Test thì tiến độ của video phải &gt; 85%
+      To be tested, the progress of the video must &gt; 85%
       </Typography>
       <Box component="div" sx={{
         display: 'flex',
@@ -241,11 +241,11 @@ const Video = () => {
               }
               <CardActions>
                 <Button variant="soft" size="sm" sx={{ maxWidth: '4rem' }} onClick={(e) => { handleVideoDetail(item) }}>
-                  Xem
+                See
                 </Button>
                 {item.progress >= 85 &&
                   <Button variant="solid" size="sm" onClick={(e) => { handleOpenQuiz(item) }}>
-                    Làm bài test
+                Take the test
                   </Button>
                 }
 
@@ -255,11 +255,11 @@ const Video = () => {
               <Divider inset="context" />
               <CardContent orientation="horizontal">
                 <Typography level="body-xs" fontWeight="md" textColor="text.secondary">
-                  {item.view} lượt xem
+                  {item.view} Views
                 </Typography>
                 <Divider orientation="vertical" />
                 <Typography level="body-xs" fontWeight="md" textColor="text.secondary">
-                  {item.full_time} phút
+                  {item.full_time} minute
                 </Typography>
               </CardContent>
             </CardOverflow>

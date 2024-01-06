@@ -35,7 +35,7 @@ export const UserManagement = () => {
   const deleteUserErrorMessage = useAppSelector(state => state.user.deleteUserErrorMessage);
 
   useEffect(() => {
-    dispatch(updateStateTitle("Người dùng"))
+    dispatch(updateStateTitle("User"))
     dispatch(getUsers(1));
   }, [])
 
@@ -55,10 +55,10 @@ export const UserManagement = () => {
     setIsOpenConfirm(true);
     setDeleteUserId(id);
     const _data = {
-      title: "Xóa: " + UserName,
-      description: "Bạn thật sự muốn xóa " + UserName + " này không?",
-      lblCancel: "Hủy",
-      lblOk: "Đồng ý"
+      title: "Delete: " + UserName,
+      description: "You really want to delete " + UserName + " really?",
+      lblCancel: "Cancel",
+      lblOk: "Agree"
     };
     setDataConfirm(_data);
     return false;
@@ -84,14 +84,14 @@ export const UserManagement = () => {
     if (deleteUserSuccess) {
       console.log('vao');
       console.log('deleteUserSuccess', deleteUserSuccess)
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa người dùng thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Delete a user successfully', isError: false }))
       dispatch(getUsers(1));
     }
   }, [deleteUserSuccess])
 
   useEffect(() => {
     if (UsersErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách người dùng. ' + UsersErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get a list of users. ' + UsersErrorMessage, isError: true }))
     }
   }, [UsersErrorMessage])
 
@@ -104,7 +104,7 @@ export const UserManagement = () => {
   return (
     <div>
       {loading && <Loading />}
-      <h3>Danh sách danh mục</h3>
+      <h3>List of categories</h3>
       <Link to={`${URL_PATH.ADMIN.USER.CREATE}`}>
         <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
@@ -115,13 +115,13 @@ export const UserManagement = () => {
           <tr>
             <th>No</th>
             <th>Email</th>
-            <th>Họ tên</th>
-            <th>Trạng thái</th>
-            <th>Số điện thoại</th>
-            <th>Người tạo</th>
-            <th>Ngày tạo</th>
-            <th>Người sửa</th>
-            <th>Ngày sửa</th>
+            <th>Fullname</th>
+            <th>Condition</th>
+            <th>Phone number</th>
+            <th>Creator</th>
+            <th>Creation date</th>
+            <th>Fixer</th>
+            <th>Date of correction</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -140,8 +140,8 @@ export const UserManagement = () => {
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={user.status === 1 ? 'Hoạt động' : 'Ngừng'}>
-                  {user.status === 1 ? 'Hoạt động' : 'Ngừng'}
+                <Truncate maxWidth={100} title={user.status === 1 ? 'Activity' : 'Stop'}>
+                  {user.status === 1 ? 'Activity' : 'Stop'}
                 </Truncate>
               </td>
               <td>
@@ -155,12 +155,12 @@ export const UserManagement = () => {
               <td>{moment(user.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>
                 {user.email === 'admin@gmail.com' ? <></> : <><Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
-                  onClick={() => handleEditUser(user)} title="Chỉnh sửa">
+                  onClick={() => handleEditUser(user)} title="Edit">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
                   {/* </Link> */}
                   <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                    onClick={() => handleDeleteUser(user.id, user.email)} title="Xóa">
+                    onClick={() => handleDeleteUser(user.id, user.email)} title="Delete">
                     <FontAwesomeIcon icon="trash" />
                   </Button></>}
                 {/* <Link to={`/admin/user-management/edit`} > */}

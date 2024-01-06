@@ -62,10 +62,10 @@ export const VideoManagement = () => {
     setIsOpenConfirm(true);
     setDeleteVideoId(id);
     const _data = {
-      title: 'Xóa video: ' + videoName,
-      description: 'Bạn thật sự muốn xóa video ' + videoName + ' này không?',
-      lblCancel: 'Hủy',
-      lblOk: 'Đồng ý',
+      title: 'Delete video: ' + videoName,
+      description: 'You really want to delete the video ' + videoName + ' really?',
+      lblCancel: 'Cancel',
+      lblOk: 'Agree',
     };
     setDataConfirm(_data);
     return false;
@@ -89,7 +89,7 @@ export const VideoManagement = () => {
 
   useEffect(() => {
     if (deleteVideoSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa video thành công', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Delete video successfully', isError: false }));
       dispatch(videosPage({ page: 1, id: coursesDetail.id }));
     }
   }, [deleteVideoSuccess]);
@@ -108,14 +108,14 @@ export const VideoManagement = () => {
   return (
     <div>
       {loading && <Loading />}
-      <h3>Danh sách video</h3>
+      <h3>List of videos</h3>
       <Link to={`${URL_PATH.ADMIN.COURSE.MANAGEMENT}`}>
-        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Quay lại">
+        <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Back">
           <FontAwesomeIcon icon="chevron-left" />
         </Button>
       </Link>
       <Link to={`${URL_PATH.ADMIN.VIDEO.CREATE}`}>
-        <Button id="addBtn" style={{ marginLeft: '-3px', backgroundColor: 'rgb(5 123 7)', color: 'white' }} title="Thêm" className='btn-right'>
+        <Button id="addBtn" style={{ marginLeft: '-3px', backgroundColor: 'rgb(5 123 7)', color: 'white' }} title="Add" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
         </Button>
       </Link>
@@ -124,14 +124,14 @@ export const VideoManagement = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Tên video</th>
-            <th>Khóa học</th>
-            <th>Link video</th>
-            <th>Thời gian</th>
-            <th>Người tạo</th>
-            <th>Ngày tạo</th>
-            <th>Người sửa</th>
-            <th>Ngày sửa</th>
+            <th>Video name</th>
+            <th>Course</th>
+            <th>Video link</th>
+            <th>Time</th>
+            <th>Creator</th>
+            <th>Creation date</th>
+            <th>Fixer</th>
+            <th>Date of correction</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -151,14 +151,14 @@ export const VideoManagement = () => {
                     {video.link_video}
                   </Truncate>
                 </td>
-                <td>{video.full_time} phút</td>
+                <td>{video.full_time} minute</td>
                 <td>{video.created_by}</td>
                 <td>{moment(video.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
                 <td>{video.updated_by}</td>
                 <td>{moment(video.updated_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
                 <td>
                   <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189 188 182)" }}
-                    onClick={() => handleDetailVideo(video)} title="Chi tiết">
+                    onClick={() => handleDetailVideo(video)} title="Detail">
                     <FontAwesomeIcon icon="info" />
                   </Button>
                   <Button
@@ -166,7 +166,7 @@ export const VideoManagement = () => {
                     id="editBtn"
                     style={{ marginLeft: "10px", backgroundColor: '#ffe200' }}
                     onClick={() => handleEditVideo(video)}
-                    title="Chỉnh sửa"
+                    title="Edit"
                   >
                     <FontAwesomeIcon icon="user-edit" />
                   </Button>
@@ -175,7 +175,7 @@ export const VideoManagement = () => {
                     id="delBtn"
                     style={{ marginLeft: '10px', backgroundColor: '#ff3333', color: 'white' }}
                     onClick={() => handleDeleteVideo(video.id, video.name)}
-                    title="Xóa"
+                    title="Delete"
                   >
                     <FontAwesomeIcon icon="trash" />
                   </Button>

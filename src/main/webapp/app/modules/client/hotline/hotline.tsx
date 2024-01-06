@@ -4,10 +4,10 @@ import React from 'react';
 export const HotLine = () => {
   return (
     <div className="tradeIn">
-      <h3>LIÊN HỆ</h3>
-      <p>Hotline đóng góp ý kiến : 0927346666</p>
-      <p>Tư vấn trả góp : 0927346666</p>
-      <p>Nhân viên kỹ thuật : 0927346666</p>
+      <h3>CONTACT</h3>
+      <p>Hotline for comments: 0927346666</p>
+      <p>Installment consultancy : 0927346666</p>
+      <p>Technical staff : 0927346666</p>
     </div>
   );
 };

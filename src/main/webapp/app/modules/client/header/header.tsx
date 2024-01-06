@@ -89,22 +89,22 @@ const Header = () => {
                 >
                   <MenuItem>
                     <Link className="nav-link" to="/change-password">
-                      Thay đổi mật khẩu
+                    Change password
                     </Link>
                   </MenuItem>
                   <MenuItem>
                     <Link className="nav-link" to="/my-course">
-                      Khóa học của tôi
+                    My Courses
                     </Link>
                   </MenuItem>
                   <MenuItem>
                     <Link className="nav-link" to="/history-payment">
-                      Lịch sử giao dịch
+                    Transaction history
                     </Link>
                   </MenuItem>
                   <MenuItem>
                     <Link to="/logout" className="nav-link">
-                      Đăng xuất
+                    Log out
                     </Link>
                   </MenuItem>
                 </Menu>
@@ -117,12 +117,12 @@ const Header = () => {
                   <>
                     <div className="account-btnsignin">
                       <Link to="/register" className="header-link">
-                        Đăng ký
+                      Register
                       </Link>
                     </div>
                     <div className="account-btnlogin">
                       <Link to="/login" className="header-link">
-                        Đăng nhập
+                      Log in
                       </Link>
                     </div>
                   </>
@@ -130,7 +130,7 @@ const Header = () => {
               </div>
               {isAuthenticated && (
                 <div className='welcome'>
-                  <div className="user-name">Xin chào</div>
+                  <div className="user-name">Hello</div>
                   <div className="user-name">{account?.data?.fullname}</div>
                 </div>
               )}

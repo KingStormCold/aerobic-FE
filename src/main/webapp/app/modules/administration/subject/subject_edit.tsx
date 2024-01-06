@@ -41,13 +41,12 @@ export const SubjectUpdate = () => {
 
   useEffect(() => {
     if (childCategoriesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách danh muc. ' + childCategoriesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get the category list. ' + childCategoriesErrorMessage, isError: true }))
     }
   }, [childCategoriesErrorMessage])
 
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì category bị undefined
-    // => hk có data để chỉnh sửa
+  
     if (subjectDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
@@ -96,7 +95,7 @@ export const SubjectUpdate = () => {
 
   useEffect(() => {
     if (updateSubjectSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Sửa môn học thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Successful subject correction', isError: false }))
       dispatch(resetSubject())
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
@@ -141,7 +140,7 @@ export const SubjectUpdate = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPrice('Giá phải là số')
+        setErrorPrice('The price must be numerical')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPrice('')
@@ -163,12 +162,12 @@ export const SubjectUpdate = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Sửa môn học
+      Edit a subject
       </h3>
       <div>
         <Form onSubmit={handleSubmit(ediSubject)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="price">Giá khuyến mãi</Form.Label>
+            <Form.Label htmlFor="price">Promo price</Form.Label>
             <Form.Control
               type="text"
               id="price"
@@ -183,7 +182,7 @@ export const SubjectUpdate = () => {
             />
             {errors.subjectPromotionalPrice?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Giá khuyến mã<i></i> không được trống
+                Promo price<i></i> cant be empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -194,7 +193,7 @@ export const SubjectUpdate = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Hình ảnh</Form.Label>
+            <Form.Label>Image</Form.Label>
             <Form.Control
               type="text"
               id="subjectImage"
@@ -207,14 +206,14 @@ export const SubjectUpdate = () => {
               isInvalid={errors.subjectImage?.type === 'required'}
             />
             {errors.subjectImage?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Nội dung không được trống</Card.Text>
+              <Card.Text as="div" className='error-text'>Content cant be blank</Card.Text>
             )}
             {urlImage && <Image className='image-thumbnail' src={`${urlImage}`} thumbnail />}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Danh mục</Form.Label>
-            <Form.Select aria-label="Danh mục"
+            <Form.Label>Directory</Form.Label>
+            <Form.Select aria-label="Directory"
               value={categoryId}
               {...register('categoryId', {
                 onChange(event) {
@@ -230,7 +229,7 @@ export const SubjectUpdate = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Nội dung</Form.Label>
+            <Form.Label>Content</Form.Label>
             <Editor
               {...register('content', { required: true })}
               editorState={editorState}
@@ -242,7 +241,7 @@ export const SubjectUpdate = () => {
             />
             {errors.content?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Nội dung không được trống
+                Content cant be blank
               </Card.Text>
             )}
             <div hidden id="editContent">
@@ -251,16 +250,16 @@ export const SubjectUpdate = () => {
             </div>
 
             {(inputContent) &&
-              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} nội dung</div>
+              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} Content</div>
             }
 
             {isOpenContentPreview &&
               <div className='content-review' dangerouslySetInnerHTML={{ __html: inputContent }} />
             }
           </Form.Group>
-          <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
+          <Button type='submit' variant="success" className='btn-right'>Edit</Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-            Quay lại
+          Back
           </Button>
           <br />
           <br />

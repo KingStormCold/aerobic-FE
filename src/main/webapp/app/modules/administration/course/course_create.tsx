@@ -150,11 +150,11 @@ const CourseCreate = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Thêm khóa học</h3>
+      <h3>Add a course</h3>
       <div>
         <Form onSubmit={handleSubmit(addCourse)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Tên khóa học</Form.Label>
+            <Form.Label htmlFor="name">Course Name</Form.Label>
             <Form.Control
               type="text"
               id="name"
@@ -166,17 +166,17 @@ const CourseCreate = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Tên khóa học không được trống
+                Course name cant be blank
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Tên khóa học không được quá 100 ký tự
+                Course name must not exceed 100 characters
               </Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="description">Mô tả khóa học</Form.Label>
+            <Form.Label htmlFor="description">Course Description</Form.Label>
             <Form.Control
               type="text"
               id="description"
@@ -184,7 +184,7 @@ const CourseCreate = () => {
               isInvalid={errors.description?.type === 'required'}
             />
             {errors.description?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Mô tả khóa học không được trống</Card.Text>
+              <Card.Text as="div" className='error-text'>Course descriptions cant be blank</Card.Text>
             )}
           </Form.Group>
           {/* <Form.Group className="mb-3">
@@ -204,7 +204,7 @@ const CourseCreate = () => {
             )}
           </Form.Group> */}
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="level">Cấp độ</Form.Label>
+            <Form.Label htmlFor="level">Level</Form.Label>
             <Form.Control
               type="text"
               id="level"
@@ -218,17 +218,17 @@ const CourseCreate = () => {
             />
             {errors.level?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Cấp độ không được trống
+                The level must not be empty
               </Card.Text>
             )}
             {errors.level?.type === 'levelGreaterThan' && (
               <Card.Text as="div" className="error-text">
-                Cấp độ phải lớn hơn 0
+                Level must be greater than 0
               </Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="price">Giá</Form.Label>
+            <Form.Label htmlFor="price">Price</Form.Label>
             <Form.Control
               type="text"
               id="price"
@@ -243,7 +243,7 @@ const CourseCreate = () => {
             />
             {errors.price?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Giá không được trống
+                The price must not be empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -253,7 +253,7 @@ const CourseCreate = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="promotionalPrice">Giá khuyến mãi</Form.Label>
+            <Form.Label htmlFor="promotionalPrice">Promo price</Form.Label>
             <Form.Control
               type="text"
               id="promotionalPrice"
@@ -272,7 +272,7 @@ const CourseCreate = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3" controlId="parentcourse">
-            <Form.Label>Môn học</Form.Label>
+            <Form.Label>Subject</Form.Label>
             <Form.Select
               aria-label="Môn học"
               {...register('subjectId', { required: true })}
@@ -284,15 +284,15 @@ const CourseCreate = () => {
             </Form.Select>
             {errors.subjectId?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Vui lòng chọn môn học
+                Please select a subject
               </Card.Text>
             )}
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-            Thêm
+          Add
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-            Quay lại
+          Back
           </Button>
           <br />
           <br />

@@ -63,10 +63,10 @@ export const TestManagement = () => {
     setIsOpenConfirm(true);
     setDeleteTestId(id);
     const _data = {
-      title: 'Xóa câu hỏi: ' + testName,
-      description: 'Bạn thật sự muốn xóa câu hỏi ' + testName + ' này không?',
-      lblCancel: 'Hủy',
-      lblOk: 'Đồng ý',
+      title: 'Delete a question: ' + testName,
+      description: 'You really want to delete the question ' + testName + ' really?',
+      lblCancel: 'Cancel',
+      lblOk: 'Agree',
     };
     setDataConfirm(_data);
     return false;
@@ -90,14 +90,14 @@ export const TestManagement = () => {
 
   useEffect(() => {
     if (deleteTestSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa bài test thành công', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Delete a successful test', isError: false }));
       dispatch(getTests({ page: 1, id: videoDetail?.id }));
     }
   }, [deleteTestSuccess]);
 
   useEffect(() => {
     if (testsErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'không Lấy được danh sách bài test. ' + testsErrorMessage, isError: true }));
+      dispatch(updateStateOpenToastMessage({ message: 'failed to get test list. ' + testsErrorMessage, isError: true }));
     }
   }, [testsErrorMessage]);
 
@@ -127,14 +127,14 @@ export const TestManagement = () => {
           <tr>
             <th>No</th>
             <th>Name Video</th>
-            <th>Câu hỏi</th>
-            <th>Đáp án đúng</th>
-            <th>Câu trả lời 1</th>
-            <th>Câu trả lời 2</th>
-            <th>Câu trả lời 3</th>
-            <th>Câu trả lời 4</th>
-            <th>Người tạo</th>
-            <th>Ngày tạo</th>
+            <th>Question</th>
+            <th>Correct answer</th>
+            <th>Answer 1</th>
+            <th>Answer 2</th>
+            <th>Answer 3</th>
+            <th>Answer 4</th>
+            <th>Creator</th>
+            <th>Creation date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -179,11 +179,11 @@ export const TestManagement = () => {
               <td>{moment(test.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
-                  onClick={() => handleEditTest(test)} title="Chỉnh sửa">
+                  onClick={() => handleEditTest(test)} title="Edit">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
                 <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteTest(test.id, test.test_content)} title="Xóa">
+                  onClick={() => handleDeleteTest(test.id, test.test_content)} title="Delete">
                   <FontAwesomeIcon icon="trash" />
                 </Button>
               </td>

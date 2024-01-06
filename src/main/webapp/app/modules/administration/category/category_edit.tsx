@@ -28,7 +28,7 @@ export const CategoryEdit = () => {
 
   useEffect(() => {
     if (parentCategoriesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách danh mục cha. ' + parentCategoriesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get the subcategory list. ' + parentCategoriesErrorMessage, isError: true }))
     }
   }, [parentCategoriesErrorMessage])
 
@@ -71,7 +71,7 @@ export const CategoryEdit = () => {
 
   useEffect(() => {
     if (updateCategorySuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Sửa danh mục thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Edit a catalogue successfully', isError: false }))
       dispatch(resetCategory())
       history.push(URL_PATH.ADMIN.CATEGORY.MANAGEMENT)
     }
@@ -92,12 +92,12 @@ export const CategoryEdit = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Sửa danh mục
+      Edit a catalogue
       </h3>
       <div>
         <Form onSubmit={handleSubmit(editCategory)}>
           <Form.Group className="mb-3">
-            <Form.Label>Tên danh mục</Form.Label>
+            <Form.Label>Category name</Form.Label>
             <Form.Control
               type="text"
               id="categoryName"
@@ -107,25 +107,25 @@ export const CategoryEdit = () => {
               isInvalid={errors.categoryName?.type === 'required'}
             />
             {errors.categoryName?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Tên danh mục không được trống</Card.Text>
+              <Card.Text as="div" className='error-text'>Category name cant be blank</Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Danh mục cha</Form.Label>
-            <Form.Select aria-label="Danh mục cha" value={parentCategory}
+            <Form.Label>Parent category</Form.Label>
+            <Form.Select aria-label="Parent category" value={parentCategory}
               {...register('parentCategory', {
                 onChange(event) {
                   handleParentCategory(event)
                 },
               })}
             >
-              <option value="0">Chọn danh mục cha</option>
+              <option value="0">Select parent category</option>
               {parentCategories && parentCategories?.map((category, i) => (
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
             </Form.Select>
           </Form.Group>
-          <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
+          <Button type='submit' variant="success" className='btn-right'>Edit</Button>
         </Form>
 
       </div>

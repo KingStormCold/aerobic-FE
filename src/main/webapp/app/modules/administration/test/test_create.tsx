@@ -65,7 +65,7 @@ const TestCreate = () => {
     if (createTestSuccess) {
       dispatch(
         updateStateOpenToastMessage({
-          message: 'Thêm video thành công',
+          message: 'Add successful videos',
           isError: false,
         })
       );
@@ -107,18 +107,18 @@ const TestCreate = () => {
             />
             {errors.test_content?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Câu hỏi không được trống
+                The question should not be blank
               </Card.Text>
             )}
             {errors.test_content?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Câu hỏi không được quá 100 ký tự
+                Questions should be no more than 100 characters
               </Card.Text>
             )}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Câu trả lời 1</Form.Label>
+            <Form.Label htmlFor="name">Answer 1</Form.Label>
             <Form.Control
               type="text"
               id="answer_1"
@@ -130,18 +130,18 @@ const TestCreate = () => {
             />
             {errors.answer_1?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 1 không được trống
+                Answer 1 must not be blank
               </Card.Text>
             )}
             {errors.answer_1?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 1 được quá 255 ký tự
+                Answer 1 is more than 255 characters
               </Card.Text>
             )}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Câu trả lời 2</Form.Label>
+            <Form.Label htmlFor="name">Answer 2</Form.Label>
             <Form.Control
               type="text"
               id="answer_2"
@@ -153,18 +153,18 @@ const TestCreate = () => {
             />
             {errors.answer_2?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 2 không được trống
+                Answer 2 cant be blank
               </Card.Text>
             )}
             {errors.answer_2?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 2 được quá 255 ký tự
+                Answer 2 is more than 255 characters
               </Card.Text>
             )}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Câu trả lời 3</Form.Label>
+            <Form.Label htmlFor="name">Answer 3</Form.Label>
             <Form.Control
               type="text"
               id="answer_3"
@@ -176,18 +176,18 @@ const TestCreate = () => {
             />
             {errors.answer_3?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 3 không được trống
+                Answer 3 should not be blank
               </Card.Text>
             )}
             {errors.answer_3?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 3 được quá 255 ký tự
+                Answer 3 is more than 255 characters
               </Card.Text>
             )}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Câu trả lời 4</Form.Label>
+            <Form.Label htmlFor="name">Answer 4</Form.Label>
             <Form.Control
               type="text"
               id="answer_4"
@@ -199,18 +199,18 @@ const TestCreate = () => {
             />
             {errors.answer_4?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 4 không được trống
+                Answer 4 must not be blank
               </Card.Text>
             )}
             {errors.answer_4?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Câu trả lời 4 được quá 255 ký tự
+                Answer 4 is more than 255 characters
               </Card.Text>
             )}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">Đáp án đúng</Form.Label>
+            <Form.Label htmlFor="name">Correct answer</Form.Label>
             <Form.Control
               type="text"
               id="serial_answer"
@@ -222,12 +222,12 @@ const TestCreate = () => {
             />
             {errors.serial_answer?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                đáp án không được trống
+                The answer must not be blank
               </Card.Text>
             )}
             {errors.serial_answer?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                đáp án không được quá 255 ký tự
+                Answers must not exceed 255 characters
               </Card.Text>
             )}
           </Form.Group>
@@ -245,15 +245,15 @@ const TestCreate = () => {
             </Form.Select>
             {errors.video_id?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Vui lòng chọn video
+                Please select video
               </Card.Text>
             )}
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-            Thêm
+          Add
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-            Quay lại
+          Back
           </Button>
           <br />
           <br />

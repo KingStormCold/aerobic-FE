@@ -36,7 +36,7 @@ const HeaderAdmin = () => {
         </ul>
         <ul className="header-nav ms-3">
           <li className="nav-item dropdown"><Link className="nav-link py-0" data-coreui-toggle="dropdown" to="/logout" role="button" aria-haspopup="true" aria-expanded="false">
-            <div className="avatar avatar-md">Đăng xuất</div>
+            <div className="avatar avatar-md">Log out</div>
           </Link>
           </li>
         </ul>

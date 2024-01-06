@@ -32,13 +32,12 @@ export const UserEdit = () => {
 
   useEffect(() => {
     if (rolesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy danh sách vai trò. ' + rolesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get a list of roles. ' + rolesErrorMessage, isError: true }))
     }
   }, [rolesErrorMessage])
 
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì User bị undefined
-    // => hk có data để chỉnh sửa
+
     if (userDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
@@ -82,7 +81,7 @@ export const UserEdit = () => {
 
   useEffect(() => {
     if (updateUserSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Chỉnh sửa người dùng thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Edit a user successfully', isError: false }))
       dispatch(resetUser())
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
@@ -110,7 +109,7 @@ export const UserEdit = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorMoney('Giá phải là số')
+        setErrorMoney('The price must be numerical')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorMoney('')
@@ -128,7 +127,7 @@ export const UserEdit = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Cập nhật người dùng
+      Update users
       </h3>
       <div>
         <Form onSubmit={handleSubmit(editUser)}>
@@ -144,11 +143,11 @@ export const UserEdit = () => {
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Họ và tên</Form.Label>
+            <Form.Label>Full name</Form.Label>
             <Form.Control
               type="text"
               {...register('fullname', {
-                required: 'Họ và tên không được trống',
+                required: 'Full name must not be blank',
               })}
               isInvalid={!!errors.fullname}
             />
@@ -159,14 +158,14 @@ export const UserEdit = () => {
 
           {/* Phone */}
           <Form.Group className="mb-3">
-            <Form.Label>Số điện thoại</Form.Label>
+            <Form.Label>Phone number</Form.Label>
             <Form.Control
               type="text"
               {...register('phone', {
-                required: 'Số điện thoại không được trống',
+                required: 'Phone number cant be blank',
                 pattern: {
                   value: /^[0-9]{10}$/i,
-                  message: 'Số điện thoại không hợp lệ',
+                  message: 'Invalid phone number',
                 },
               })}
               isInvalid={!!errors.phone}
@@ -180,13 +179,13 @@ export const UserEdit = () => {
           <Form.Group className="mb-3">
             <Form.Check
               type="switch"
-              label="Kích hoạt"
+              label="Activate"
               {...register('status')}
             />
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Vai trò</Form.Label>
+            <Form.Label>Role</Form.Label>
             <div className='flex-display'>
               {
                 roles && roles?.map((role, i) => {
@@ -223,12 +222,12 @@ export const UserEdit = () => {
             </div>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Ví tiền</Form.Label>
+            <Form.Label>Purse</Form.Label>
             <Form.Control
               disabled={account?.data?.email !== 'admin@gmail.com'}
               type="string"
               {...register('money', {
-                required: 'Nhập số tiền',
+                required: 'Enter an amount',
                 onChange(event) {
                   handleMoney(event)
                 },
@@ -245,7 +244,7 @@ export const UserEdit = () => {
             )}
           </Form.Group>
 
-          <Button type='submit' variant="success" className='btn-right'>Chỉnh sửa</Button>
+          <Button type='submit' variant="success" className='btn-right'>Edit</Button>
         </Form>
 
       </div>

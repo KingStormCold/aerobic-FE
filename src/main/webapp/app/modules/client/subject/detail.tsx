@@ -92,12 +92,12 @@ export const Detail = () => {
 
   useEffect(() => {
     if (paymentCourseSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Bạn đã mua khóa học thành công', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'You have successfully purchased the course', isError: false }));
       setOpen(false);
       dispatch(updateStatePaymentCourseSuccess())
       // history.push('/my-course');
     }
-  }, [paymentCourseSuccess]);
+  }, [paymentCourseSuccess]);   
 
   useEffect(() => {
     if (paymentCourseErrorMessage) {
@@ -123,7 +123,7 @@ export const Detail = () => {
 
   const handlePayment = (course, subject, name, price, level) => {
     if (!isAuthenticated) {
-      dispatch(updateStateOpenToastMessage({ message: 'Bạn vui lòng đăng nhập để có thể mua khóa học này', isError: true }));
+      dispatch(updateStateOpenToastMessage({ message: 'Please log in to be able to purchase this course', isError: true }));
       history.push(URL_PATH.LOGIN);
     } else {
       setCourseId(course);
@@ -153,7 +153,7 @@ export const Detail = () => {
     <>
       {loading && <Loading />}
       <div className="container">
-        <h3 className="heading">Khóa học online tại nhà - {subjectDetailClient?.subject_name}</h3>
+        <h3 className="heading">Online courses at home - {subjectDetailClient?.subject_name}</h3>
         <div className="image-container">
           <Image className="image-thumbnail" src={subjectDetailClient?.subject_image} thumbnail />
         </div>
@@ -170,13 +170,13 @@ export const Detail = () => {
               {displayReadmore ? (
                 <div className="readmore-button">
                   <span onClick={() => setDisplayReadmore(!displayReadmore)}>
-                    Đọc tiếp bài viết <ExpandMoreIcon />
+                  Continue reading the article <ExpandMoreIcon />
                   </span>
                 </div>
               ) : height > MAX_HEIGHT ? (
                 <div className="readmore-button">
                   <span onClick={() => setDisplayReadmore(!displayReadmore)}>
-                    Rút gọn bài viết <ExpandLessIcon />{' '}
+                  Shorten article <ExpandLessIcon />{' '}
                   </span>
                 </div>
               ) : (
@@ -196,21 +196,21 @@ export const Detail = () => {
             paddingTop: '10px',
           }}
         >
-          ĐĂNG KÝ KHÓA HỌC
+          COURSE REGISTRATION
         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }}>Tên khóa học</StyledTableCell>
+                <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }}>Course Name</StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
-                  Giá
+                Price
                 </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
-                  Giá giảm
+                Price drop
                 </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
-                  Tổng tiền
+                Total Funds
                 </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center"></StyledTableCell>
               </TableRow>
@@ -245,7 +245,7 @@ export const Detail = () => {
                           )
                         }
                       >
-                        Đăng ký
+                         Register
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -264,12 +264,12 @@ export const Detail = () => {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle>
-            Bạn có đống ý mua khóa {courseName} này với giá {numberWithCommas(coursePrice)} đ ?
+          Do you agree to buy the lock {courseName} này với giá {numberWithCommas(coursePrice)} đ ?
           </DialogTitle>
           <DialogActions>
             <Button onClick={handleClose}>Hủy</Button>
             <Button onClick={handleBuy} color="success">
-              Mua
+            Buy
             </Button>
           </DialogActions>
         </Dialog>

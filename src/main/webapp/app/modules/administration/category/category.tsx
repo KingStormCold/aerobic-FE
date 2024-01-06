@@ -34,7 +34,7 @@ export const CategoryManagement = () => {
   const deleteCategoryErrorMessage = useAppSelector(state => state.category.deleteCategoryErrorMessage);
 
   useEffect(() => {
-    dispatch(updateStateTitle("Danh mục"))
+    dispatch(updateStateTitle("Directory"))
     dispatch(getCategories(1));
   }, [])
 
@@ -54,10 +54,10 @@ export const CategoryManagement = () => {
     setIsOpenConfirm(true);
     setDeleteCategoryId(id);
     const _data = {
-      title: "Xóa danh mục: " + categoryName,
-      description: "Bạn thật sự muốn xóa danh mục " + categoryName + " này không?",
-      lblCancel: "Hủy",
-      lblOk: "Đồng ý",
+      title: "Delete a category: " + categoryName,
+      description: "You really want to delete a category " + categoryName + "  really?",
+      lblCancel: "Cancel",
+      lblOk: "Agree",
     };
     setDataConfirm(_data);
     return false;
@@ -83,14 +83,14 @@ export const CategoryManagement = () => {
     if (deleteCategorySuccess) {
       console.log('vao');
       console.log('deleteCategorySuccess', deleteCategorySuccess)
-      dispatch(updateStateOpenToastMessage({ message: 'Xóa danh mục thành công', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Category deletion successfully', isError: false }))
       dispatch(getCategories(1));
     }
   }, [deleteCategorySuccess])
 
   useEffect(() => {
     if (categoriesErrorMessage) {
-      dispatch(updateStateOpenToastMessage({ message: 'Lấy được danh sách danh mục. ' + categoriesErrorMessage, isError: true }))
+      dispatch(updateStateOpenToastMessage({ message: 'Get the category list. ' + categoriesErrorMessage, isError: true }))
     }
   }, [categoriesErrorMessage])
 
@@ -103,7 +103,7 @@ export const CategoryManagement = () => {
   return (
     <div>
       {loading && <Loading />}
-      <h3>Danh sách danh mục</h3>
+      <h3>List of categories</h3>
       <Link to={`${URL_PATH.ADMIN.CATEGORY.CREATE}`}>
         <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(5 123 7)", color: "white" }} title="Thêm" className='btn-right'>
           <FontAwesomeIcon icon="plus" />
@@ -113,12 +113,12 @@ export const CategoryManagement = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Tên danh mục</th>
-            <th>Danh mục cha</th>
-            <th>Nguời tạo</th>
-            <th>Ngày tạo</th>
-            <th>Người sửa</th>
-            <th>Ngày sửa</th>
+            <th>Category name</th>
+            <th>Parent category</th>
+            <th>Creator</th>
+            <th>Creation date</th>
+            <th>Fixer</th>
+            <th>Date of correction</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -143,12 +143,12 @@ export const CategoryManagement = () => {
               <td>
                 {/* <Link to={`/admin/user-management/edit`} > */}
                 <Button size='small' id="editBtn" style={{ marginLeft: "-3px", backgroundColor: "#ffe200" }}
-                  onClick={() => handleEditCategory(category)} title="Chỉnh sửa">
+                  onClick={() => handleEditCategory(category)} title="Edit">
                   <FontAwesomeIcon icon="user-edit" />
                 </Button>
                 {/* </Link> */}
                 <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteCategory(category.id, category.name)} title="Xóa">
+                  onClick={() => handleDeleteCategory(category.id, category.name)} title="Delete">
                   <FontAwesomeIcon icon="trash" />
                 </Button>
               </td>

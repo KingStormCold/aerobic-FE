@@ -42,7 +42,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/user-management'>
               <svg className="nav-icon">
                 <GroupIcon />
-              </svg> Quản lý người dùng
+              </svg> User management
             </Link>
           </li>
         }
@@ -52,7 +52,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/category-management'>
               <svg className="nav-icon">
                 <CategoryIcon />
-              </svg> Quản lý danh mục
+              </svg> Catalogue Management
             </Link>
           </li>
         }
@@ -62,7 +62,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/subject-management'>
               <svg className="nav-icon">
                 <LibraryBooksIcon />
-              </svg> Quản lý môn học
+              </svg> Subject Management
             </Link>
           </li>
         }
@@ -72,7 +72,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/course-management'>
               <svg className="nav-icon">
                 <DnsIcon />
-              </svg> Quản lý khóa học
+              </svg> Course Management
             </Link>
           </li>
         }
@@ -82,7 +82,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/video-management'>
               <svg className="nav-icon">
                 <OndemandVideoIcon />
-              </svg> Quản lý video
+              </svg> Manage videos
             </Link>
           </li>
         }
@@ -92,7 +92,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/test-management'>
               <svg className="nav-icon">
                 <QuizIcon />
-              </svg> Quản lý Bài Test
+              </svg> Test Management
             </Link>
           </li>
         } */}

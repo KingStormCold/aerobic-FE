@@ -55,10 +55,10 @@ export const CourseDetail = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Chi tiết khóa học</h3>
+      <h3>Course details</h3>
       <div>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="name">Tên khóa học</Form.Label>
+          <Form.Label htmlFor="name">Course Name</Form.Label>
           <Form.Control
             type="text"
             id="name"
@@ -67,7 +67,7 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="description">Mô tả khóa học</Form.Label>
+          <Form.Label htmlFor="description">Course Description</Form.Label>
           <Form.Control
             type="text"
             id="description"
@@ -76,7 +76,7 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="level">Cấp độ</Form.Label>
+          <Form.Label htmlFor="level">Level</Form.Label>
           <Form.Control
             type="text"
             id="level"
@@ -85,7 +85,7 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="price">Giá</Form.Label>
+          <Form.Label htmlFor="price">Price</Form.Label>
           <Form.Control
             type="text"
             id="price"
@@ -94,7 +94,7 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="promotionalPrice">Giá khuyến mãi</Form.Label>
+          <Form.Label htmlFor="promotionalPrice">Promo price</Form.Label>
           <Form.Control
             type="text"
             id="promotionalPrice"
@@ -103,7 +103,7 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label>Môn học</Form.Label>
+          <Form.Label>Subject</Form.Label>
           <Form.Select
             aria-label="Môn học"
             value={subjectId}
@@ -113,10 +113,10 @@ export const CourseDetail = () => {
           </Form.Select>
         </Form.Group>
         <Button type="submit" variant="success" className="btn-right" onClick={handleAddVideo}>
-          Thêm Video
+        Add Videos
         </Button>
         <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Quay lại
+        Back
         </Button>
         <br />
         <br />

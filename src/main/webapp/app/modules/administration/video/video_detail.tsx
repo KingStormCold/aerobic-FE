@@ -25,8 +25,7 @@ export const VideoDetail = () => {
     dispatch(showCourseName());
   }, []);
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
-    // => hk có data để chỉnh sửa
+
     if (videoDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
@@ -46,10 +45,10 @@ export const VideoDetail = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Sửa Video</h3>
+      <h3>Edit Video</h3>
       <div>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="name">Tên video</Form.Label>
+          <Form.Label htmlFor="name">Video name</Form.Label>
           <Form.Control
             type="text"
             id="name"
@@ -59,7 +58,7 @@ export const VideoDetail = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="link_video">Link video</Form.Label>
+          <Form.Label htmlFor="link_video">Video link</Form.Label>
           <Form.Control
             type="text"
             id="link_video"
@@ -69,9 +68,9 @@ export const VideoDetail = () => {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="course_id">
-          <Form.Label>Tên khóa học</Form.Label>
+          <Form.Label>Course Name</Form.Label>
           <Form.Select
-            aria-label="Tên khóa học"
+            aria-label="Course Name"
             value={coursesDetail?.id}
             disabled
           >
@@ -81,10 +80,10 @@ export const VideoDetail = () => {
           </Form.Select>
         </Form.Group>
         <Button type="submit" variant="success" className="btn-right" onClick={handleAddQuiz}>
-          Thêm câu hỏi
+        More questions
         </Button>
         <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Quay lại
+        Back
         </Button>
         <br />
         <br />

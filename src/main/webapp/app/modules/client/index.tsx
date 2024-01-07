@@ -11,7 +11,7 @@ import MyCourse from './my-course/my_course';
 import { useAppSelector } from 'app/config/store';
 import Video from './video/video';
 import { Switch } from 'react-router-dom';
-import History from '../login/history-payment';
+import History from './history/history-payment';
 import Home from './home';
 import PhuongThucThanhToan from './phuongthucthanhtoan/phuongthucthanhtoan';
 import Contact from './contact';

@@ -24,6 +24,10 @@ const initialState = {
   registerUserErrorMessgae: '',
   changePassSuccess: false,
   changePassErrorMessage: '',
+  checkUUIDSuccess: false,
+  userCheckUUID: {} as { id: number, email: string },
+  changePasswordForgotSuccess: false,
+  changePasswordForgotErrorMessage: ''
 };
 
 export type UserState = Readonly<typeof initialState>;
@@ -92,6 +96,26 @@ export const changePass = createAsyncThunk(
   'client/change-pass',
   async (data: { old_password: string; new_password: string; new_password_confirmation: string }) => {
     return await axios.post<any>(`${URL_PATH.API.CHANGE_PASS}`, data);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const checkUuid = createAsyncThunk(
+  'client/check-uuid',
+  async (uuid: string) => {
+    return await axios.get<any>(`${URL_PATH.API.CHECK_UUID}/${uuid}`);
+  },
+  {
+    serializeError: serializeAxiosError,
+  }
+);
+
+export const changePasswordForgot = createAsyncThunk(
+  'client/change-password-forgot',
+  async (data: { email: string, password: string, uuid: string }) => {
+    return await axios.post<any>(`${URL_PATH.API.CHANGE_PASSWORD_FORGOT}`, data);
   },
   {
     serializeError: serializeAxiosError,
@@ -212,7 +236,35 @@ export const UserSlice = createSlice({
         state.loading = false;
         const httpStatusCode = action.error['response']?.status;
         state.changePassErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
-      });
+      })
+      .addMatcher(isFulfilled(checkUuid), (state, action) => {
+        state.loading = false;
+        state.checkUUIDSuccess = true;
+        state.userCheckUUID = action.payload.data?.user;
+      })
+      .addMatcher(isPending(checkUuid), (state, action) => {
+        state.loading = true;
+        state.checkUUIDSuccess = false;
+        state.userCheckUUID = {} as { id: number, email: string }
+      })
+      .addMatcher(isRejected(checkUuid), (state, action) => {
+        state.loading = false;
+      })
+      .addMatcher(isFulfilled(changePasswordForgot), (state, action) => {
+        state.loading = false;
+        state.changePasswordForgotSuccess = true;
+      })
+      .addMatcher(isPending(changePasswordForgot), (state, action) => {
+        state.loading = true;
+        state.changePasswordForgotSuccess = false;
+        state.changePasswordForgotErrorMessage = ''
+      })
+      .addMatcher(isRejected(changePasswordForgot), (state, action) => {
+        state.loading = false;
+        const httpStatusCode = action.error['response']?.status;
+        state.changePasswordForgotErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : '';
+      })
+      ;
   },
 });
 

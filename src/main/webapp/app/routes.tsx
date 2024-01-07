@@ -11,6 +11,7 @@ import { Storage } from 'react-jhipster';
 import { useAppSelector } from './config/store';
 import Register from './modules/login/register';
 import ChangePass from './modules/login/change-pass';
+import ForgotPassword from './modules/login/forgot-password';
 
 const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
@@ -36,6 +37,7 @@ const Routes = () => {
       <ErrorBoundaryRoute path="/login" component={Login} />
       <ErrorBoundaryRoute path="/logout" component={Logout} />
       <ErrorBoundaryRoute path="/register" component={Register} />
+      <ErrorBoundaryRoute path="/forgot-password" component={ForgotPassword} />
       <ErrorBoundaryRoute path="/change-password" component={ChangePass} />
       {roleAdmin && <PrivateRoute path="/admin" component={Admin} />}
       <PrivateRoute path="/" component={Client} />

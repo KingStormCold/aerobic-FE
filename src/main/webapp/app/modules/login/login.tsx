@@ -17,8 +17,9 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { login } from 'app/shared/reducers/authentication';
+import { forgotPassword, login } from 'app/shared/reducers/authentication';
 import Loading from 'app/components/loading';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
   createStyles({
@@ -64,6 +65,8 @@ export const Login = (props: RouteComponentProps<any>) => {
   const isAuthenticated = useAppSelector(state => state.authentication.isAuthenticated);
   const loginError = useAppSelector(state => state.authentication.loginError);
   const loading = useAppSelector(state => state.authentication.loading);
+  const forgotPasswordSuccess = useAppSelector(state => state.authentication.forgotPasswordSuccess);
+  const forgotPasswordErrorMessage = useAppSelector(state => state.authentication.forgotPasswordErrorMessage);
 
   const [isRemember, setRemember] = React.useState(false);
 
@@ -120,6 +123,37 @@ export const Login = (props: RouteComponentProps<any>) => {
     }, 100);
     return;
   };
+
+  useEffect(() => {
+    if (forgotPasswordSuccess) {
+      dispatch(
+        updateStateOpenToastMessage({
+          message: 'Forgot password link has been sent to your email. Please check your email',
+          isError: false,
+        })
+      );
+    }
+  }, [forgotPasswordSuccess])
+
+  useEffect(() => {
+    if (forgotPasswordErrorMessage) {
+      dispatch(
+        updateStateOpenToastMessage({
+          message: forgotPasswordErrorMessage,
+          isError: true,
+        })
+      );
+    }
+  }, [forgotPasswordErrorMessage])
+
+  const handleForgotPassword = () => {
+    setFailByUsername(false);
+    if (inputEmail === '') {
+      setFailByUsername(true);
+      return
+    }
+    dispatch(forgotPassword(inputEmail))
+  }
 
   if (roleAdmin && isAuthenticated) {
     return <Redirect to="/admin" />
@@ -217,9 +251,9 @@ export const Login = (props: RouteComponentProps<any>) => {
                 <br />
                 <Grid container sx={{ flexDirection: 'column', textAlign: 'center' }}>
                   <Grid item xs>
-                    <Link to="/login">
+                    <span style={{ color: '#007bff', cursor: 'pointer' }} onClick={handleForgotPassword}>
                       Forgot your password?
-                    </Link>
+                    </span>
                   </Grid>
                   <br />
                   <Grid item>

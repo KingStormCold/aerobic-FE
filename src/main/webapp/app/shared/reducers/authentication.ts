@@ -5,6 +5,7 @@ import { serializeAxiosError } from './reducer.utils';
 
 import { AppThunk } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
+import { URL_PATH } from 'app/config/path';
 
 const AUTH_TOKEN_KEY = 'jhi-authenticationToken';
 const ADMIN = 'ADMIN'
@@ -20,7 +21,9 @@ export const initialState = {
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
   logoutUrl: null as unknown as string,
-  roles: [] as ReadonlyArray<string>
+  roles: [] as ReadonlyArray<string>,
+  forgotPasswordSuccess: false,
+  forgotPasswordErrorMessage: ''
 };
 
 let unauthenticate = false;
@@ -81,6 +84,14 @@ export const clearAuthToken = () => {
   }
 };
 
+export const forgotPassword = createAsyncThunk(
+  'client/forgot-password',
+  async (email: string) => {
+    return await axios.post<any>(`${URL_PATH.API.FORGOT_PASSWORD}/${email}`)
+  }, {
+  serializeError: serializeAxiosError
+});
+
 export const logout: () => AppThunk = () => dispatch => {
   clearAuthToken();
   dispatch(logoutSession());
@@ -118,6 +129,13 @@ export const AuthenticationSlice = createSlice({
         isAuthenticated: false,
       };
     },
+    updateStateForgotPasswordSuccess(state) {
+      return {
+        ...state,
+        forgotPasswordSuccess: false,
+        forgotPasswordErrorMessage: ''
+      };
+    }
   },
   extraReducers(builder) {
     builder
@@ -168,10 +186,25 @@ export const AuthenticationSlice = createSlice({
           roles: action.payload.data?.data?.roles
         };
       })
-
       .addCase(getAccount.pending, state => {
         state.loading = true;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.loading = false;
+        const httpStatusCode = action.error['response']?.status
+        console.log('action.error', action.error['response']?.data?.error_message)
+        state.forgotPasswordErrorMessage = httpStatusCode !== 200 ? action.error['response']?.data?.error_message : ''
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.forgotPasswordSuccess = true
+      })
+      .addCase(forgotPassword.pending, state => {
+        state.loading = true;
+        state.forgotPasswordSuccess = false
+        state.forgotPasswordErrorMessage = ''
       });
+
   },
 });
 

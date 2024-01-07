@@ -96,6 +96,10 @@ export const URL_PATH = {
     REGISTER_USER: 'api/auth/register',
     CHANGE_PASS: 'api/auth/change-pass',
     HISTORY_PAYMENT: '/api/client/get-payments',
-    GET_SUBJECT_CONTENT: 'api/client/get-full-subject'
+    GET_SUBJECT_CONTENT: 'api/client/get-full-subject',
+
+    FORGOT_PASSWORD: 'api/client/forgot-password',
+    CHECK_UUID: 'api/client/check-uuid',
+    CHANGE_PASSWORD_FORGOT: 'api/client/change-password'
   },
 };

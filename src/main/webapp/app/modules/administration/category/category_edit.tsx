@@ -71,7 +71,7 @@ export const CategoryEdit = () => {
 
   useEffect(() => {
     if (updateCategorySuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Edit a catalogue successfully', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Category updated successfully', isError: false }))
       dispatch(resetCategory())
       history.push(URL_PATH.ADMIN.CATEGORY.MANAGEMENT)
     }
@@ -92,7 +92,7 @@ export const CategoryEdit = () => {
     <>
       {loading && <Loading />}
       <h3>
-      Edit a catalogue
+        Edit a catalogue
       </h3>
       <div>
         <Form onSubmit={handleSubmit(editCategory)}>
@@ -107,7 +107,7 @@ export const CategoryEdit = () => {
               isInvalid={errors.categoryName?.type === 'required'}
             />
             {errors.categoryName?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Category name cant be blank</Card.Text>
+              <Card.Text as="div" className='error-text'>Category is not empty</Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">

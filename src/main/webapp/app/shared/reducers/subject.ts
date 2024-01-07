@@ -26,8 +26,11 @@ const initialState = {
   searchSubjectClientSucess: false,
   contentSearch: '',
   subjectsByYoga: [] as ReadonlyArray<ISubjectContentDetail>,
+  loadingYoga: false,
   subjectsByGym: [] as ReadonlyArray<ISubjectContentDetail>,
+  loadingGym: false,
   subjectsByMeditate: [] as ReadonlyArray<ISubjectContentDetail>,
+  loadingMeditate: false
 };
 
 export type SubjectState = Readonly<typeof initialState>;
@@ -261,6 +264,7 @@ export const SubjectSlice = createSlice({
       .addMatcher(isPending(courseClient), (state, action) => {
         state.loading = true;
         state.subjectsErrorMessage = '';
+        state.courseDetailClient = []
       })
       .addMatcher(isRejected(courseClient), (state, action) => {
         state.loading = false;
@@ -287,25 +291,31 @@ export const SubjectSlice = createSlice({
 
       .addMatcher(isFulfilled(getSubjectByYoga), (state, action) => {
         state.subjectsByYoga = action.payload.data?.data
+        state.loadingYoga = false
       })
       .addMatcher(isPending(getSubjectByYoga), (state, action) => {
         state.subjectsByYoga = []
+        state.loadingYoga = true
       })
       .addMatcher(isRejected(getSubjectByYoga), (state, action) => {
       })
       .addMatcher(isFulfilled(getSubjectByGym), (state, action) => {
         state.subjectsByGym = action.payload.data?.data
+        state.loadingGym = false
       })
       .addMatcher(isPending(getSubjectByGym), (state, action) => {
         state.subjectsByGym = []
+        state.loadingGym = true
       })
       .addMatcher(isRejected(getSubjectByGym), (state, action) => {
       })
       .addMatcher(isFulfilled(getSubjectByMeditate), (state, action) => {
         state.subjectsByMeditate = action.payload.data?.data
+        state.loadingMeditate = false
       })
       .addMatcher(isPending(getSubjectByMeditate), (state, action) => {
         state.subjectsByMeditate = []
+        state.loadingMeditate = true
       })
       .addMatcher(isRejected(getSubjectByMeditate), (state, action) => {
       })

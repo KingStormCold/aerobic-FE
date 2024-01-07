@@ -162,7 +162,7 @@ const Video = () => {
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleClose}>
-            Close
+              Close
             </Button>
           </DialogActions>
         </Dialog>
@@ -184,12 +184,12 @@ const Video = () => {
         color="success"
         startDecorator="🚨"
         fontSize="sm"
-        sx={{ '--Typography-gap': '0.5rem', p: '1', marginTop: '16px' }}
+        sx={{ '--Typography-gap': '0.5rem', p: '1', marginTop: '16px', marginInline: '0px' }}
       >
-        You are watching a video of the subject &quot;{coursePaymentDetail.subject_name}&quot; with the course &quot;{coursePaymentDetail?.name}&quot;
+        You are watching the video on the topic &quot;{coursePaymentDetail.subject_name}&quot; with the course &quot;{coursePaymentDetail?.name}&quot;
       </Typography>
       <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
-      To be tested, the progress of the video must &gt; 85%
+        To be tested, video progress must be &gt; 85%
       </Typography>
       <Box component="div" sx={{
         display: 'flex',
@@ -224,16 +224,16 @@ const Video = () => {
                 </Box>
               </Box>
               {item.finished === 1 && item.progress >= 85 &&
-                <Chip label="Hoàn thành bài test" color="success" size='small' sx={{
-                  fontSize: '10px',
+                <Chip label="Complete" color="success" size='small' sx={{
+                  fontSize: '12px',
                   width: '110px',
                   paddingTop: '2px',
                   marginTop: '5px'
                 }} />
               }
               {item.finished === 0 && item.progress >= 85 &&
-                <Chip label="Chưa hoàn thành bài test" color="warning" size='small' sx={{
-                  fontSize: '10px',
+                <Chip label="Incomplete" color="warning" size='small' sx={{
+                  fontSize: '12px',
                   width: '140px',
                   paddingTop: '2px',
                   marginTop: '3px'
@@ -241,11 +241,11 @@ const Video = () => {
               }
               <CardActions>
                 <Button variant="soft" size="sm" sx={{ maxWidth: '4rem' }} onClick={(e) => { handleVideoDetail(item) }}>
-                See
+                  See
                 </Button>
                 {item.progress >= 85 &&
                   <Button variant="solid" size="sm" onClick={(e) => { handleOpenQuiz(item) }}>
-                Take the test
+                    Take a test
                   </Button>
                 }
 

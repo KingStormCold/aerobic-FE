@@ -9,11 +9,14 @@ import { URL_PATH } from 'app/config/path';
 import { Storage } from 'react-jhipster';
 import { CATEGORY_ID } from 'app/config/constants';
 import { Button } from '@mui/material';
+import { CircularProgress } from '@mui/material';
+import Box from '@mui/material/Box';
 
 const YogaPage = () => {
   const dispatch = useAppDispatch()
   const history = useHistory();
   const subjectsByYoga = useAppSelector(state => state.subject.subjectsByYoga);
+  const loadingYoga = useAppSelector(state => state.subject.loadingYoga);
   async function hanldeSubject(subjectID, categoryId) {
     Storage.session.set(CATEGORY_ID, categoryId)
     await dispatch(subjectClient(categoryId));
@@ -35,6 +38,11 @@ const YogaPage = () => {
       <div className="container">
         <div className="row align-items-center">
           <div className="col-lg-5 col-md-6">
+            {loadingYoga &&
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress />
+              </Box>
+            }
             <Slider {...settings}>
               {subjectsByYoga && subjectsByYoga.length > 0 && subjectsByYoga.map((item, index) => (
                 <div className="about-img" key={item.id} >
@@ -43,10 +51,10 @@ const YogaPage = () => {
                     <p>{item.name}</p>
                   </div>
                   <div className="subject-name text-center wow zoomIn" data-wow-delay="0.1s">
-                    <p>Falling: {numberWithCommas(item.promotional_price)}đ</p>
+                    <p>Falling: {numberWithCommas(item.promotional_price)}$</p>
                   </div>
                   <Button variant="contained" color="success" sx={{ fontWeight: 600 }} onClick={e => handlSubjectClick(item.id, item.category_id)}>
-                  See
+                    See
                   </Button>
                 </div>
               ))}
@@ -59,10 +67,10 @@ const YogaPage = () => {
             </div>
             <div className="about-text">
               <p>
-              Yoga is an age-old practice that originated in India about 5,000 years ago. It is often thought that yoga is practicing strange movements and postures. But actually, yoga consists of exercises that help improve the physical, mental, emotional and even spiritual of the practitioner.
+                Yoga is an age-old practice that originated in India about 5,000 years ago. It is often thought that yoga is practicing strange movements and postures. But actually, yoga consists of exercises that help improve the physical, mental, emotional and even spiritual of the practitioner.
               </p>
               <p>
-              Many people believe that this practice can change your worldview, help you calm down and reduce stress, which in turn will help improve your health.
+                Many people believe that this practice can change your worldview, help you calm down and reduce stress, which in turn will help improve your health.
               </p>
             </div>
           </div>

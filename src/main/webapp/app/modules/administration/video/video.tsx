@@ -89,7 +89,7 @@ export const VideoManagement = () => {
 
   useEffect(() => {
     if (deleteVideoSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Delete video successfully', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Video deleted successfully', isError: false }));
       dispatch(videosPage({ page: 1, id: coursesDetail.id }));
     }
   }, [deleteVideoSuccess]);
@@ -126,12 +126,12 @@ export const VideoManagement = () => {
             <th>No</th>
             <th>Video name</th>
             <th>Course</th>
-            <th>Video link</th>
+            <th>Link</th>
             <th>Time</th>
-            <th>Creator</th>
-            <th>Creation date</th>
-            <th>Fixer</th>
-            <th>Date of correction</th>
+            <th>Created by</th>
+            <th>Created date</th>
+            <th>Modified by</th>
+            <th>Modified date</th>
             <th>Action</th>
           </tr>
         </thead>

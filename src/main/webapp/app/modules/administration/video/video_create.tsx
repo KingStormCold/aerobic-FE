@@ -82,7 +82,7 @@ const VideoCreate = () => {
     if (createVideoSuccess) {
       dispatch(
         updateStateOpenToastMessage({
-          message: 'Add successful videos',
+          message: 'Video added successfully',
           isError: false,
         })
       );
@@ -125,7 +125,7 @@ const VideoCreate = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Add Videos</h3>
+      <h3>Add Video</h3>
       <div>
         <Form onSubmit={handleSubmit(addVideo)}>
           <Form.Group className="mb-3">
@@ -141,12 +141,12 @@ const VideoCreate = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Course name cant be blank
+                Video name is not empty
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Course name must not exceed 100 characters
+                Video name must not exceed 100 characters
               </Card.Text>
             )}
           </Form.Group>
@@ -158,7 +158,6 @@ const VideoCreate = () => {
               id="link_video"
               {...register('link_video', {
                 required: true,
-                maxLength: 255,
                 onChange(event) {
                   handleLinkVideo(event)
                 },
@@ -167,12 +166,7 @@ const VideoCreate = () => {
             />
             {errors.link_video?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The video link should not be blank
-              </Card.Text>
-            )}
-            {errors.link_video?.type === 'maxLength' && (
-              <Card.Text as="div" className="error-text">
-                Video link must not exceed 255 characters
+                Video link is not empty
               </Card.Text>
             )}
             {errorVideo && (
@@ -217,10 +211,10 @@ const VideoCreate = () => {
             )}
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-          Add
+            Add
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Back
+            Back
           </Button>
           <br />
           <br />

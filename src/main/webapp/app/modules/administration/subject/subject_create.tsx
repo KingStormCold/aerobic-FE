@@ -40,7 +40,7 @@ export const SubjectCreate = () => {
 
   useEffect(() => {
     if (title === '') {
-      dispatch(updateStateTitle("Môn học"))
+      dispatch(updateStateTitle("Subject"))
     }
   }, [title])
 
@@ -128,7 +128,7 @@ export const SubjectCreate = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPrice('Giá phải là số')
+        setErrorPrice('Promotion price must be number')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPrice('')
@@ -150,12 +150,12 @@ export const SubjectCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-      More subjects
+        Add subject
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addSubject)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="price">Promo price</Form.Label>
+            <Form.Label htmlFor="price">Promotion price</Form.Label>
             <Form.Control
               type="text"
               id="price"
@@ -170,7 +170,7 @@ export const SubjectCreate = () => {
             />
             {errors.subjectPromotionalPrice?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Promo price<i></i> cant be empty
+                Promotion price is not empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -193,13 +193,13 @@ export const SubjectCreate = () => {
               isInvalid={errors.subjectImage?.type === 'required'}
             />
             {errors.subjectImage?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Content cant be blank</Card.Text>
+              <Card.Text as="div" className='error-text'>Image is not empty</Card.Text>
             )}
             {urlImage && <Image className='image-thumbnail' src={`${urlImage}`} thumbnail />}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Directory</Form.Label>
+            <Form.Label>Category</Form.Label>
             <Form.Select aria-label="Danh mục"
               {...register('categoryId', {
                 required: true
@@ -210,7 +210,7 @@ export const SubjectCreate = () => {
               ))}
             </Form.Select>
             {errors.categoryId?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Categories cant be empty</Card.Text>
+              <Card.Text as="div" className='error-text'>Category is not empty</Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">
@@ -226,7 +226,7 @@ export const SubjectCreate = () => {
             />
             {errors.content?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Content cant be blank
+                Content is not empty
               </Card.Text>
             )}
             <div hidden id="editContent">
@@ -235,7 +235,7 @@ export const SubjectCreate = () => {
             </div>
 
             {(inputContent) &&
-              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} Content</div>
+              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Hidden' : 'Preview'} Content</div>
             }
 
             {isOpenContentPreview &&
@@ -244,7 +244,7 @@ export const SubjectCreate = () => {
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Add</Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Back
+            Back
           </Button>
         </Form>
 

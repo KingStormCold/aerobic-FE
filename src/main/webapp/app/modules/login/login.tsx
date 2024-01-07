@@ -165,7 +165,7 @@ export const Login = (props: RouteComponentProps<any>) => {
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               </Avatar>
               <Typography component="h1" variant="h5">
-              Log in
+                Log in
               </Typography>
               <Box component="form" noValidate sx={{ mt: 1 }}>
                 <TextField
@@ -184,7 +184,7 @@ export const Login = (props: RouteComponentProps<any>) => {
                   <div className="margin-top-05">
                     <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
                     <span className="color-text-D70925">
-                    Please enter your email.
+                      Please enter your email.
                     </span>
                   </div>
                 )}
@@ -193,7 +193,7 @@ export const Login = (props: RouteComponentProps<any>) => {
                   required
                   fullWidth
                   name="password"
-                  label="Mật khẩu"
+                  label="Password"
                   type="password"
                   id="password"
                   autoComplete="current-password"
@@ -204,26 +204,27 @@ export const Login = (props: RouteComponentProps<any>) => {
                   <div className="margin-top-05">
                     <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />
                     <span className="color-text-D70925">
-                    Please enter your password.
+                      Please enter your password.
                     </span>
                   </div>
                 )}
                 <br />
                 <br />
                 <Button id="register-submit" color="primary" onClick={handleSubmitLogin}>
-                Log in
+                  Log in
                 </Button>
                 <br />
                 <br />
-                <Grid container>
+                <Grid container sx={{ flexDirection: 'column', textAlign: 'center' }}>
                   <Grid item xs>
                     <Link to="/login">
-                    Forgot your password?
+                      Forgot your password?
                     </Link>
                   </Grid>
+                  <br />
                   <Grid item>
                     <Link to="/register">
-                    Dont have an account yet? Register
+                      Dont have an account yet? Register
                     </Link>
                   </Grid>
                 </Grid>

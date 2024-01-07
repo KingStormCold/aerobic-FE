@@ -45,7 +45,7 @@ export const VideoDetail = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Edit Video</h3>
+      <h3>Detail Video</h3>
       <div>
         <Form.Group className="mb-3">
           <Form.Label htmlFor="name">Video name</Form.Label>
@@ -80,10 +80,10 @@ export const VideoDetail = () => {
           </Form.Select>
         </Form.Group>
         <Button type="submit" variant="success" className="btn-right" onClick={handleAddQuiz}>
-        More questions
+          Add questions
         </Button>
         <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-        Back
+          Back
         </Button>
         <br />
         <br />

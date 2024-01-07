@@ -60,7 +60,7 @@ export const CategoryCreate = () => {
 
   useEffect(() => {
     if (createCategorySuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Add a success category', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Category added successfully', isError: false }))
       dispatch(resetCategory())
       history.push(URL_PATH.ADMIN.CATEGORY.MANAGEMENT)
     }
@@ -76,7 +76,7 @@ export const CategoryCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-      Add a category
+        Add a category
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addCategory)}>
@@ -91,7 +91,7 @@ export const CategoryCreate = () => {
               isInvalid={errors.categoryName?.type === 'required'}
             />
             {errors.categoryName?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Category name cant be blank</Card.Text>
+              <Card.Text as="div" className='error-text'>Category is not empty</Card.Text>
             )}
           </Form.Group>
           <Form.Group className="mb-3">

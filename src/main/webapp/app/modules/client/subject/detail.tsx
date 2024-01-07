@@ -97,7 +97,7 @@ export const Detail = () => {
       dispatch(updateStatePaymentCourseSuccess())
       // history.push('/my-course');
     }
-  }, [paymentCourseSuccess]);   
+  }, [paymentCourseSuccess]);
 
   useEffect(() => {
     if (paymentCourseErrorMessage) {
@@ -123,7 +123,7 @@ export const Detail = () => {
 
   const handlePayment = (course, subject, name, price, level) => {
     if (!isAuthenticated) {
-      dispatch(updateStateOpenToastMessage({ message: 'Please log in to be able to purchase this course', isError: true }));
+      dispatch(updateStateOpenToastMessage({ message: 'Please log in to purchase this course', isError: true }));
       history.push(URL_PATH.LOGIN);
     } else {
       setCourseId(course);
@@ -131,8 +131,10 @@ export const Detail = () => {
       setSubjectFull(course === 0 ? 1 : 0);
       setCourseName(name);
       setCoursePrice(price);
-      if (level === 1) {
+      if (level === 1 && price === 0) {
         setFree(1);
+      } else if (level === 1 && price !== 0) {
+        setFree(0);
       } else {
         setFree(0);
       }
@@ -170,13 +172,13 @@ export const Detail = () => {
               {displayReadmore ? (
                 <div className="readmore-button">
                   <span onClick={() => setDisplayReadmore(!displayReadmore)}>
-                  Continue reading the article <ExpandMoreIcon />
+                    Continue reading the article <ExpandMoreIcon />
                   </span>
                 </div>
               ) : height > MAX_HEIGHT ? (
                 <div className="readmore-button">
                   <span onClick={() => setDisplayReadmore(!displayReadmore)}>
-                  Shorten article <ExpandLessIcon />{' '}
+                    Shorten article <ExpandLessIcon />{' '}
                   </span>
                 </div>
               ) : (
@@ -196,7 +198,7 @@ export const Detail = () => {
             paddingTop: '10px',
           }}
         >
-          COURSE REGISTRATION
+          REGISTER THE COURSE
         </Typography>
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -204,32 +206,32 @@ export const Detail = () => {
               <TableRow>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }}>Course Name</StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
-                Price
+                  Price
                 </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
-                Price drop
+                  Sales
                 </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center">
-                Total Funds
+                  Total Price
                 </StyledTableCell>
                 <StyledTableCell sx={{ backgroundColor: '#4b71a2 !important', fontSize: '20px' }} align="center"></StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {courseDetailClients &&
+              {courseDetailClients && courseDetailClients.length > 0 &&
                 courseDetailClients.map(course => (
                   <StyledTableRow key={course.course_id}>
                     <StyledTableCell component="th" scope="row" sx={{ fontSize: '16px' }}>
                       {course.course_name}
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
-                      {numberWithCommas(course.price)}đ
+                      {numberWithCommas(course.price)}$
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
-                      {numberWithCommas(course.promotional_price)}đ
+                      {numberWithCommas(course.promotional_price)}$
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
-                      {numberWithCommas(course.price - course.promotional_price)}đ
+                      {numberWithCommas(course.price - course.promotional_price)}$
                     </StyledTableCell>
                     <StyledTableCell align="center" sx={{ borderLeft: '1px solid #d7d4d4 !important', fontSize: '16px' }}>
                       <Button
@@ -245,7 +247,7 @@ export const Detail = () => {
                           )
                         }
                       >
-                         Register
+                        Buy
                       </Button>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -264,12 +266,12 @@ export const Detail = () => {
           aria-describedby="alert-dialog-slide-description"
         >
           <DialogTitle>
-          Do you agree to buy the lock {courseName} này với giá {numberWithCommas(coursePrice)} đ ?
+            Would you like to buy this {courseName} course at a price {numberWithCommas(coursePrice)}$?
           </DialogTitle>
           <DialogActions>
-            <Button onClick={handleClose}>Hủy</Button>
+            <Button onClick={handleClose}>Cancel</Button>
             <Button onClick={handleBuy} color="success">
-            Buy
+              Buy
             </Button>
           </DialogActions>
         </Dialog>

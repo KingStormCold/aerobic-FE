@@ -46,12 +46,12 @@ const Footer = (props) => {
                 <ul className='footer-link-row-left-content-left-ul'>
                   <li>
                     <Link to="/chinh-sach-bao-hanh">
-                    Warranty Policy
+                      Warranty Policy
                     </Link>
                   </li>
                   <li>
                     <Link to="/thu-cu-doi-moi">
-                    Return Policy
+                      Return Policy
                     </Link>
                   </li>
                   {/* <li>
@@ -61,7 +61,7 @@ const Footer = (props) => {
                                     </li> */}
                   <li>
                     <Link to="/">
-                    Privacy Policy
+                      Privacy Policy
                     </Link>
                   </li>
                   <li>
@@ -76,12 +76,12 @@ const Footer = (props) => {
                 <ul>
                   <li>
                     <Link to="/thong-tin-cua-hang">
-                    Store system
+                      Store system
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                    Promotion of the month
+                      Promotion of the month
                     </Link>
                   </li>
                   {/* <li>
@@ -96,7 +96,7 @@ const Footer = (props) => {
                                     </li> */}
                   <li>
                     <Link to="/recharge">
-                    Deposit methods
+                      Deposit methods
                     </Link>
                   </li>
                   <li>
@@ -146,7 +146,7 @@ const Footer = (props) => {
           <Col xs="6" className='footer-info-contact'>
             <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up" /> Connect with us</div>
             <div className='footer-info-contact-img'>
-              <a onClick={() => window.open("https://www.facebook.com/Mrbangstoree", "_blank")}>
+              <a onClick={() => window.open("https://www.facebook.com", "_blank")}>
                 <img src="content/images/footer_facebook.png" className='footer-img-fa' />
               </a>
               <img src="content/images/footer_instagram.png" className='footer-img-fa' />
@@ -179,12 +179,12 @@ const Footer = (props) => {
                 <ul className='footer-link-row-left-content-left-ul' style={{ paddingLeft: "0px", margin: "0" }}>
                   <li>
                     <Link to="/chinh-sach-bao-hanh">
-                    Warranty Policy
+                      Warranty Policy
                     </Link>
                   </li>
                   <li>
                     <Link to="/thu-cu-doi-moi">
-                    Return Policy
+                      Return Policy
                     </Link>
                   </li>
                   {/* <li>
@@ -194,7 +194,7 @@ const Footer = (props) => {
                                     </li> */}
                   <li>
                     <Link to="/">
-                    Privacy Policy
+                      Privacy Policy
                     </Link>
                   </li>
                   <li>
@@ -209,12 +209,12 @@ const Footer = (props) => {
                 <ul style={{ paddingLeft: "0px" }}>
                   <li>
                     <Link to="/thong-tin-cua-hang">
-                    Store system
+                      Store system
                     </Link>
                   </li>
                   <li>
                     <Link to="/">
-                    Promotion of the month
+                      Promotion of the month
                     </Link>
                   </li>
                   {/* <li>
@@ -229,7 +229,7 @@ const Footer = (props) => {
                                     </li> */}
                   <li>
                     <Link to="/recharge">
-                    Deposit methods
+                      Deposit methods
                     </Link>
                   </li>
                   <li>
@@ -279,7 +279,7 @@ const Footer = (props) => {
           <Col xs={sizeLowestFooter} className='footer-info-contact'>
             <div className='footer-info-contact-content'><FontAwesomeIcon icon="arrow-circle-up" /> Connect with us</div>
             <div className='footer-info-contact-img'>
-              <a onClick={() => window.open("https://www.facebook.com/Mrbangstoree", "_blank")}>
+              <a onClick={() => window.open("https://www.facebook.com", "_blank")}>
                 <img src="content/images/footer_facebook.png" className='footer-img-fa' style={{ marginLeft: '5px' }} />
               </a>
               <img src="content/images/footer_instagram.png" className='footer-img-fa' />

@@ -65,7 +65,7 @@ const TestCreate = () => {
     if (createTestSuccess) {
       dispatch(
         updateStateOpenToastMessage({
-          message: 'Add successful videos',
+          message: 'Question added successfully',
           isError: false,
         })
       );
@@ -91,28 +91,22 @@ const TestCreate = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Thêm bài test</h3>
+      <h3>Add Question</h3>
       <div>
         <Form onSubmit={handleSubmit(addTest)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="name">câu hỏi</Form.Label>
+            <Form.Label htmlFor="name">Question</Form.Label>
             <Form.Control
               type="text"
               id="name"
               {...register('test_content', {
                 required: true,
-                maxLength: 100,
               })}
               isInvalid={errors.test_content?.type === 'required' || errors.test_content?.type === 'maxLength'}
             />
             {errors.test_content?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The question should not be blank
-              </Card.Text>
-            )}
-            {errors.test_content?.type === 'maxLength' && (
-              <Card.Text as="div" className="error-text">
-                Questions should be no more than 100 characters
+                Question is not empty
               </Card.Text>
             )}
           </Form.Group>
@@ -130,7 +124,7 @@ const TestCreate = () => {
             />
             {errors.answer_1?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Answer 1 must not be blank
+                Answer 1 is not empty
               </Card.Text>
             )}
             {errors.answer_1?.type === 'maxLength' && (
@@ -153,7 +147,7 @@ const TestCreate = () => {
             />
             {errors.answer_2?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Answer 2 cant be blank
+                Answer 2 is not empty
               </Card.Text>
             )}
             {errors.answer_2?.type === 'maxLength' && (
@@ -176,7 +170,7 @@ const TestCreate = () => {
             />
             {errors.answer_3?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Answer 3 should not be blank
+                Answer 3 is not empty
               </Card.Text>
             )}
             {errors.answer_3?.type === 'maxLength' && (
@@ -199,7 +193,7 @@ const TestCreate = () => {
             />
             {errors.answer_4?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Answer 4 must not be blank
+                Answer 4 is not empty
               </Card.Text>
             )}
             {errors.answer_4?.type === 'maxLength' && (
@@ -222,12 +216,12 @@ const TestCreate = () => {
             />
             {errors.serial_answer?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The answer must not be blank
+                Correct answer is not empty
               </Card.Text>
             )}
             {errors.serial_answer?.type === 'maxLength' && (
               <Card.Text as="div" className="error-text">
-                Answers must not exceed 255 characters
+                Correct answer must not exceed 255 characters
               </Card.Text>
             )}
           </Form.Group>
@@ -250,10 +244,10 @@ const TestCreate = () => {
             )}
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-          Add
+            Add
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Back
+            Back
           </Button>
           <br />
           <br />

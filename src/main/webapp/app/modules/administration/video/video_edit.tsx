@@ -36,7 +36,7 @@ export const VideoEdit = () => {
     dispatch(showCourseName());
   }, []);
   useEffect(() => {
-    
+
     if (videoDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
@@ -68,7 +68,7 @@ export const VideoEdit = () => {
   const editVideo = data => {
     const duration = player.current.getDuration()
     if (errorVideo || duration === null) {
-      setErrorVideo('link video không đúng')
+      setErrorVideo('Incorrect video link')
       return
     }
     const requestBody = {
@@ -87,7 +87,7 @@ export const VideoEdit = () => {
 
   useEffect(() => {
     if (updateVideoSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Edit Video Successfully', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Video updated successfully', isError: false }));
       dispatch(resetVideo());
       history.push(URL_PATH.ADMIN.VIDEO.MANAGEMENT);
     }
@@ -117,7 +117,7 @@ export const VideoEdit = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Edit Video</h3>
+      <h3>Update Video</h3>
       <div>
         <Form onSubmit={handleSubmit(editVideo)}>
           <Form.Group className="mb-3">
@@ -133,7 +133,7 @@ export const VideoEdit = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The video name cant be blank
+                Video name is not empty
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
@@ -150,7 +150,6 @@ export const VideoEdit = () => {
               id="link_video"
               {...register('link_video', {
                 required: true,
-                maxLength: 255,
                 onChange(event) {
                   handleLinkVideo(event)
                 },
@@ -159,12 +158,7 @@ export const VideoEdit = () => {
             />
             {errors.link_video?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Video links cant be blank
-              </Card.Text>
-            )}
-            {errors.link_video?.type === 'maxLength' && (
-              <Card.Text as="div" className="error-text">
-                Video links cant exceed 255 characters
+                Video link is not empty
               </Card.Text>
             )}
             {errorVideo && (

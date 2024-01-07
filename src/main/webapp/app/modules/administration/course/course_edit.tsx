@@ -42,8 +42,6 @@ export const CourseEdit = () => {
     dispatch(showSubject());
   }, []);
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
-    // => hk có data để chỉnh sửa
     if (coursesDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
     }
@@ -103,7 +101,7 @@ export const CourseEdit = () => {
 
   useEffect(() => {
     if (updateCourseSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Successful course editing', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Course updated successfully', isError: false }));
       dispatch(resetCourse());
       history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
     }
@@ -119,7 +117,7 @@ export const CourseEdit = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPrice('The price must be numerical')
+        setErrorPrice('Price must be number')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPrice('')
@@ -139,7 +137,7 @@ export const CourseEdit = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPromotionalPrice('The price must be numerical')
+        setErrorPromotionalPrice('Promotion price must be number')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPromotionalPrice('')
@@ -176,7 +174,7 @@ export const CourseEdit = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Course name cant be blank
+                Course name is not empty
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
@@ -194,7 +192,7 @@ export const CourseEdit = () => {
               isInvalid={errors.description?.type === 'required'}
             />
             {errors.description?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Course descriptions cant be blank</Card.Text>
+              <Card.Text as="div" className='error-text'>Course descriptions is not empty</Card.Text>
             )}
           </Form.Group>
           {/* <Form.Group className="mb-3">
@@ -228,7 +226,7 @@ export const CourseEdit = () => {
             />
             {errors.level?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The level must not be empty
+                Level is not empty
               </Card.Text>
             )}
             {errors.level?.type === 'levelGreaterThan' && (
@@ -238,7 +236,7 @@ export const CourseEdit = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="price">Giá</Form.Label>
+            <Form.Label htmlFor="price">Price</Form.Label>
             <Form.Control
               type="text"
               id="price"
@@ -253,7 +251,7 @@ export const CourseEdit = () => {
             />
             {errors.price?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The price must not be empty
+                Price is not empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -263,7 +261,7 @@ export const CourseEdit = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="promotionalPrice">Promo price</Form.Label>
+            <Form.Label htmlFor="promotionalPrice">Promotion price</Form.Label>
             <Form.Control
               type="text"
               id="promotionalPrice"
@@ -298,10 +296,10 @@ export const CourseEdit = () => {
             </Form.Select>
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-          Edit
+            Edit
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Back
+            Back
           </Button>
           <br />
           <br />

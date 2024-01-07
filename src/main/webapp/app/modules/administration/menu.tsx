@@ -1,10 +1,7 @@
-import DnsIcon from '@mui/icons-material/Dns';
-import GroupIcon from '@mui/icons-material/Group';
 import CategoryIcon from '@mui/icons-material/Category';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import QuizIcon from '@mui/icons-material/Quiz';
+import GroupIcon from '@mui/icons-material/Group';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import { CONSTANT } from 'app/config/constants';
 import { URL_PATH } from 'app/config/path';
 import { useAppSelector } from 'app/config/store';
@@ -42,7 +39,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/user-management'>
               <svg className="nav-icon">
                 <GroupIcon />
-              </svg> User management
+              </svg> User Management
             </Link>
           </li>
         }
@@ -52,7 +49,7 @@ const Menus = () => {
             <Link className="nav-link" to='/admin/category-management'>
               <svg className="nav-icon">
                 <CategoryIcon />
-              </svg> Catalogue Management
+              </svg> Category Management
             </Link>
           </li>
         }
@@ -66,36 +63,6 @@ const Menus = () => {
             </Link>
           </li>
         }
-        {/* {
-          haveRoles.includes(CONSTANT.ROLES.COURSE) &&
-          <li className={_location['pathname'].includes(`/admin/course`) ? 'active-menu nav-item' : 'nav-item'}>
-            <Link className="nav-link" to='/admin/course-management'>
-              <svg className="nav-icon">
-                <DnsIcon />
-              </svg> Course Management
-            </Link>
-          </li>
-        }
-        {
-          haveRoles.includes(CONSTANT.ROLES.VIDEO) &&
-          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.VIDEO.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
-            <Link className="nav-link" to='/admin/video-management'>
-              <svg className="nav-icon">
-                <OndemandVideoIcon />
-              </svg> Manage videos
-            </Link>
-          </li>
-        }
-        {
-          haveRoles.includes(CONSTANT.ROLES.TEST) &&
-          <li className={_location['pathname'].includes(`${URL_PATH.ADMIN.TEST.MANAGEMENT}`) ? 'active-menu nav-item' : 'nav-item'}>
-            <Link className="nav-link" to='/admin/test-management'>
-              <svg className="nav-icon">
-                <QuizIcon />
-              </svg> Test Management
-            </Link>
-          </li>
-        } */}
       </ul>
     </div>
   )

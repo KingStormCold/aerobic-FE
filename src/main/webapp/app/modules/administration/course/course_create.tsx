@@ -80,7 +80,7 @@ const CourseCreate = () => {
     if (createCourseSuccess) {
       dispatch(
         updateStateOpenToastMessage({
-          message: 'Thêm khóa học thành công',
+          message: 'Course added successfully',
           isError: false,
         })
       );
@@ -109,7 +109,7 @@ const CourseCreate = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPrice('Giá phải là số')
+        setErrorPrice('Price is not empty')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPrice('')
@@ -129,7 +129,7 @@ const CourseCreate = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPromotionalPrice('Giá khuyến mãi phải là số')
+        setErrorPromotionalPrice('Promotion price is not empty')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPromotionalPrice('')
@@ -150,7 +150,7 @@ const CourseCreate = () => {
   return (
     <>
       {loading && <Loading />}
-      <h3>Add a course</h3>
+      <h3>Add Course</h3>
       <div>
         <Form onSubmit={handleSubmit(addCourse)}>
           <Form.Group className="mb-3">
@@ -166,7 +166,7 @@ const CourseCreate = () => {
             />
             {errors.name?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Course name cant be blank
+                Course name is not empty
               </Card.Text>
             )}
             {errors.name?.type === 'maxLength' && (
@@ -184,7 +184,7 @@ const CourseCreate = () => {
               isInvalid={errors.description?.type === 'required'}
             />
             {errors.description?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Course descriptions cant be blank</Card.Text>
+              <Card.Text as="div" className='error-text'>Course description is not empty</Card.Text>
             )}
           </Form.Group>
           {/* <Form.Group className="mb-3">
@@ -218,7 +218,7 @@ const CourseCreate = () => {
             />
             {errors.level?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The level must not be empty
+                Level is not empty
               </Card.Text>
             )}
             {errors.level?.type === 'levelGreaterThan' && (
@@ -243,7 +243,7 @@ const CourseCreate = () => {
             />
             {errors.price?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                The price must not be empty
+                Price is not empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -253,7 +253,7 @@ const CourseCreate = () => {
             )}
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="promotionalPrice">Promo price</Form.Label>
+            <Form.Label htmlFor="promotionalPrice">Promotion price</Form.Label>
             <Form.Control
               type="text"
               id="promotionalPrice"
@@ -289,10 +289,10 @@ const CourseCreate = () => {
             )}
           </Form.Group>
           <Button type="submit" variant="success" className="btn-right">
-          Add
+            Add
           </Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Back
+            Back
           </Button>
           <br />
           <br />

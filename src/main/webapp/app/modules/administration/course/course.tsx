@@ -91,7 +91,7 @@ export const CourseManagement = () => {
 
   useEffect(() => {
     if (deleteCourseSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Successfully delete a course', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Course deleted successfully', isError: false }));
       dispatch(coursesPagination({ page: 1, id: subjectDetail.id }));
     }
   }, [deleteCourseSuccess, dispatch]);
@@ -136,11 +136,11 @@ export const CourseManagement = () => {
             <th>Describe</th>
             <th>Level</th>
             <th>Price</th>
-            <th>Promo price</th>
-            <th>Creator</th>
-            <th>Creation date</th>
-            <th>Fixer</th>
-            <th>Date of correction</th>
+            <th>Sales</th>
+            <th>Created by</th>
+            <th>Created date</th>
+            <th>Modified by</th>
+            <th>Modified date</th>
             <th className='w-155'>Action</th>
           </tr>
         </thead>
@@ -163,8 +163,8 @@ export const CourseManagement = () => {
                   {course.description}
                 </Truncate></td>
               <td>{course.level}</td>
-              <td>{String(course.price !== 0 ? numberWithCommas(course.price) : 0)}đ</td>
-              <td>{String(course.promotional_price !== 0 ? numberWithCommas(course.promotional_price) : 0)}đ</td>
+              <td>{String(course.price !== 0 ? numberWithCommas(course.price) : 0)}$</td>
+              <td>{String(course.promotional_price !== 0 ? numberWithCommas(course.promotional_price) : 0)}$</td>
               <td>{course.created_by}</td>
               <td>{moment(course.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>{course.updated_by}</td>

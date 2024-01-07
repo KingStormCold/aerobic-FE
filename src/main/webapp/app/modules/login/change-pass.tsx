@@ -131,7 +131,7 @@ export const ChangePassWord = () => {
             >
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}></Avatar>
               <Typography component="h1" variant="h5">
-              You want to change your password
+                Change password
               </Typography>
 
               <Form onSubmit={handleSubmit(addUser)} className="form-layout">
@@ -140,7 +140,7 @@ export const ChangePassWord = () => {
                   <Form.Control
                     type="password"
                     {...register('old_password', {
-                      required: 'Passwords cant be blank',
+                      required: 'Password is not empty',
                       minLength: {
                         value: 6,
                         message: 'Password must be at least 6 characters',
@@ -160,7 +160,7 @@ export const ChangePassWord = () => {
                   <Form.Control
                     type="password"
                     {...register('new_password', {
-                      required: 'Passwords cant be blank',
+                      required: 'Passwords is not empty',
                       minLength: {
                         value: 6,
                         message: 'Password must be at least 6 characters',
@@ -176,13 +176,13 @@ export const ChangePassWord = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Reconfirm the new password</Form.Label>
+                  <Form.Label>Confirm new password</Form.Label>
                   <Form.Control
                     type="password"
                     {...register('new_password_confirmation', {
-                      required: 'Confirm password cant be blank',
+                      required: 'Confirm new password is not empty',
                       validate: {
-                        incorrectPassword: value => value === getValues('new_password') || 'Passwords dont match each other',
+                        incorrectPassword: value => value === getValues('new_password') || 'Password do not match',
                       },
                     })}
                     isInvalid={!!errors.new_password_confirmation}
@@ -195,7 +195,7 @@ export const ChangePassWord = () => {
                 </Form.Group>
 
                 <Button type="submit" variant="success" className="btn-right">
-                Change
+                  Change
                 </Button>
               </Form>
             </Box>

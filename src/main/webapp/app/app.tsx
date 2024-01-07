@@ -12,6 +12,7 @@ import { getSession } from './shared/reducers/authentication';
 import { ToastMessage } from './components/toast-message';
 import { Storage } from 'react-jhipster';
 import { getSubjectByGym, getSubjectByMeditate, getSubjectByYoga } from './shared/reducers/subject';
+import { getMenu } from './shared/reducers/category';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -31,6 +32,7 @@ export const App = () => {
     await dispatch(getSubjectByGym({ content_search: 'gym', page_size: 3 }))
   }
   useEffect(() => {
+    dispatch(getMenu());
     callSubject()
   }, [])
 

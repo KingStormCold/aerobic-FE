@@ -1,26 +1,25 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { login } from 'app/shared/reducers/authentication';
 import Loading from 'app/components/loading';
+import { URL_PATH } from 'app/config/path';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { IRegisterUser } from 'app/shared/model/user';
+import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import { registerUser } from 'app/shared/reducers/user';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ICreateUser, IRegisterUser } from 'app/shared/model/user';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { createUser, registerUser } from 'app/shared/reducers/user';
-import './register.scss';
 import { useHistory } from 'react-router-dom';
-import { URL_PATH } from 'app/config/path';
-import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import './register.scss';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
   createStyles({
@@ -131,7 +130,7 @@ export const Register = () => {
               <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               </Avatar>
               <Typography component="h1" variant="h5">
-              Sign up for an account
+                Register account
               </Typography>
               <Form onSubmit={handleSubmit(addUser)} className='form-layout'>
                 <Form.Group className="mb-3">
@@ -139,10 +138,10 @@ export const Register = () => {
                   <Form.Control
                     type="email"
                     {...register('email', {
-                      required: 'Email cant be blank',
+                      required: 'Email is not empty',
                       pattern: {
                         value: /^\S+@\S+$/i,
-                        message: 'Emails must be in the correct format',
+                        message: 'Email invalid',
                       },
                     })}
                     isInvalid={!!errors.email}
@@ -157,7 +156,7 @@ export const Register = () => {
                   <Form.Control
                     type="text"
                     {...register('fullname', {
-                      required: 'Họ và tên không được trống',
+                      required: 'Fullname is not empty',
                     })}
                     isInvalid={!!errors.fullname}
                   />
@@ -172,7 +171,7 @@ export const Register = () => {
                   <Form.Control
                     type="password"
                     {...register('password', {
-                      required: 'Passwords cant be blank',
+                      required: 'Passwords is not empty',
                       minLength: {
                         value: 6,
                         message: 'Password must be at least 6 characters',
@@ -191,7 +190,7 @@ export const Register = () => {
                   <Form.Control
                     type="password"
                     {...register('confirmPassword', {
-                      required: 'Confirm password cant be blank',
+                      required: 'Confirm password is not empty',
                       validate: {
                         incorrectPassword: (value) => value === getValues('password') || 'Passwords dont match each other',
                       }
@@ -209,7 +208,7 @@ export const Register = () => {
                   <Form.Control
                     type="text"
                     {...register('phone', {
-                      required: 'Phone number cant be blank',
+                      required: 'Phone number is not empty',
                       pattern: {
                         value: /^[0-9]{10}$/i,
                         message: 'Invalid phone number',

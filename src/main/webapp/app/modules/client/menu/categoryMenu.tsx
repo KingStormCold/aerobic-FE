@@ -16,10 +16,6 @@ const CategoryMenu = () => {
   const menus = useAppSelector(state => state.category.menus);
   const [selectedMenu, setSelectedMenu] = useState(null);
 
-  useEffect(() => {
-    dispatch(getMenu());
-  }, []);
-
   const handleMenuEnter = menu => {
     setSelectedMenu(menu);
   };

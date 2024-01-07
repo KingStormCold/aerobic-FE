@@ -28,8 +28,6 @@ export const CourseDetail = () => {
     dispatch(showSubject());
   }, []);
   useEffect(() => {
-    // kiểm tra nếu người dùng đứng ở trang chỉnh sửa mà ctrl + f5 thì sẽ đá về lại trang quản lý vì Course bị undefined
-    // => hk có data để chỉnh sửa
     if (coursesDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
     }
@@ -94,7 +92,7 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="promotionalPrice">Promo price</Form.Label>
+          <Form.Label htmlFor="promotionalPrice">Promotion price</Form.Label>
           <Form.Control
             type="text"
             id="promotionalPrice"
@@ -113,10 +111,10 @@ export const CourseDetail = () => {
           </Form.Select>
         </Form.Group>
         <Button type="submit" variant="success" className="btn-right" onClick={handleAddVideo}>
-        Add Videos
+          Add Videos
         </Button>
         <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-        Back
+          Back
         </Button>
         <br />
         <br />

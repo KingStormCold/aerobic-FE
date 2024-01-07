@@ -96,30 +96,30 @@ const MyCourse = () => {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div" sx={{ fontWeight: 500, textDecoration: 'underline', fontStyle: 'italic' }}>
-                    Course: {course.name}
+                      Course: {course.name}
                     </Typography>
-                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, marginBottom: '8px', fontSize: '12px' }}>
-                    Date of registration: <Chip label={moment(course.created_date).utc().format('DD-MM-YYYY h:mm:ss')} variant="filled" color="success" />
+                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, marginBottom: '8px', fontSize: '12px !important' }}>
+                      Created date: <Chip sx={{ fontSize: '12px !important' }} label={moment(course.created_date).utc().format('DD-MM-YYYY h:mm:ss')} variant="filled" color="success" />
                     </Typography>
-                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, marginBottom: '8px', fontSize: '12px' }}>
-                    Condition:&nbsp;
+                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, marginBottom: '8px', fontSize: '12px !important' }}>
+                      Status:&nbsp;
                       {course.status && course.total_video !== 0 ?
-                        <Chip label="Completed" color="success" variant="filled" />
+                        <Chip sx={{ fontSize: '12px !important' }} label="Completed" color="success" variant="filled" />
                         :
-                        <Chip label="Incomplete" color="warning" variant="filled" />
+                        <Chip sx={{ fontSize: '12px !important' }} label="Incomplete" color="warning" variant="filled" />
                       }
                     </Typography>
-                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, fontSize: '12px', marginBottom: '8px' }}>
+                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, fontSize: '12px !important', marginBottom: '8px' }}>
                       Video: {course.total_finish_video}/{course.total_video}
                     </Typography>
-                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, fontSize: '12px' }}>
-                    Rate of progress: {course.progress_course}%
+                    <Typography variant="subtitle1" component="div" sx={{ fontWeight: 600, fontSize: '12px !important' }}>
+                      Progress: {course.progress_course}%
                     </Typography>
                     <BorderLinearProgress variant="determinate" value={course.progress_course} />
                   </CardContent>
                   <CardActions>
                     <Button variant="contained" color="success" sx={{ fontWeight: 600 }} onClick={(e) => { hanldeStartCourse(course, item.subject_name, item.subject_id) }}>
-                    Continue learning
+                      Learn
                     </Button>
                   </CardActions>
                 </Card>

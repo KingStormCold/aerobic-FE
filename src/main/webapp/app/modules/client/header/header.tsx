@@ -89,22 +89,22 @@ const Header = () => {
                 >
                   <MenuItem>
                     <Link className="nav-link" to="/change-password">
-                    Change password
-                    </Link>
-                  </MenuItem>
-                  <MenuItem>
-                    <Link className="nav-link" to="/my-course">
-                    My Courses
+                      Change Password
                     </Link>
                   </MenuItem>
                   <MenuItem>
                     <Link className="nav-link" to="/history-payment">
-                    Transaction history
+                      Transaction History
+                    </Link>
+                  </MenuItem>
+                  <MenuItem>
+                    <Link className="nav-link" to="/my-course">
+                      My Courses
                     </Link>
                   </MenuItem>
                   <MenuItem>
                     <Link to="/logout" className="nav-link">
-                    Log out
+                      Logout
                     </Link>
                   </MenuItem>
                 </Menu>
@@ -117,12 +117,12 @@ const Header = () => {
                   <>
                     <div className="account-btnsignin">
                       <Link to="/register" className="header-link">
-                      Register
+                        Register
                       </Link>
                     </div>
                     <div className="account-btnlogin">
                       <Link to="/login" className="header-link">
-                      Log in
+                        Log in
                       </Link>
                     </div>
                   </>

@@ -88,7 +88,7 @@ export const SubjectManagement = () => {
 
   useEffect(() => {
     if (deleteSubjectSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Successfully delete the subject', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Subject deleted successfully', isError: false }))
       dispatch(getSubjects(1));
     }
   }, [deleteSubjectSuccess])
@@ -119,12 +119,12 @@ export const SubjectManagement = () => {
           <tr>
             <th>No</th>
             <th>Name</th>
-            <th>Promo price</th>
-            <th>Directory</th>
-            <th>Creator</th>
-            <th>Creation date</th>
-            <th>Fixer</th>
-            <th>Date of correction</th>
+            <th>Sales</th>
+            <th>Category</th>
+            <th>Created by</th>
+            <th>Created date</th>
+            <th>Modified by</th>
+            <th>Modified date</th>
             <th className='w-155'>Action</th>
           </tr>
         </thead>
@@ -139,7 +139,7 @@ export const SubjectManagement = () => {
               </td>
               <td>
                 <Truncate maxWidth={100} title={String(subject.promotional_price)}>
-                  {String(subject.promotional_price !== 0 ? numberWithCommas(subject.promotional_price) : 0)}đ
+                  {String(subject.promotional_price !== 0 ? numberWithCommas(subject.promotional_price) : 0)}$
                 </Truncate>
               </td>
               <td>

@@ -90,7 +90,7 @@ export const TestManagement = () => {
 
   useEffect(() => {
     if (deleteTestSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Delete a successful test', isError: false }));
+      dispatch(updateStateOpenToastMessage({ message: 'Test deleted successfully', isError: false }));
       dispatch(getTests({ page: 1, id: videoDetail?.id }));
     }
   }, [deleteTestSuccess]);
@@ -110,7 +110,7 @@ export const TestManagement = () => {
   return (
     <div>
       {loading && <Loading />}
-      <h3>Danh sách bài test</h3>
+      <h3>List of question</h3>
       <Link to={`${URL_PATH.ADMIN.VIDEO.MANAGEMENT}`}>
         <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Quay lại">
           <FontAwesomeIcon icon="chevron-left" />
@@ -133,8 +133,8 @@ export const TestManagement = () => {
             <th>Answer 2</th>
             <th>Answer 3</th>
             <th>Answer 4</th>
-            <th>Creator</th>
-            <th>Creation date</th>
+            <th>Created by</th>
+            <th>Created date</th>
             <th>Action</th>
           </tr>
         </thead>

@@ -79,10 +79,10 @@ export const Search = () => {
                       <p><i className="far fa-video-camera"></i>Total video: {subject.total_videos}</p>
                     </div>
                     <p>
-                    Price: {numberWithCommas(subject.total_course_fee)}đ
+                      Price: {numberWithCommas(subject.total_course_fee)}$
                     </p>
                     <p>
-                    Price drop: {numberWithCommas(subject.total_discount)}đ
+                      Sales: {numberWithCommas(subject.total_discount)}$
                     </p>
                     <a className="btn" onClick={e => handlSubjectClick(subject.subject_id, subject.category_id)}>Read More <i className="fa fa-angle-right"></i></a>
                   </div>
@@ -93,10 +93,9 @@ export const Search = () => {
       </div>
       {searchDetailClient && searchDetailClient.length === 0 ?
         <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
-          No results found
+          Not found
         </Typography>
         :
-
         <Pagination
           count={totalPage}
           size="large"
@@ -107,7 +106,6 @@ export const Search = () => {
           className='pagination-layout'
         />
       }
-
     </div>
   );
 };

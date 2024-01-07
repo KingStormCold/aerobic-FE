@@ -46,7 +46,7 @@ export const SubjectUpdate = () => {
   }, [childCategoriesErrorMessage])
 
   useEffect(() => {
-  
+
     if (subjectDetail.id === undefined) {
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
@@ -95,7 +95,7 @@ export const SubjectUpdate = () => {
 
   useEffect(() => {
     if (updateSubjectSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Successful subject correction', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Subject updated successfully', isError: false }))
       dispatch(resetSubject())
       history.push(URL_PATH.ADMIN.SUBJECT.MANAGEMENT)
     }
@@ -140,7 +140,7 @@ export const SubjectUpdate = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorPrice('The price must be numerical')
+        setErrorPrice('Promotion price must be number')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorPrice('')
@@ -162,12 +162,12 @@ export const SubjectUpdate = () => {
     <>
       {loading && <Loading />}
       <h3>
-      Edit a subject
+        Edit subject
       </h3>
       <div>
         <Form onSubmit={handleSubmit(ediSubject)}>
           <Form.Group className="mb-3">
-            <Form.Label htmlFor="price">Promo price</Form.Label>
+            <Form.Label htmlFor="price">Promotion price</Form.Label>
             <Form.Control
               type="text"
               id="price"
@@ -182,7 +182,7 @@ export const SubjectUpdate = () => {
             />
             {errors.subjectPromotionalPrice?.type === 'required' && (
               <Card.Text as="div" className="error-text">
-                Promo price<i></i> cant be empty
+                Promotion price is not empty
               </Card.Text>
             )}
             {errorPrice && (
@@ -206,13 +206,13 @@ export const SubjectUpdate = () => {
               isInvalid={errors.subjectImage?.type === 'required'}
             />
             {errors.subjectImage?.type === 'required' && (
-              <Card.Text as="div" className='error-text'>Content cant be blank</Card.Text>
+              <Card.Text as="div" className='error-text'>Image is not empty</Card.Text>
             )}
             {urlImage && <Image className='image-thumbnail' src={`${urlImage}`} thumbnail />}
           </Form.Group>
 
           <Form.Group className="mb-3">
-            <Form.Label>Directory</Form.Label>
+            <Form.Label>Category</Form.Label>
             <Form.Select aria-label="Directory"
               value={categoryId}
               {...register('categoryId', {
@@ -250,7 +250,7 @@ export const SubjectUpdate = () => {
             </div>
 
             {(inputContent) &&
-              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Ẩn' : 'Xem trước'} Content</div>
+              <div className='open-review-link mt-3' onClick={() => setIsOpenContentPreview(!isOpenContentPreview)}>{isOpenContentPreview ? 'Hidden' : 'Preview'} Content</div>
             }
 
             {isOpenContentPreview &&
@@ -259,7 +259,7 @@ export const SubjectUpdate = () => {
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Edit</Button>
           <Button color='dark' variant="dark" className="btn-right mr-10" onClick={handleBack}>
-          Back
+            Back
           </Button>
           <br />
           <br />

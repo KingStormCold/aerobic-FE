@@ -61,11 +61,11 @@ export const SubjectDetail = () => {
     <>
       {loading && <Loading />}
       <h3>
-      Course details
+        Course details
       </h3>
       <div>
         <Form.Group className="mb-3">
-          <Form.Label htmlFor="price">Promo price</Form.Label>
+          <Form.Label htmlFor="price">Promotion price</Form.Label>
           <Form.Control
             type="text"
             id="price"
@@ -86,7 +86,7 @@ export const SubjectDetail = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Directory</Form.Label>
+          <Form.Label>Category</Form.Label>
           <Form.Select aria-label="Danh mục"
             value={categoryId}
             disabled
@@ -106,7 +106,7 @@ export const SubjectDetail = () => {
             onEditorStateChange={onEditorStateChange}
           />
         </Form.Group> */}
-        <Button type='submit' variant="success" className='btn-right' onClick={handleAddCourse}>Add a course</Button>
+        <Button type='submit' variant="success" className='btn-right' onClick={handleAddCourse}>Add courses</Button>
         <br />
         <br />
       </div>

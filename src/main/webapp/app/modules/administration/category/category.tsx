@@ -34,7 +34,7 @@ export const CategoryManagement = () => {
   const deleteCategoryErrorMessage = useAppSelector(state => state.category.deleteCategoryErrorMessage);
 
   useEffect(() => {
-    dispatch(updateStateTitle("Directory"))
+    dispatch(updateStateTitle("Category"))
     dispatch(getCategories(1));
   }, [])
 
@@ -83,7 +83,7 @@ export const CategoryManagement = () => {
     if (deleteCategorySuccess) {
       console.log('vao');
       console.log('deleteCategorySuccess', deleteCategorySuccess)
-      dispatch(updateStateOpenToastMessage({ message: 'Category deletion successfully', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'Category deleted successfully', isError: false }))
       dispatch(getCategories(1));
     }
   }, [deleteCategorySuccess])
@@ -115,10 +115,10 @@ export const CategoryManagement = () => {
             <th>No</th>
             <th>Category name</th>
             <th>Parent category</th>
-            <th>Creator</th>
-            <th>Creation date</th>
-            <th>Fixer</th>
-            <th>Date of correction</th>
+            <th>Created by</th>
+            <th>Created date</th>
+            <th>Modified by</th>
+            <th>Modified date</th>
             <th>Action</th>
           </tr>
         </thead>

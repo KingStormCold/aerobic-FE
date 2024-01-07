@@ -20,6 +20,7 @@ export interface ICreateVideo {
   name: string;
   link_video: string;
   finished: string;
+  free: number;
   course_id: number;
   full_time: number;
 }
@@ -59,6 +60,7 @@ const VideoCreate = () => {
     link_video: string;
     finished: string;
     course_id: number;
+    free?: boolean
   }>();
 
   const addVideo = data => {
@@ -67,11 +69,16 @@ const VideoCreate = () => {
       setErrorVideo('Incorrect video link')
       return
     }
+    let free = 0;
+    if (coursesDetail?.level === 1) {
+      free = data?.free ? 1 : 0
+    }
     const requestBody: ICreateVideo = {
       name: data.name,
       link_video: data.link_video,
       finished: data.finished,
       course_id: data.course_id,
+      free,
       id: 1,
       full_time: fullTimeVideo
     };
@@ -102,7 +109,6 @@ const VideoCreate = () => {
   }, [createVideoErrorMessage, dispatch]);
 
   const handleDuration = (duration) => {
-    console.log(duration);
     if (duration) {
       const fullTimeNumber = duration / 60
       const fullTimeString = String(fullTimeNumber).split('.')
@@ -190,6 +196,15 @@ const VideoCreate = () => {
                     },
                   },
                 }}
+              />
+            </Form.Group>
+          }
+          {coursesDetail?.level === 1 &&
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="switch"
+                label="Free"
+                {...register('free')}
               />
             </Form.Group>
           }

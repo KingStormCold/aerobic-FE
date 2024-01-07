@@ -128,6 +128,7 @@ export const VideoManagement = () => {
             <th>Course</th>
             <th>Link</th>
             <th>Time</th>
+            <th>Free</th>
             <th>Created by</th>
             <th>Created date</th>
             <th>Modified by</th>
@@ -152,6 +153,7 @@ export const VideoManagement = () => {
                   </Truncate>
                 </td>
                 <td>{video.full_time} minute</td>
+                <td>{video.free === 1 ? 'Yes' : 'No'}</td>
                 <td>{video.created_by}</td>
                 <td>{moment(video.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
                 <td>{video.updated_by}</td>

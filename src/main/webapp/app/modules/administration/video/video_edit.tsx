@@ -45,6 +45,9 @@ export const VideoEdit = () => {
       setValue('finished', 0);
       setValue('link_video', videoDetail?.link_video)
       setValue('course_id', String(videoDetail?.course_id))
+      if (coursesDetail?.level === 1) {
+        setValue('free', videoDetail?.free === 1 ? true : false)
+      }
       dispatch(updateStateTitle(title + " > " + videoDetail?.name))
       setLinkVideo(videoDetail?.link_video)
     }
@@ -63,6 +66,7 @@ export const VideoEdit = () => {
     link_video: string;
     course_id: string;
     finished: number;
+    free?: boolean
   }>();
 
   const editVideo = data => {
@@ -71,10 +75,15 @@ export const VideoEdit = () => {
       setErrorVideo('Incorrect video link')
       return
     }
+    let free = 0;
+    if (coursesDetail?.level === 1) {
+      free = data?.free ? 1 : 0
+    }
     const requestBody = {
       name: data?.name,
       link_video: data?.link_video,
       course_id: data?.course_id,
+      free,
       finished: data?.finished,
       full_time: fullTimeVideo
     } as ICreateVideo;
@@ -98,7 +107,6 @@ export const VideoEdit = () => {
   }
 
   const handleDuration = (duration) => {
-    console.log(duration);
     if (duration) {
       const fullTimeNumber = duration / 60
       const fullTimeString = String(fullTimeNumber).split('.')
@@ -185,7 +193,15 @@ export const VideoEdit = () => {
               />
             </Form.Group>
           }
-
+          {coursesDetail?.level === 1 &&
+            <Form.Group className="mb-3">
+              <Form.Check
+                type="switch"
+                label="Free"
+                {...register('free')}
+              />
+            </Form.Group>
+          }
           <Form.Group className="mb-3" controlId="course_id">
             <Form.Label>Course Name</Form.Label>
             <Form.Select

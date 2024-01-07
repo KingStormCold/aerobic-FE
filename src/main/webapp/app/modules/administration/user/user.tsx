@@ -84,7 +84,7 @@ export const UserManagement = () => {
     if (deleteUserSuccess) {
       console.log('vao');
       console.log('deleteUserSuccess', deleteUserSuccess)
-      dispatch(updateStateOpenToastMessage({ message: 'Delete a user successfully', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'User deleted successfully', isError: false }))
       dispatch(getUsers(1));
     }
   }, [deleteUserSuccess])
@@ -116,12 +116,12 @@ export const UserManagement = () => {
             <th>No</th>
             <th>Email</th>
             <th>Fullname</th>
-            <th>Condition</th>
+            <th>Status</th>
             <th>Phone number</th>
-            <th>Creator</th>
-            <th>Creation date</th>
-            <th>Fixer</th>
-            <th>Date of correction</th>
+            <th>Created by</th>
+            <th>Created date</th>
+            <th>Modified by</th>
+            <th>Modified date</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -140,8 +140,8 @@ export const UserManagement = () => {
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={user.status === 1 ? 'Activity' : 'Stop'}>
-                  {user.status === 1 ? 'Activity' : 'Stop'}
+                <Truncate maxWidth={100} title={user.status === 1 ? 'Active' : 'Stop'}>
+                  {user.status === 1 ? 'Active' : 'Stop'}
                 </Truncate>
               </td>
               <td>

@@ -72,7 +72,7 @@ export const UserCreate = () => {
 
   useEffect(() => {
     if (createUserSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Add a successful user', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'User added successfully', isError: false }))
       dispatch(resetUser())
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
@@ -97,7 +97,7 @@ export const UserCreate = () => {
     <>
       {loading && <Loading />}
       <h3>
-      Add users
+        Add users
       </h3>
       <div>
         <Form onSubmit={handleSubmit(addUser)}>
@@ -106,10 +106,10 @@ export const UserCreate = () => {
             <Form.Control
               type="email"
               {...register('email', {
-                required: 'Email cant be blank',
+                required: 'Email is not empty',
                 pattern: {
                   value: /^\S+@\S+$/i,
-                  message: 'Emails must be in the correct format',
+                  message: 'Email must be in the correct format',
                 },
               })}
               isInvalid={!!errors.email}
@@ -124,7 +124,7 @@ export const UserCreate = () => {
             <Form.Control
               type="text"
               {...register('fullname', {
-                required: 'Full name must not be blank',
+                required: 'Full name is not empty',
               })}
               isInvalid={!!errors.fullname}
             />
@@ -139,7 +139,7 @@ export const UserCreate = () => {
             <Form.Control
               type="password"
               {...register('password', {
-                required: 'Passwords cant be blank',
+                required: 'Password is not empty',
                 minLength: {
                   value: 6,
                   message: 'Password must be at least 6 characters',
@@ -158,9 +158,9 @@ export const UserCreate = () => {
             <Form.Control
               type="password"
               {...register('confirmPassword', {
-                required: 'Confirm password cant be blank',
+                required: 'Confirm password is not empty',
                 validate: {
-                  incorrectPassword: (value) => value === getValues('password') || 'Passwords dont match each other',
+                  incorrectPassword: (value) => value === getValues('password') || 'Password dont match each other',
                 }
               })}
               isInvalid={!!errors.confirmPassword}
@@ -176,7 +176,7 @@ export const UserCreate = () => {
             <Form.Control
               type="text"
               {...register('phone', {
-                required: 'Phone number cant be blank',
+                required: 'Phone number is not empty',
                 pattern: {
                   value: /^[0-9]{10}$/i,
                   message: 'Invalid phone number',

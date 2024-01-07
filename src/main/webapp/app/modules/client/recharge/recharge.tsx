@@ -1,8 +1,8 @@
-import './phuongthucthanhtoan.scss';
+import './recharge.scss';
 import React from 'react';
 import Typography from '@mui/material/Typography';
 
-export const PhuongThucThanhToan = () => {
+export const Recharge = () => {
   return (
     <div className="paymentMethod">
       <h3>DEPOSIT METHODS</h3>
@@ -13,14 +13,14 @@ export const PhuongThucThanhToan = () => {
       <p>Account number: 00000xxxx00000</p>
       <p>Account holder: Nguyen Van Test</p>
       <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
-      Contents of transfer: email + phone number
+        Contents of transfer: email + phone number
       </Typography>
 
       <Typography color="warning" sx={{ backgroundColor: 'rgb(231 159 55 / 20%)' }}>
-      Take a picture of the transfer information sent to the fanpage
+        Take a picture of the transfer information sent to the fanpage
       </Typography>
     </div>
   );
 };
 
-export default PhuongThucThanhToan;
+export default Recharge;

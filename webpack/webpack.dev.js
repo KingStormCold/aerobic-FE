@@ -5,6 +5,7 @@ const SimpleProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const path = require('path');
 const sass = require('sass');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const utils = require('./utils.js');
 const commonConfig = require('./webpack.common.js');
@@ -72,5 +73,11 @@ module.exports = async options =>
       new webpack.DefinePlugin({
         'process.env.SERVER_API_URL': `'http://localhost:8000'`,
       }),
-    ]
+      new WorkboxPlugin.GenerateSW({
+        // these options encourage the ServiceWorkers to get in there fast
+        // and not allow any straggling "old" SWs to hang around
+        clientsClaim: true,
+        skipWaiting: true,
+        maximumFileSizeToCacheInBytes: 50000000,
+      })]
   });

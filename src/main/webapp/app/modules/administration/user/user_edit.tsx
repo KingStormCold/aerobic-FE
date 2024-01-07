@@ -81,7 +81,7 @@ export const UserEdit = () => {
 
   useEffect(() => {
     if (updateUserSuccess) {
-      dispatch(updateStateOpenToastMessage({ message: 'Edit a user successfully', isError: false }))
+      dispatch(updateStateOpenToastMessage({ message: 'User updated successfully', isError: false }))
       dispatch(resetUser())
       history.push(URL_PATH.ADMIN.USER.MANAGEMENT)
     }
@@ -109,7 +109,7 @@ export const UserEdit = () => {
     if (value !== '' && value !== '0') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
-        setErrorMoney('The price must be numerical')
+        setErrorMoney('The price must be number')
       } else {
         const convertMoney = numberWithCommas(valueReplace)
         setErrorMoney('')
@@ -127,7 +127,7 @@ export const UserEdit = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Update users
+        Update User
       </h3>
       <div>
         <Form onSubmit={handleSubmit(editUser)}>
@@ -147,7 +147,7 @@ export const UserEdit = () => {
             <Form.Control
               type="text"
               {...register('fullname', {
-                required: 'Full name must not be blank',
+                required: 'Full name is not empty',
               })}
               isInvalid={!!errors.fullname}
             />
@@ -162,7 +162,7 @@ export const UserEdit = () => {
             <Form.Control
               type="text"
               {...register('phone', {
-                required: 'Phone number cant be blank',
+                required: 'Phone number is not empty',
                 pattern: {
                   value: /^[0-9]{10}$/i,
                   message: 'Invalid phone number',
@@ -227,7 +227,7 @@ export const UserEdit = () => {
               disabled={account?.data?.email !== 'admin@gmail.com'}
               type="string"
               {...register('money', {
-                required: 'Enter an amount',
+                required: 'Money is not empty',
                 onChange(event) {
                   handleMoney(event)
                 },

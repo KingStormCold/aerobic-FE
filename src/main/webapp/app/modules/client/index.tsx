@@ -13,7 +13,7 @@ import Video from './video/video';
 import { Switch } from 'react-router-dom';
 import History from './history/history-payment';
 import Home from './home';
-import PhuongThucThanhToan from './phuongthucthanhtoan/phuongthucthanhtoan';
+import Recharge from './recharge/recharge';
 import Contact from './contact';
 import HotLine from './hotline/hotline';
 const Routes = ({ match }) => {
@@ -25,7 +25,7 @@ const Routes = ({ match }) => {
       <Switch>
         <div className="main-layout">
           {<PrivateRoute exact path={`${match.url}`} component={Home} />}
-          {<PrivateRoute exact path={`${match.url}recharge`} component={PhuongThucThanhToan} />}
+          {<PrivateRoute exact path={`${match.url}recharge`} component={Recharge} />}
           {<PrivateRoute exact path={`${match.url}subject`} component={detail} />}
           {<PrivateRoute exact path={`${match.url}search`} component={search} />}
           {isAuthenticated && <PrivateRoute exact path={`${match.url}my-course`} component={MyCourse} />}

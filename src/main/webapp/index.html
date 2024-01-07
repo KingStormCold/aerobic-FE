@@ -19,7 +19,20 @@
   <meta name="theme-color" content="#000000" />
   <link rel="icon" href="aerobic.ico" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
-
+  <link rel="apple-touch-icon" sizes="16x16" href="./content/images/ios/16.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="./content/images/ios/60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="./content/images/ios/72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="./content/images/ios/76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="./content/images/ios/114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="./content/images/ios/120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="./content/images/ios/144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="./content/images/ios/152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./content/images/ios/180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./content/images/android/android-launchericon-192-192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./content/images/ios/32.png">
+  <link rel="icon" type="image/png" sizes="87x87" href="./content/images/ios/87.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./content/images/ios/16.png">
+  <link rel="manifest" href="/manifest.webapp" />
   <link rel="stylesheet" type="text/css" charset="UTF-8"
     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
   <link rel="stylesheet" type="text/css"
@@ -28,6 +41,15 @@
 
 <body>
   <div id="root"></div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js').then(function () {
+          console.log('service worker registered')
+        })
+      })
+    }
+  </script>
 </body>
 <script src="./content/js/simplebar.min.js"></script>
 

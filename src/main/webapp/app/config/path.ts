@@ -100,6 +100,7 @@ export const URL_PATH = {
 
     FORGOT_PASSWORD: 'api/client/forgot-password',
     CHECK_UUID: 'api/client/check-uuid',
-    CHANGE_PASSWORD_FORGOT: 'api/client/change-password'
+    CHANGE_PASSWORD_FORGOT: 'api/client/change-password',
+    GET_PAYMENT: 'api/auth/get-payments',
   },
 };

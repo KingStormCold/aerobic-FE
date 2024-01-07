@@ -63,6 +63,16 @@ const Menus = () => {
             </Link>
           </li>
         }
+        {
+          haveRoles.includes(CONSTANT.ROLES.PAYMENT) &&
+          <li className={_location['pathname'].includes(`/admin/payment`) ? 'active-menu nav-item' : 'nav-item'}>
+            <Link className="nav-link" to='/admin/payment-management'>
+              <svg className="nav-icon">
+                <LibraryBooksIcon />
+              </svg> Payment Management
+            </Link>
+          </li>
+        }
       </ul>
     </div>
   )

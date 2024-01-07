@@ -36,6 +36,7 @@ export const CONSTANT = Object.freeze({
     VIDEO: 'ADMIN_VIDEO',
     TEST: 'ADMIN_TEST',
     ANSWER: 'ADMIN_ANSWER',
+    PAYMENT: 'ADMIN_PAYMENT',
   }
 })
 

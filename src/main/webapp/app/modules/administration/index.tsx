@@ -33,6 +33,7 @@ import TestEdit from './test/test_edit';
 import SubjectDetail from './subject/subject_detail';
 import CourseDetail from './course/course_detail';
 import VideoDetail from './video/video_detail';
+import PaymentManagement from './payment/payment';
 
 
 const Routes = ({ match }) => {
@@ -44,6 +45,7 @@ const Routes = ({ match }) => {
   const roleCourse = haveRoles.includes(CONSTANT.ROLES.COURSE)
   const roleVideo = haveRoles.includes(CONSTANT.ROLES.VIDEO)
   const roleTest = haveRoles.includes(CONSTANT.ROLES.TEST)
+  const rolePayment = haveRoles.includes(CONSTANT.ROLES.PAYMENT)
 
   return (
     <>
@@ -81,6 +83,8 @@ const Routes = ({ match }) => {
                 ({roleTest && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail/test-management`} component={TestManagement} />})
                 ({roleTest && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail/test-create`} component={TestCreate} />})
                 ({roleTest && <PrivateRoute exact path={`${match.url}/subject-detail/course-detail/video-detail/test-edit`} component={TestEdit} />})
+
+                ({rolePayment && <PrivateRoute exact path={`${match.url}/payment-management`} component={PaymentManagement} />})
               </Switch>
             </div>
           </div>

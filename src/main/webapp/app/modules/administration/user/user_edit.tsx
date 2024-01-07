@@ -127,7 +127,7 @@ export const UserEdit = () => {
     <>
       {loading && <Loading />}
       <h3>
-      Update users
+        Update users
       </h3>
       <div>
         <Form onSubmit={handleSubmit(editUser)}>
@@ -222,7 +222,7 @@ export const UserEdit = () => {
             </div>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Purse</Form.Label>
+            <Form.Label>Money</Form.Label>
             <Form.Control
               disabled={account?.data?.email !== 'admin@gmail.com'}
               type="string"

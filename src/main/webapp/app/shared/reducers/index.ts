@@ -13,6 +13,7 @@ import video from './video';
 import test from './test';
 import answer from './answer';
 import categoryShow from './category-show'
+import payment from './payment';
 
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 const rootReducer = {
@@ -30,6 +31,7 @@ const rootReducer = {
   test,
   answer,
   categoryShow,
+  payment
 };
 
 export default rootReducer;

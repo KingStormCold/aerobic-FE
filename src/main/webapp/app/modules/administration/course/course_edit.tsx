@@ -55,6 +55,7 @@ export const CourseEdit = () => {
       setValue('price', price);
       setPriceCourse(price);
       const promotionPrice = numberWithCommas(coursesDetail?.promotional_price);
+      setValue('status', coursesDetail?.status)
       setValue('promotionalPrice', promotionPrice);
       setPromotionalPrice(promotionPrice)
       dispatch(updateStateTitle(title + " > " + coursesDetail?.name))
@@ -77,6 +78,7 @@ export const CourseEdit = () => {
     level: number;
     price: string;
     promotionalPrice: string;
+    status: number
   }>();
 
   const editCourse = data => {
@@ -89,7 +91,7 @@ export const CourseEdit = () => {
       level: data?.level,
       price,
       promotional_price: Number(promotionPrice),
-
+      status: data?.status ? 1 : 0,
     } as ICreateCourse;
     dispatch(updateCourse({ id: coursesDetail?.id, requestBody }));
   };
@@ -106,6 +108,12 @@ export const CourseEdit = () => {
       history.push(URL_PATH.ADMIN.COURSE.MANAGEMENT);
     }
   }, [updateCourseSuccess]);
+
+  useEffect(() => {
+    if (updateCourseErrorMessage) {
+      dispatch(updateStateOpenToastMessage({ message: updateCourseErrorMessage, isError: true }));
+    }
+  }, [updateCourseErrorMessage]);
 
   const onEditorShortDescriptionStateChange = editorStateSD => {
     setEditorStateShortDescription(editorStateSD);
@@ -278,6 +286,13 @@ export const CourseEdit = () => {
                 {errorPromotionalPrice}
               </Card.Text>
             )}
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Subject</Form.Label>

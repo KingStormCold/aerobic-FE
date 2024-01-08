@@ -2,6 +2,7 @@ import CategoryIcon from '@mui/icons-material/Category';
 import GroupIcon from '@mui/icons-material/Group';
 import InsertChartIcon from '@mui/icons-material/InsertChart';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import PaidIcon from '@mui/icons-material/Paid';
 import { CONSTANT } from 'app/config/constants';
 import { URL_PATH } from 'app/config/path';
 import { useAppSelector } from 'app/config/store';
@@ -68,7 +69,7 @@ const Menus = () => {
           <li className={_location['pathname'].includes(`/admin/payment`) ? 'active-menu nav-item' : 'nav-item'}>
             <Link className="nav-link" to='/admin/payment-management'>
               <svg className="nav-icon">
-                <LibraryBooksIcon />
+                <PaidIcon />
               </svg> Payment Management
             </Link>
           </li>

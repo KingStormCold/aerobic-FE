@@ -15,6 +15,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import './user_edit.scss';
 import { updateStateTitle } from 'app/shared/reducers/category-show';
+import { Chip } from '@mui/material';
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
 export const UserManagement = () => {
@@ -56,7 +57,7 @@ export const UserManagement = () => {
     setDeleteUserId(id);
     const _data = {
       title: "Delete: " + UserName,
-      description: "You really want to delete " + UserName + " really?",
+      description: "You really want to delete " + UserName + "?",
       lblCancel: "Cancel",
       lblOk: "Agree"
     };
@@ -140,9 +141,11 @@ export const UserManagement = () => {
                 </Truncate>
               </td>
               <td>
-                <Truncate maxWidth={100} title={user.status === 1 ? 'Active' : 'Stop'}>
-                  {user.status === 1 ? 'Active' : 'Stop'}
-                </Truncate>
+                {user.status === 1 ?
+                  <Chip sx={{ fontSize: '12px !important' }} label="Active" color="success" variant="filled" />
+                  :
+                  <Chip sx={{ fontSize: '12px !important' }} label="Stop" color="error" variant="filled" />
+                }
               </td>
               <td>
                 <Truncate maxWidth={100} title={user.phone}>

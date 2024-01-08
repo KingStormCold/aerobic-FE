@@ -6,6 +6,7 @@ export interface ISubjectDetail {
   category_id: number;
   category_name: string;
   name: string;
+  status: number;
   created_by: string;
   updated_by: string;
   created_at: string;
@@ -17,6 +18,7 @@ export interface ICreateSubject {
   subject_image: string;
   promotional_price_subject: number;
   category_id: number;
+  status: number
 }
 
 export interface IUpdateSubject {
@@ -24,6 +26,7 @@ export interface IUpdateSubject {
   subject_image: string;
   promotional_price_subject: number;
   category_id: number;
+  status: number
 }
 
 export interface CategoriesChild {

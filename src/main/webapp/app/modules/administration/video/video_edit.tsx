@@ -48,6 +48,7 @@ export const VideoEdit = () => {
       if (coursesDetail?.level === 1) {
         setValue('free', videoDetail?.free === 1 ? true : false)
       }
+      setValue('status', videoDetail?.status)
       dispatch(updateStateTitle(title + " > " + videoDetail?.name))
       setLinkVideo(videoDetail?.link_video)
     }
@@ -66,7 +67,8 @@ export const VideoEdit = () => {
     link_video: string;
     course_id: string;
     finished: number;
-    free?: boolean
+    free?: boolean;
+    status: number
   }>();
 
   const editVideo = data => {
@@ -85,7 +87,8 @@ export const VideoEdit = () => {
       course_id: data?.course_id,
       free,
       finished: data?.finished,
-      full_time: fullTimeVideo
+      full_time: fullTimeVideo,
+      status: data?.status ? 1 : 0,
     } as ICreateVideo;
     dispatch(updateVideo({ id: videoDetail?.id, requestBody }));
   };
@@ -202,6 +205,13 @@ export const VideoEdit = () => {
               />
             </Form.Group>
           }
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="course_id">
             <Form.Label>Course Name</Form.Label>
             <Form.Select

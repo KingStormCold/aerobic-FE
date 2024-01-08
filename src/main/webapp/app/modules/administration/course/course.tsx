@@ -16,6 +16,7 @@ import './course.scss';
 import { ICourseDetail } from 'app/shared/model/course';
 import { numberWithCommas } from 'app/shared/util/string-utils';
 import { updateStateTitle } from 'app/shared/reducers/category-show';
+import { Chip } from '@mui/material';
 
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
@@ -66,7 +67,7 @@ export const CourseManagement = () => {
     setDeleteCourseId(id);
     const _data = {
       title: "Delete a course: " + courseName,
-      description: "You really want to delete the course " + courseName + " really?",
+      description: "You really want to delete the course " + courseName + "?",
       lblCancel: "Cancel",
       lblOk: "Agreed",
     };
@@ -116,7 +117,7 @@ export const CourseManagement = () => {
   return (
     <div>
       {loading && <Loading />}
-      <h3>Danh sách khóa học</h3>
+      <h3>List of courses</h3>
       <Link to={`${URL_PATH.ADMIN.SUBJECT.MANAGEMENT}`}>
         <Button id="addBtn" style={{ marginLeft: "-3px", backgroundColor: "rgb(189, 188, 182)", color: "black" }} title="Quay lại">
           <FontAwesomeIcon icon="chevron-left" />
@@ -137,6 +138,7 @@ export const CourseManagement = () => {
             <th>Level</th>
             <th>Price</th>
             <th>Sales</th>
+            <th>Status</th>
             <th>Created by</th>
             <th>Created date</th>
             <th>Modified by</th>
@@ -165,6 +167,13 @@ export const CourseManagement = () => {
               <td>{course.level}</td>
               <td>{String(course.price !== 0 ? numberWithCommas(course.price) : 0)}$</td>
               <td>{String(course.promotional_price !== 0 ? numberWithCommas(course.promotional_price) : 0)}$</td>
+              <td>
+                {course.status === 1 ?
+                  <Chip sx={{ fontSize: '12px !important' }} label="Active" color="success" variant="filled" />
+                  :
+                  <Chip sx={{ fontSize: '12px !important' }} label="Stop" color="error" variant="filled" />
+                }
+              </td>
               <td>{course.created_by}</td>
               <td>{moment(course.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
               <td>{course.updated_by}</td>

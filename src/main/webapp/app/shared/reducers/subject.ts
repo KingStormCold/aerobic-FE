@@ -251,6 +251,8 @@ export const SubjectSlice = createSlice({
       .addMatcher(isPending(subjectClient), (state, action) => {
         state.loading = true;
         state.subjectsErrorMessage = '';
+        state.subjectDetailClient = {} as IClientSubjectDetail
+        state.courseDetailClient = []
       })
       .addMatcher(isRejected(subjectClient), (state, action) => {
         state.loading = false;

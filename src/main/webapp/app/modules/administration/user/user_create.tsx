@@ -193,7 +193,7 @@ export const UserCreate = () => {
           <Form.Group className="mb-3">
             <Form.Check
               type="switch"
-              label="Activate"
+              label="Active"
               {...register('status')}
             />
           </Form.Group>

@@ -6,6 +6,7 @@ export interface IVideoDetail {
   course_name: string,
   course_id: number,
   free: number,
+  status: number,
   created_by: string,
   updated_by: string,
   created_at: string,

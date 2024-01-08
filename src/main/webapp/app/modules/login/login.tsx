@@ -20,6 +20,8 @@ import Typography from '@mui/material/Typography';
 import { forgotPassword, login } from 'app/shared/reducers/authentication';
 import Loading from 'app/components/loading';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
   createStyles({
@@ -67,6 +69,7 @@ export const Login = (props: RouteComponentProps<any>) => {
   const loading = useAppSelector(state => state.authentication.loading);
   const forgotPasswordSuccess = useAppSelector(state => state.authentication.forgotPasswordSuccess);
   const forgotPasswordErrorMessage = useAppSelector(state => state.authentication.forgotPasswordErrorMessage);
+  const [isHiddenPassword, setIsHiddenPassword] = React.useState(true);
 
   const [isRemember, setRemember] = React.useState(false);
 
@@ -161,6 +164,9 @@ export const Login = (props: RouteComponentProps<any>) => {
     return <Redirect to="/" />
   }
 
+  const handleShowPassword = () => {
+    setIsHiddenPassword(!isHiddenPassword)
+  }
   return (
     <>
       {loading && <Loading />}
@@ -228,12 +234,26 @@ export const Login = (props: RouteComponentProps<any>) => {
                   fullWidth
                   name="password"
                   label="Password"
-                  type="password"
+                  type={isHiddenPassword ? "password" : "text"}
                   id="password"
                   autoComplete="current-password"
                   onChange={handlePassword}
                   onKeyDown={handleKeyDownPassword}
                 />
+                <Box
+                  position='relative'
+                  component='div'
+                  onClick={handleShowPassword}
+                  sx={{
+                    '&:hover': {
+                      cursor: 'pointer'
+                    },
+                    float: 'right',
+                    top: '-35px'
+                  }}
+                >
+                  {isHiddenPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                </Box>
                 {failByPassword && (
                   <div className="margin-top-05">
                     <FontAwesomeIcon icon="minus-circle" className="color-text-D70925" />

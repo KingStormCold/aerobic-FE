@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Chip } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import { Truncate } from '@primer/react';
 import DialogConfirm from 'app/components/dialog-confirm';
@@ -57,7 +58,7 @@ export const SubjectManagement = () => {
     setDeleteSubjectId(id);
     const _data = {
       title: "Delete a subject: " + subjectName,
-      description: "You really want to delete the subject " + subjectName + " really?",
+      description: "You really want to delete the subject " + subjectName + "?",
       lblCancel: "Cancel",
       lblOk: "Agree",
     };
@@ -121,6 +122,7 @@ export const SubjectManagement = () => {
             <th>Name</th>
             <th>Sales</th>
             <th>Category</th>
+            <th>Status</th>
             <th>Created by</th>
             <th>Created date</th>
             <th>Modified by</th>
@@ -146,6 +148,13 @@ export const SubjectManagement = () => {
                 <Truncate maxWidth={100} title={String(subject.category_name)}>
                   {String(subject.category_name)}
                 </Truncate>
+              </td>
+              <td>
+                {subject.status === 1 ?
+                  <Chip sx={{ fontSize: '12px !important' }} label="Active" color="success" variant="filled" />
+                  :
+                  <Chip sx={{ fontSize: '12px !important' }} label="Stop" color="error" variant="filled" />
+                }
               </td>
               <td>{subject.created_by}</td>
               <td>{moment(subject.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>

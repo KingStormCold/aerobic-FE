@@ -46,11 +46,13 @@ export const CategoryCreate = () => {
   } = useForm<{
     categoryName: string;
     parentCategory: string;
+    status: number
   }>();
 
   const addCategory = (data) => {
     const requestBody = {
-      category_name: data?.categoryName
+      category_name: data?.categoryName,
+      status: data?.status ? 1 : 0,
     } as ICreateCategory
     if (data?.parentCategory !== "0") {
       requestBody.parent_id = data?.parentCategory
@@ -105,6 +107,13 @@ export const CategoryCreate = () => {
                 <option value={`${category.id}`} key={category.id}>{category.name}</option>
               ))}
             </Form.Select>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
           </Form.Group>
           <Button type='submit' variant="success" className='btn-right'>Add</Button>
         </Form>

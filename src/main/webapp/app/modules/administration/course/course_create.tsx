@@ -21,6 +21,7 @@ export interface ICreateCourse {
   level: number;
   price: number;
   promotional_price: number;
+  status: number
 }
 
 const CourseCreate = () => {
@@ -60,6 +61,7 @@ const CourseCreate = () => {
     level: number;
     price: string;
     promotionalPrice: string;
+    status: number;
   }>();
 
   const addCourse = data => {
@@ -72,6 +74,7 @@ const CourseCreate = () => {
       level: data.level,
       price,
       promotional_price: Number(promotionPrice),
+      status: data?.status ? 1 : 0,
     };
     dispatch(createCourse(requestBody));
   };
@@ -270,6 +273,13 @@ const CourseCreate = () => {
                 {errorPromotionalPrice}
               </Card.Text>
             )}
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
           </Form.Group>
           <Form.Group className="mb-3" controlId="parentcourse">
             <Form.Label>Subject</Form.Label>

@@ -14,6 +14,7 @@ import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { updateStateTitle } from 'app/shared/reducers/category-show';
+import Chip from '@mui/material/Chip';
 const USER_EDIT_TOKEN = "user-management-token-user-edit";
 
 export const CategoryManagement = () => {
@@ -50,12 +51,12 @@ export const CategoryManagement = () => {
     handlegetpage(p)
   };
 
-  function handleDeleteCategory(id, categoryName) {
+  function handleDeleteCategory(id, categoryName, parentId) {
     setIsOpenConfirm(true);
     setDeleteCategoryId(id);
     const _data = {
       title: "Delete a category: " + categoryName,
-      description: "You really want to delete a category " + categoryName + "  really?",
+      description: parentId === "" ? "If you delete the parent category, all child categories will be deleted " : "You really want to delete a category " + categoryName + "?",
       lblCancel: "Cancel",
       lblOk: "Agree",
     };
@@ -81,8 +82,6 @@ export const CategoryManagement = () => {
 
   useEffect(() => {
     if (deleteCategorySuccess) {
-      console.log('vao');
-      console.log('deleteCategorySuccess', deleteCategorySuccess)
       dispatch(updateStateOpenToastMessage({ message: 'Category deleted successfully', isError: false }))
       dispatch(getCategories(1));
     }
@@ -113,8 +112,9 @@ export const CategoryManagement = () => {
         <thead>
           <tr>
             <th>No</th>
-            <th>Category name</th>
             <th>Parent category</th>
+            <th>Category name</th>
+            <th>Status</th>
             <th>Created by</th>
             <th>Created date</th>
             <th>Modified by</th>
@@ -127,14 +127,22 @@ export const CategoryManagement = () => {
             <tr key={`user-${i}`}>
               <th scope="row">{(i + 1) + (pageNum - 1) * 10}</th>
               <td>
+                <Truncate maxWidth={100} title={category.parent_name}>
+                  {category.parent_name}
+                </Truncate>
+              </td>
+              <td>
                 <Truncate maxWidth={100} title={category.name}>
                   {category.name}
                 </Truncate>
               </td>
+
               <td>
-                <Truncate maxWidth={100} title={category.parent_name}>
-                  {category.parent_name}
-                </Truncate>
+                {category.status === 1 ?
+                  <Chip sx={{ fontSize: '12px !important' }} label="Active" color="success" variant="filled" />
+                  :
+                  <Chip sx={{ fontSize: '12px !important' }} label="Stop" color="error" variant="filled" />
+                }
               </td>
               <td>{category.created_by}</td>
               <td>{moment(category.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
@@ -148,7 +156,7 @@ export const CategoryManagement = () => {
                 </Button>
                 {/* </Link> */}
                 <Button size='small' id="delBtn" style={{ marginLeft: "10px", backgroundColor: "#ff3333", color: "white" }}
-                  onClick={() => handleDeleteCategory(category.id, category.name)} title="Delete">
+                  onClick={() => handleDeleteCategory(category.id, category.name, category.parent_id)} title="Delete">
                   <FontAwesomeIcon icon="trash" />
                 </Button>
               </td>

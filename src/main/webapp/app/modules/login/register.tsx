@@ -19,6 +19,8 @@ import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import './register.scss';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
@@ -66,6 +68,7 @@ export const Register = () => {
   const registerUserSuccess = useAppSelector(state => state.user.registerUserSuccess);
   const registerUserErrorMessgae = useAppSelector(state => state.user.registerUserErrorMessgae);
   const loading = useAppSelector(state => state.user.loading);
+  const [isHiddenPassword, setIsHiddenPassword] = React.useState(true);
   const {
     register,
     handleSubmit,
@@ -97,6 +100,9 @@ export const Register = () => {
     }
   }, [registerUserSuccess])
 
+  const handleShowPassword = () => {
+    setIsHiddenPassword(!isHiddenPassword)
+  }
   return (
     <>
       {loading && <Loading />}
@@ -169,7 +175,7 @@ export const Register = () => {
                 <Form.Group className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
-                    type="password"
+                    type={isHiddenPassword ? "password" : "text"}
                     {...register('password', {
                       required: 'Passwords is not empty',
                       minLength: {
@@ -179,16 +185,32 @@ export const Register = () => {
                     })}
                     isInvalid={!!errors.password}
                   />
+                  <Box
+                    position='relative'
+                    component='div'
+                    onClick={handleShowPassword}
+                    sx={{
+                      '&:hover': {
+                        cursor: 'pointer'
+                      },
+                      float: 'right',
+                      top: '-30px',
+                      right: '10px'
+                    }}
+                  >
+                    {isHiddenPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </Box>
                   {errors.password && (
                     <Card.Text as="div" className='error-text'>{errors.password.message}</Card.Text>
                   )}
+
                 </Form.Group>
 
                 {/* Confirm Password */}
                 <Form.Group className="mb-3">
                   <Form.Label>Confirm password</Form.Label>
                   <Form.Control
-                    type="password"
+                    type={isHiddenPassword ? "password" : "text"}
                     {...register('confirmPassword', {
                       required: 'Confirm password is not empty',
                       validate: {
@@ -197,6 +219,22 @@ export const Register = () => {
                     })}
                     isInvalid={!!errors.confirmPassword}
                   />
+
+                  <Box
+                    position='relative'
+                    component='div'
+                    onClick={handleShowPassword}
+                    sx={{
+                      '&:hover': {
+                        cursor: 'pointer'
+                      },
+                      float: 'right',
+                      top: '-30px',
+                      right: '10px'
+                    }}
+                  >
+                    {isHiddenPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </Box>
                   {errors.confirmPassword && (
                     <Card.Text as="div" className='error-text'>{errors.confirmPassword.message}</Card.Text>
                   )}

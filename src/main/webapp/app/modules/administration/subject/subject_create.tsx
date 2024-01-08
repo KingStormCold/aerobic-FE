@@ -69,6 +69,7 @@ export const SubjectCreate = () => {
     subjectImage: string;
     subjectPromotionalPrice: string;
     categoryId: number;
+    status: number
   }>();
 
   const addSubject = (data) => {
@@ -77,7 +78,8 @@ export const SubjectCreate = () => {
       subject_content: subjectContent,
       promotional_price_subject: Number(subjectPromotionalPrice),
       subject_image: data?.subjectImage,
-      category_id: data?.categoryId
+      category_id: data?.categoryId,
+      status: data?.status ? 1 : 0,
     } as ICreateSubject
     dispatch(createSubject(requestBody))
   }
@@ -212,6 +214,13 @@ export const SubjectCreate = () => {
             {errors.categoryId?.type === 'required' && (
               <Card.Text as="div" className='error-text'>Category is not empty</Card.Text>
             )}
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Content</Form.Label>

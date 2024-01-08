@@ -18,6 +18,8 @@ import { changePass, changePasswordForgot, checkUuid } from 'app/shared/reducers
 import { useHistory } from 'react-router-dom';
 import { URL_PATH } from 'app/config/path';
 import { updateStateOpenToastMessage } from 'app/shared/reducers/toast-message';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const useStylesMenu = makeStyles((theme: Theme) =>
   createStyles({
@@ -73,6 +75,7 @@ export const ForgotPassword = () => {
   const changePasswordForgotErrorMessage = useAppSelector(state => state.user.changePasswordForgotErrorMessage);
   const changePasswordForgotSuccess = useAppSelector(state => state.user.changePasswordForgotSuccess);
   const userCheckUUID = useAppSelector(state => state.user.userCheckUUID);
+  const [isHiddenPassword, setIsHiddenPassword] = React.useState(true);
 
   const forgotPassword = data => {
     dispatch(changePasswordForgot({ email: userCheckUUID?.email, password: data?.password, uuid }));
@@ -117,6 +120,10 @@ export const ForgotPassword = () => {
     }
   }, [changePasswordForgotErrorMessage])
 
+  const handleShowPassword = () => {
+    setIsHiddenPassword(!isHiddenPassword)
+  }
+
   return (
     <>
       {loading && <Loading />}
@@ -158,7 +165,7 @@ export const ForgotPassword = () => {
                   <Form.Group className="mb-3">
                     <Form.Label>Password</Form.Label>
                     <Form.Control
-                      type="password"
+                      type={isHiddenPassword ? "password" : "text"}
                       {...register('password', {
                         required: 'Passwords is not empty',
                         minLength: {
@@ -168,6 +175,22 @@ export const ForgotPassword = () => {
                       })}
                       isInvalid={!!errors.password}
                     />
+
+                    <Box
+                      position='relative'
+                      component='div'
+                      onClick={handleShowPassword}
+                      sx={{
+                        '&:hover': {
+                          cursor: 'pointer'
+                        },
+                        float: 'right',
+                        top: '-30px',
+                        right: '10px'
+                      }}
+                    >
+                      {isHiddenPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </Box>
                     {errors.password && (
                       <Card.Text as="div" className='error-text'>{errors.password.message}</Card.Text>
                     )}
@@ -186,6 +209,21 @@ export const ForgotPassword = () => {
                       })}
                       isInvalid={!!errors.confirmPassword}
                     />
+                    <Box
+                      position='relative'
+                      component='div'
+                      onClick={handleShowPassword}
+                      sx={{
+                        '&:hover': {
+                          cursor: 'pointer'
+                        },
+                        float: 'right',
+                        top: '-30px',
+                        right: '10px'
+                      }}
+                    >
+                      {isHiddenPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                    </Box>
                     {errors.confirmPassword && (
                       <Card.Text as="div" className='error-text'>{errors.confirmPassword.message}</Card.Text>
                     )}

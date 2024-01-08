@@ -66,7 +66,14 @@ export const VideoDetail = () => {
             value={videoDetail?.link_video}
           />
         </Form.Group>
-
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="switch"
+            label="Active"
+            disabled
+            checked={videoDetail?.status === 1}
+          />
+        </Form.Group>
         <Form.Group className="mb-3" controlId="course_id">
           <Form.Label>Course Name</Form.Label>
           <Form.Select

@@ -23,6 +23,7 @@ export interface ICreateVideo {
   free: number;
   course_id: number;
   full_time: number;
+  status: number
 }
 
 const VideoCreate = () => {
@@ -60,7 +61,8 @@ const VideoCreate = () => {
     link_video: string;
     finished: string;
     course_id: number;
-    free?: boolean
+    free?: boolean,
+    status: number
   }>();
 
   const addVideo = data => {
@@ -80,7 +82,8 @@ const VideoCreate = () => {
       course_id: data.course_id,
       free,
       id: 1,
-      full_time: fullTimeVideo
+      full_time: fullTimeVideo,
+      status: data?.status ? 1 : 0,
     };
     dispatch(createVideo(requestBody));
   };
@@ -208,6 +211,13 @@ const VideoCreate = () => {
               />
             </Form.Group>
           }
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
+          </Form.Group>
           <Form.Group className="mb-3" controlId="parentcourse">
             <Form.Label>Course</Form.Label>
             <Form.Select

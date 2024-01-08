@@ -7,6 +7,7 @@ export interface ICourseDetail {
   promotional_price: number,
   subject_name: string,
   subject_id: number,
+  status: number,
   created_by: string,
   updated_by: string,
   created_at: string,

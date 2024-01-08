@@ -68,6 +68,9 @@ export const UserEdit = () => {
   }>();
 
   const editUser = (data) => {
+    if (errorMoney) {
+      return
+    }
     const money = data?.money.replaceAll('.', '')
     const requestBody = {
       user_fullname: data?.fullname,
@@ -106,7 +109,7 @@ export const UserEdit = () => {
   const [errorMoney, setErrorMoney] = useState('');
   const handleMoney = (e) => {
     const value = e.target.value
-    if (value !== '' && value !== '0') {
+    if (value !== '') {
       const valueReplace = value.replaceAll('.', '')
       if (!REX.number.test(valueReplace)) {
         setErrorMoney('The price must be number')
@@ -179,7 +182,7 @@ export const UserEdit = () => {
           <Form.Group className="mb-3">
             <Form.Check
               type="switch"
-              label="Activate"
+              label="Active"
               {...register('status')}
             />
           </Form.Group>

@@ -61,7 +61,7 @@ export const SubjectDetail = () => {
     <>
       {loading && <Loading />}
       <h3>
-        Course details
+        Subject details
       </h3>
       <div>
         <Form.Group className="mb-3">
@@ -93,6 +93,14 @@ export const SubjectDetail = () => {
           >
             <option value={`${subjectDetail?.category_id}`}>{subjectDetail?.category_name}</option>
           </Form.Select>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="switch"
+            label="Active"
+            disabled
+            checked={subjectDetail?.status === 1}
+          />
         </Form.Group>
 
         {/* <Form.Group className="mb-3">

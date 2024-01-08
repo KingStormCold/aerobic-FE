@@ -101,6 +101,14 @@ export const CourseDetail = () => {
           />
         </Form.Group>
         <Form.Group className="mb-3">
+          <Form.Check
+            type="switch"
+            label="Active"
+            disabled
+            checked={coursesDetail?.status === 1}
+          />
+        </Form.Group>
+        <Form.Group className="mb-3">
           <Form.Label>Subject</Form.Label>
           <Form.Select
             aria-label="Môn học"

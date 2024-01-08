@@ -62,6 +62,7 @@ export const SubjectUpdate = () => {
       setSubjectPromotionalPrice(price);
       setValue('subjectImage', subjectDetail?.image)
       setValue('categoryId', String(subjectDetail?.category_id))
+      setValue('status', subjectDetail?.status)
       setCategoryId(String(subjectDetail?.category_id))
       setUrlImage(subjectDetail?.image)
       dispatch(updateStateTitle(title + " > " + subjectDetail?.name));
@@ -80,6 +81,7 @@ export const SubjectUpdate = () => {
     subjectImage: string;
     subjectPromotionalPrice: string;
     categoryId: string;
+    status: number
   }>();
 
   const ediSubject = (data) => {
@@ -88,7 +90,8 @@ export const SubjectUpdate = () => {
       subject_content: data?.content,
       promotional_price_subject: Number(promotionalPriceSubject),
       subject_image: data?.subjectImage,
-      category_id: data?.categoryId
+      category_id: data?.categoryId,
+      status: data?.status ? 1 : 0,
     } as IUpdateSubject
     dispatch(updateSubject({ id: subjectDetail?.id, requestBody }))
   }
@@ -227,7 +230,13 @@ export const SubjectUpdate = () => {
               ))}
             </Form.Select>
           </Form.Group>
-
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="switch"
+              label="Active"
+              {...register('status')}
+            />
+          </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Content</Form.Label>
             <Editor

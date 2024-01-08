@@ -14,6 +14,7 @@ import React, { useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
 import { updateStateTitle } from 'app/shared/reducers/category-show';
+import { Chip } from '@mui/material';
 const USER_EDIT_TOKEN = 'user-management-token-user-edit';
 
 export const VideoManagement = () => {
@@ -129,6 +130,7 @@ export const VideoManagement = () => {
             <th>Link</th>
             <th>Time</th>
             <th>Free</th>
+            <th>Status</th>
             <th>Created by</th>
             <th>Created date</th>
             <th>Modified by</th>
@@ -153,7 +155,20 @@ export const VideoManagement = () => {
                   </Truncate>
                 </td>
                 <td>{video.full_time} minute</td>
-                <td>{video.free === 1 ? 'Yes' : 'No'}</td>
+                <td>
+                  {video.free === 1 ?
+                    <Chip sx={{ fontSize: '12px !important' }} label="Yes" color="success" variant="filled" />
+                    :
+                    <Chip sx={{ fontSize: '12px !important' }} label="No" color="error" variant="filled" />
+                  }
+                </td>
+                <td>
+                  {video.status === 1 ?
+                    <Chip sx={{ fontSize: '12px !important' }} label="Active" color="success" variant="filled" />
+                    :
+                    <Chip sx={{ fontSize: '12px !important' }} label="Stop" color="error" variant="filled" />
+                  }
+                </td>
                 <td>{video.created_by}</td>
                 <td>{moment(video.created_at).utc().format('DD-MM-YYYY h:mm:ss')}</td>
                 <td>{video.updated_by}</td>
